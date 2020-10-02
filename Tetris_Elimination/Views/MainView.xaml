@@ -1,0 +1,34 @@
+﻿<Window x:Class="Tetris_Elimination.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tetris_Elimination.Views"
+        mc:Ignorable="d"
+        Title="Tetris Elemination" 
+        Height="900" 
+        Width="1000" 
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen"
+        Icon="/Assets/icon.ico" >
+
+    <Window.Background>
+        <VisualBrush TileMode="Tile"  Viewport="0,0,1,1">
+            <VisualBrush.Visual>
+                <Image Source="/Assets/Background_Main.png"
+                       RenderOptions.BitmapScalingMode="NearestNeighbor"
+                       SnapsToDevicePixels="True">
+                </Image>
+            </VisualBrush.Visual>
+        </VisualBrush>
+    </Window.Background>
+
+    <Grid>
+        <Grid.Background>
+            <SolidColorBrush Color="Black" Opacity="0" />
+        </Grid.Background>
+        <ContentControl x:Name="ActiveItem" />
+    </Grid>
+    
+</Window>
+

@@ -21,11 +21,11 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="25" />
             <RowDefinition Height="300" />
-            <RowDefinition Height="90" />
             <RowDefinition Height="auto" />
-            <RowDefinition Height="50" />
             <RowDefinition Height="auto" />
-            <RowDefinition Height="50" />
+            <RowDefinition Height="70" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="70" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="50" />
             <RowDefinition Height="auto" />
@@ -34,17 +34,17 @@
         </Grid.RowDefinitions>
         
         <!-- Row 1-->
-        <Image Source="/Assets/Banner.png" Grid.Column="2" Grid.Row="1" RenderOptions.BitmapScalingMode="NearestNeighbor"
+        <Image Source="/Assets/Images/Banner_Black.png" Grid.Column="2" Grid.Row="1" RenderOptions.BitmapScalingMode="NearestNeighbor"
                        SnapsToDevicePixels="True"/>
         <!-- Row 2 add implementation-->
         <TextBlock x:Name="Welcome" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"
-                   FontSize="20" Text="Welcome, User_1"  Foreground="White" Background="black"/>
+                   FontSize="20" Text="Welcome, User_1"  Foreground="White" />
 
         <!-- Row 3  -->
         <Button x:Name="LoadSinglePlayer" Grid.Column="2" Grid.Row="
                 3" Width="400" Height="50">
             <Button.Background>
-                <ImageBrush ImageSource="/Assets/Button_Main.png" />
+                <ImageBrush ImageSource="/Assets/Images/Button_Main.png" />
             </Button.Background>
             <Label HorizontalAlignment="Center" VerticalAlignment="Center">SINGLE PLAYER</Label>
         </Button>
@@ -52,7 +52,7 @@
         <Button x:Name="LoadMultiPlayer" Grid.Column="2" Grid.Row="
                 5" Width="400" Height="50">
             <Button.Background>
-                <ImageBrush ImageSource="/Assets/Button_Main.png" />
+                <ImageBrush ImageSource="/Assets/Images/Button_Main.png" />
             </Button.Background>
             <Label HorizontalAlignment="Center" VerticalAlignment="Center">MULTI PLAYER</Label>
         </Button>
@@ -60,13 +60,13 @@
         <Button x:Name="LoadSettings" Grid.Column="2" Grid.Row="
                 7" Width="400" Height="50">
             <Button.Background>
-                <ImageBrush ImageSource="/Assets/Button_Main.png" />
+                <ImageBrush ImageSource="/Assets/Images/Button_Main.png" />
             </Button.Background>
             <Label HorizontalAlignment="Center" VerticalAlignment="Center">SETTINGS</Label>
         </Button>
         <!-- Row 7 -->
         <TextBlock x:Name="Version" Grid.Column="2" Grid.Row="10" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                   FontSize="20" Text="{Binding Path=Version, Mode=OneWay}"  Foreground="White" Background="black"/>
+                   FontSize="20" Text="{Binding Path=Version, Mode=OneWay}"  Foreground="White"/>
 
 
     </Grid>

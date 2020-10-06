@@ -16,6 +16,24 @@ namespace Tetris_Elimination.Models
             SETTINGS
         }
 
-        public static string cur_version = "Version: 0.3B";
+        public enum Tetremino
+        {
+            PURPLE_T,
+            BLUE_L,
+            RED_S,
+            GREEN_Z,
+            YELLOW_O,
+            BLUE_I,
+            ORANGE_J
+        }
+
+        public enum Move
+        {
+            LEFT,
+            RIGHT,
+            DOWN
+        }
+
+        public static string cur_version = "Version: 0.4B";
     }
 }

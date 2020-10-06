@@ -71,6 +71,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\TetreminoModel.cs" />
+    <Compile Include="Models\ITetreminoModel.cs" />
     <Compile Include="Models\ConstantsModel.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -127,7 +129,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Blue_Bottle.png" />
+    <Resource Include="Assets\Images\Blue_Bottle.png" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\BoardView.xaml">
@@ -156,25 +158,32 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Background_Tile.png" />
+    <Resource Include="Assets\Images\Background_Tile.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Music\" />
+    <Folder Include="Assets\Sounds\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Banner.png" />
+    <Resource Include="Assets\Images\Button_Main.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Background_Main.png" />
+    <Resource Include="Assets\Images\Background.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Button_No_Hover.png" />
+    <Resource Include="Assets\Images\Banner_Black.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Button_Main.png" />
+    <Resource Include="Assets\Images\Blue_Tile.png" />
+    <Resource Include="Assets\Images\Dark_Blue_Tile.png" />
+    <Resource Include="Assets\Images\Green_Tile.png" />
+    <Resource Include="Assets\Images\Orange_Tile.png" />
+    <Resource Include="Assets\Images\Purple_Tile.png" />
+    <Resource Include="Assets\Images\Red_Tile.png" />
+    <Resource Include="Assets\Images\Yellow_Tile.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

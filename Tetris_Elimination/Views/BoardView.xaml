@@ -8,7 +8,7 @@
              d:DesignHeight="660" d:DesignWidth="450" Background="DarkSlateGray">
     
     <!-- Define the 10x20 grid for playing-->
-    <Grid ShowGridLines="True">
+    <Grid ShowGridLines="True" x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />

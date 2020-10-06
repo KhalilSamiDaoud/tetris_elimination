@@ -17,7 +17,7 @@ namespace Tetris_Elimination.Models
         private Point[] shape;
         public TetreminoModel(Tetremino piece)
         {
-            spawn(piece); //will set the image, position, and shape based on the enum
+            spawn(piece);
         }
         public ImageBrush getBrush()
         {

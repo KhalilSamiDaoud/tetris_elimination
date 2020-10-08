@@ -158,7 +158,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Images\Background_Tile.png" />
+    <Resource Include="Assets\Images\Multi_Color_Tile.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\icon.ico" />
@@ -184,6 +184,12 @@
     <Resource Include="Assets\Images\Purple_Tile.png" />
     <Resource Include="Assets\Images\Red_Tile.png" />
     <Resource Include="Assets\Images\Yellow_Tile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Background_Tile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Border_Tile.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

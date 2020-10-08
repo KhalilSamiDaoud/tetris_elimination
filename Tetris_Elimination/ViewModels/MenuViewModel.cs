@@ -19,7 +19,7 @@ namespace Tetris_Elimination.ViewModels
         public MenuViewModel(MainViewModel _main_window)
         {
             main_window = _main_window;
-            Version = ConstantsModel.cur_version;
+            Version = CUR_VERSION;
         }
         public void LoadSinglePlayer()
         {

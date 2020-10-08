@@ -7,11 +7,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Tetris_Elimination.Models;
+using Tetris_Elimination.Views;
 using static Tetris_Elimination.Models.ConstantsModel;
 
 namespace Tetris_Elimination.ViewModels
 {
-    class BoardViewModel
+    class BoardViewModel : Window
     {
     }
 }

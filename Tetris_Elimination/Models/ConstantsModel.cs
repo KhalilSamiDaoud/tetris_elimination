@@ -31,9 +31,12 @@ namespace Tetris_Elimination.Models
         {
             LEFT,
             RIGHT,
-            DOWN
+            DOWN,
+            ROTATE
         }
 
-        public static string cur_version = "Version: 0.4B";
+        public static string CUR_VERSION = "Version: 0.4B";
+        public static int COL_OFFSET = 6;
+        public static int ROW_OFFSET = 3;
     }
 }

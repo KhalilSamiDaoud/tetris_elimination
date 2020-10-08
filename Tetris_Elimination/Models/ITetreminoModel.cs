@@ -20,8 +20,6 @@ namespace Tetris_Elimination.Models
 
         void move(Move direction);
 
-        void rotate();
-
         Point[] spawn(Tetremino piece);
 
 

@@ -37,7 +37,7 @@ namespace Tetris_Elimination.Models
         public Point[] spawn(Tetremino _piece)
         {
 
-            position = new Point(0, -1); //all peices spawn at the same point 
+            position = new Point(0, 0); //all peices spawn at the same point 
 
             switch (_piece)
             {
@@ -106,57 +106,57 @@ namespace Tetris_Elimination.Models
             switch (_piece)
             {
                 case Tetremino.PURPLE_T:
-                    temp[0] = new Point(0, 0);
-                    temp[1] = new Point(-1, 0);
-                    temp[2] = new Point(0, -1);
-                    temp[3] = new Point(1, 0);
+                    temp[0] = new Point(5, 2);
+                    temp[1] = new Point(4, 1);
+                    temp[2] = new Point(5, 1);
+                    temp[3] = new Point(6, 2);
 
                     return temp;
 
                 case Tetremino.BLUE_I:
-                    temp[0] = new Point(-1, 0);
-                    temp[1] = new Point(-1, -1);
-                    temp[2] = new Point(-1, 1);
-                    temp[3] = new Point(-1, 2);
+                    temp[0] = new Point(4, 1);
+                    temp[1] = new Point(5, 1);
+                    temp[2] = new Point(6, 1);
+                    temp[3] = new Point(7, 1);
 
                     return temp;
 
                 case Tetremino.BLUE_L:
-                    temp[0] = new Point(1, -1);
-                    temp[1] = new Point(-1, 0);
-                    temp[2] = new Point(0, 0);
-                    temp[3] = new Point(1, 0);
+                    temp[0] = new Point(6, 1);
+                    temp[1] = new Point(4, 2);
+                    temp[2] = new Point(5, 2);
+                    temp[3] = new Point(6, 2);
 
                     return temp;
 
                 case Tetremino.GREEN_Z:
-                    temp[0] = new Point(0, 0);
-                    temp[1] = new Point(-1, 0);
-                    temp[2] = new Point(0, -1);
-                    temp[3] = new Point(1, -1);
+                    temp[0] = new Point(5, 2);
+                    temp[1] = new Point(4, 2);
+                    temp[2] = new Point(5, 1);
+                    temp[3] = new Point(6, 1);
 
                     return temp;
 
                 case Tetremino.ORANGE_J:
-                    temp[0] = new Point(0, 0);
-                    temp[1] = new Point(-1, 0);
-                    temp[2] = new Point(1, 0);
-                    temp[3] = new Point(1, -1);
+                    temp[0] = new Point(5, 2);
+                    temp[1] = new Point(4, 2);
+                    temp[2] = new Point(6, 2);
+                    temp[3] = new Point(6, 1);
 
                     return temp;
                 case Tetremino.RED_S:
-                    temp[0] = new Point(0, -1);
-                    temp[1] = new Point(-1, -1);
-                    temp[2] = new Point(0, 0);
-                    temp[3] = new Point(1, 0);
+                    temp[0] = new Point(5, 1);
+                    temp[1] = new Point(4, 1);
+                    temp[2] = new Point(5, 2);
+                    temp[3] = new Point(6, 2);
 
                     return temp;
 
                 case Tetremino.YELLOW_O:
-                    temp[0] = new Point(-1, 0);
-                    temp[1] = new Point(-1, -1);
-                    temp[2] = new Point(0, 0);
-                    temp[3] = new Point(0, -1);
+                    temp[0] = new Point(6, 1);
+                    temp[1] = new Point(5, 1);
+                    temp[2] = new Point(6, 2);
+                    temp[3] = new Point(5, 2);
 
                     return temp;
 

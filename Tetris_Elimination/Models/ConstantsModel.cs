@@ -36,7 +36,5 @@ namespace Tetris_Elimination.Models
         }
 
         public static string CUR_VERSION = "Version: 0.4B";
-        public static int COL_OFFSET = 6;
-        public static int ROW_OFFSET = 3;
     }
 }

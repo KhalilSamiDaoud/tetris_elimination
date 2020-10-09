@@ -92,8 +92,8 @@ namespace Tetris_Elimination.Views
         {
            for(int i=0; i < currentTetremino.getShape().Length; i++)
            {
-                cell[(int)(currentTetremino.getShape()[i].X + currentTetremino.getPosition().X) + COL_OFFSET, 
-                    (int)(currentTetremino.getShape()[i].Y + currentTetremino.getPosition().Y) + ROW_OFFSET].Background = currentTetremino.getBrush();
+                cell[(int)(currentTetremino.getShape()[i].X + currentTetremino.getPosition().X), 
+                    (int)(currentTetremino.getShape()[i].Y + currentTetremino.getPosition().Y)].Background = currentTetremino.getBrush();
             }
         }
 
@@ -101,8 +101,8 @@ namespace Tetris_Elimination.Views
         {
             for (int i = 0; i < currentTetremino.getShape().Length; i++)
             {
-                cell[(int)(currentTetremino.getShape()[i].X + currentTetremino.getPosition().X) + COL_OFFSET,
-                    (int)(currentTetremino.getShape()[i].Y + currentTetremino.getPosition().Y) + ROW_OFFSET].Background = background;
+                cell[(int)(currentTetremino.getShape()[i].X + currentTetremino.getPosition().X),
+                    (int)(currentTetremino.getShape()[i].Y + currentTetremino.getPosition().Y)].Background = background;
             }
         }
 
@@ -113,10 +113,32 @@ namespace Tetris_Elimination.Views
                 clearTetremino();
                 currentTetremino.move(Move.DOWN);
             }
+            else
+            {
+                currentTetremino = spawnTetromino();
+                drawTetremino();
+            }
         }
 
         Boolean moveIsLegal(Move direction)
         {
+            switch(direction)
+            {
+                case Move.DOWN:
+                    for (int i = 0; i < currentTetremino.getShape().Length; i++)
+                    {
+                        if (!cell[(int)(currentTetremino.getShape()[i].X + currentTetremino.getPosition().X),
+                            (int)(currentTetremino.getShape()[i].Y + currentTetremino.getPosition().Y + 1)].Background.Equals(this.background) &&
+                            !cell[(int)(currentTetremino.getShape()[i].X + currentTetremino.getPosition().X),
+                            (int)(currentTetremino.getShape()[i].Y + currentTetremino.getPosition().Y + 1)].Background.Equals(currentTetremino.getBrush()))
+                        {
+                            return false;
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
             return true;
         }
 

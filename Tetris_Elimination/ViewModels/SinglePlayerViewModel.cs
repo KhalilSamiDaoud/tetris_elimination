@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using Tetris_Elimination.Views;
 using static Tetris_Elimination.Models.ConstantsModel;
 
 namespace Tetris_Elimination.ViewModels
@@ -21,7 +24,7 @@ namespace Tetris_Elimination.ViewModels
 
         }
 
-        public void LoadMenu()
+    public void LoadMenu()
         {
             main_window.SetNewView(Screens.MENU);
         }

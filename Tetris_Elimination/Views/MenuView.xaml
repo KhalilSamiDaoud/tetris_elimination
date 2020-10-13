@@ -34,7 +34,7 @@
         </Grid.RowDefinitions>
         
         <!-- Row 1-->
-        <Image Source="/Assets/Images/Banner_Black.png" Grid.Column="2" Grid.Row="1" RenderOptions.BitmapScalingMode="NearestNeighbor"
+        <Image Source="pack://application:,,,/Assets/Images/Banner_Black.png" Grid.Column="2" Grid.Row="1" RenderOptions.BitmapScalingMode="NearestNeighbor"
                        SnapsToDevicePixels="True"/>
         <!-- Row 2 add implementation-->
         <TextBlock x:Name="Welcome" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -44,7 +44,7 @@
         <Button x:Name="LoadSinglePlayer" Grid.Column="2" Grid.Row="
                 3" Width="400" Height="50">
             <Button.Background>
-                <ImageBrush ImageSource="/Assets/Images/Button_Main.png" />
+                <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Button_Main.png" />
             </Button.Background>
             <Label HorizontalAlignment="Center" VerticalAlignment="Center">SINGLE PLAYER</Label>
         </Button>
@@ -52,7 +52,7 @@
         <Button x:Name="LoadMultiPlayer" Grid.Column="2" Grid.Row="
                 5" Width="400" Height="50">
             <Button.Background>
-                <ImageBrush ImageSource="/Assets/Images/Button_Main.png" />
+                <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Button_Main.png" />
             </Button.Background>
             <Label HorizontalAlignment="Center" VerticalAlignment="Center">MULTI PLAYER</Label>
         </Button>
@@ -60,7 +60,7 @@
         <Button x:Name="LoadSettings" Grid.Column="2" Grid.Row="
                 7" Width="400" Height="50">
             <Button.Background>
-                <ImageBrush ImageSource="/Assets/Images/Button_Main.png" />
+                <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Button_Main.png" />
             </Button.Background>
             <Label HorizontalAlignment="Center" VerticalAlignment="Center">SETTINGS</Label>
         </Button>

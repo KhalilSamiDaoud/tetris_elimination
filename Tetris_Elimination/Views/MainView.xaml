@@ -10,12 +10,12 @@
         Width="1000" 
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        Icon="/Assets/icon.ico" >
+        Icon="/Assets/icon.ico">
 
     <Window.Background>
         <VisualBrush TileMode="Tile"  Viewport="0,0,1,1">
             <VisualBrush.Visual>
-                <Image Source="/Assets/Images/Background.png"
+                <Image Source="pack://application:,,,/Assets/Images/Background.png"
                        RenderOptions.BitmapScalingMode="NearestNeighbor"
                        SnapsToDevicePixels="True">
                 </Image>

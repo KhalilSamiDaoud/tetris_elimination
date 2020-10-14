@@ -14,19 +14,22 @@ namespace Tetris_Elimination.ViewModels
 {
     class SinglePlayerViewModel : Conductor<Object>
     {
-        MainViewModel main_window;
-        BoardViewModel game_board;
-        public SinglePlayerViewModel(MainViewModel _main_window)
+        MainViewModel mainWindow;
+        BoardViewModel gameWindow;
+        BoardView gameBoard;
+        StatisticsViewModel statistics;
+        public SinglePlayerViewModel(MainViewModel _mainWindow)
         {
-            main_window = _main_window;
-            game_board = new BoardViewModel();
-            ActivateItem(game_board);
+            //gameBoard = gameWindow.ge
+            mainWindow = _mainWindow;
+            gameWindow = new BoardViewModel();
+            ActivateItem(gameWindow);
 
         }
 
     public void LoadMenu()
         {
-            main_window.SetNewView(Screens.MENU);
+            mainWindow.SetNewView(Screens.MENU);
         }
     }
 }

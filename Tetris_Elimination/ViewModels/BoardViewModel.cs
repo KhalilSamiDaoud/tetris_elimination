@@ -15,16 +15,8 @@ namespace Tetris_Elimination.ViewModels
 {
     class BoardViewModel : Window
     {
-        private BoardView board;
-
         public BoardViewModel()
         {
-            board = new BoardView();
-        }
-
-        public BoardView getBoard()
-        {
-            return this.board;
         }
     }
 }

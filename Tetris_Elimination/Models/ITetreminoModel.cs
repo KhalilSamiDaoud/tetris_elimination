@@ -11,12 +11,13 @@ namespace Tetris_Elimination.Models
 {
     interface ITetreminoModel
     {
-        Point[] initialize(Tetremino piece);
         ImageBrush getBrush();
 
         Point getPosition();
 
         Point[] getShape();
+
+        Tetremino getType();
 
         void move(Move direction);
 

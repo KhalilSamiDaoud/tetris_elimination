@@ -155,11 +155,14 @@ namespace Tetris_Elimination.Views
 
         public void Rotate()
         {
-            if (moveIsLegal(Move.ROTATE))
+            if (currentTetremino.getType() != Tetremino.YELLOW_O)
             {
-                clearTetremino();
-                currentTetremino.move(Move.ROTATE);
-                drawTetremino();
+                if(moveIsLegal(Move.ROTATE))
+                {
+                    clearTetremino();
+                    currentTetremino.move(Move.ROTATE);
+                    drawTetremino();
+                }
             }
         }
 
@@ -211,14 +214,17 @@ namespace Tetris_Elimination.Views
                     for (int i = 0; i < currentTetremino.getShape().Length; i++)
                     {
                         tempPoint = currentTetremino.rotatePoint(tempShape[i], tempShape[2]);
-
-                        if (!cell[(int)(tempShape[i].X + currentTetremino.getPosition().X),
-                            (int)(tempShape[i].Y + currentTetremino.getPosition().Y)].Background.Equals(this.background) &&
-                            !cell[(int)(tempShape[i].X + currentTetremino.getPosition().X),
-                            (int)(tempShape[i].Y + currentTetremino.getPosition().Y)].Background.Equals(currentTetremino.getBrush()))
+                        if (tempShape[i].X >= col || tempShape[i].X <= 1 || tempShape[i].Y >= row || tempShape[i].Y <= 1)
                         {
                             return false;
                         }
+                            if (!cell[(int)(tempShape[i].X + currentTetremino.getPosition().X),
+                                (int)(tempShape[i].Y + currentTetremino.getPosition().Y)].Background.Equals(this.background) &&
+                                !cell[(int)(tempShape[i].X + currentTetremino.getPosition().X),
+                                (int)(tempShape[i].Y + currentTetremino.getPosition().Y)].Background.Equals(currentTetremino.getBrush()))
+                            {
+                                return false;
+                            }
                     }
                     break;
                 default:

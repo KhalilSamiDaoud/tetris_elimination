@@ -15,6 +15,7 @@ namespace Tetris_Elimination.Models
         private ImageBrush image = new ImageBrush();
         private Point position;
         private Point[] shape;
+        private Tetremino type;
         public TetreminoModel(Tetremino piece)
         {
             spawn(piece);
@@ -34,10 +35,16 @@ namespace Tetris_Elimination.Models
             return shape;
         }
 
+        public Tetremino getType()
+        {
+            return type;
+        }
+
         public Point[] spawn(Tetremino _piece)
         {
 
             position = new Point(0, 0); //all peices spawn at the same point 
+            type = _piece;
 
             switch (_piece)
             {
@@ -95,7 +102,7 @@ namespace Tetris_Elimination.Models
                     break;
             }
         }
-        //credit to Fraser StackOverflow
+        //credit to Fraser at StackOverflow for this algorithm!
         public Point rotatePoint(Point pointToRotate, Point centerPoint)
         {
             double angleInRadians = 90 * (Math.PI / 180);
@@ -105,12 +112,12 @@ namespace Tetris_Elimination.Models
             {
                 X =
                     (int)
-                    (cosTheta * (pointToRotate.X - centerPoint.X) -
-                    sinTheta * (pointToRotate.Y - centerPoint.Y) + centerPoint.X),
+                    Math.Round((cosTheta * (pointToRotate.X - centerPoint.X) -
+                    sinTheta * (pointToRotate.Y - centerPoint.Y) + centerPoint.X)),
                 Y =
                     (int)
-                    (sinTheta * (pointToRotate.X - centerPoint.X) +
-                    cosTheta * (pointToRotate.Y - centerPoint.Y) + centerPoint.Y)
+                    Math.Round((sinTheta * (pointToRotate.X - centerPoint.X) +
+                    cosTheta * (pointToRotate.Y - centerPoint.Y) + centerPoint.Y))
             };
         }
 

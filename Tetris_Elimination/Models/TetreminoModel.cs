@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+
+using System;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -40,10 +38,10 @@ namespace Tetris_Elimination.Models
             return type;
         }
 
-        public Point[] spawn(Tetremino _piece)
+        private void spawn(Tetremino _piece)
         {
 
-            position = new Point(0, 0); //all peices spawn at the same point 
+            position = new Point(0, 0);
             type = _piece;
 
             switch (_piece)
@@ -51,33 +49,33 @@ namespace Tetris_Elimination.Models
                 case Tetremino.PURPLE_T:
                     image.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Purple_Tile.png", UriKind.Absolute));
                     shape = initialize(Tetremino.PURPLE_T);
-                    return getShape();
+                    break;
                 case Tetremino.BLUE_I:
                     image.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Blue_Tile.png", UriKind.Absolute));
                     shape = initialize(Tetremino.BLUE_I);
-                    return getShape();
+                    break;
                 case Tetremino.BLUE_L:
                     image.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Dark_Blue_Tile.png", UriKind.Absolute));
                     shape = initialize(Tetremino.BLUE_L);
-                    return getShape();
+                    break;
                 case Tetremino.GREEN_Z:
                     image.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Green_Tile.png", UriKind.Absolute));
                     shape = initialize(Tetremino.GREEN_Z);
-                    return getShape();
+                    break;
                 case Tetremino.ORANGE_J:
                     image.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Orange_Tile.png", UriKind.Absolute));
                     shape = initialize(Tetremino.ORANGE_J);
-                    return getShape();
+                    break;
                 case Tetremino.RED_S:
                     image.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Red_Tile.png", UriKind.Absolute));
                     shape = initialize(Tetremino.RED_S);
-                    return getShape();
+                    break;
                 case Tetremino.YELLOW_O:
                     image.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Yellow_Tile.png", UriKind.Absolute));
                     shape = initialize(Tetremino.YELLOW_O);
-                    return getShape();
+                    break;
                 default:
-                    return null;
+                    break;
             }
         }
 
@@ -106,16 +104,14 @@ namespace Tetris_Elimination.Models
         public Point rotatePoint(Point pointToRotate, Point centerPoint)
         {
             double angleInRadians = 90 * (Math.PI / 180);
-            double cosTheta = Math.Cos(angleInRadians);
-            double sinTheta = Math.Sin(angleInRadians);
+            double cosTheta       = Math.Cos(angleInRadians);
+            double sinTheta       = Math.Sin(angleInRadians);
             return new Point
             {
-                X =
-                    (int)
+                X = (int)
                     Math.Round((cosTheta * (pointToRotate.X - centerPoint.X) -
                     sinTheta * (pointToRotate.Y - centerPoint.Y) + centerPoint.X)),
-                Y =
-                    (int)
+                Y =(int)
                     Math.Round((sinTheta * (pointToRotate.X - centerPoint.X) +
                     cosTheta * (pointToRotate.Y - centerPoint.Y) + centerPoint.Y))
             };

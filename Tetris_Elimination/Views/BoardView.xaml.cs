@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+
+using System;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Tetris_Elimination.Models;
 using static Tetris_Elimination.Models.ConstantsModel;
 
@@ -23,16 +17,16 @@ namespace Tetris_Elimination.Views
     /// </summary>
     public partial class BoardView : UserControl
     {
-        private int row = 22;
-        private int col = 12;
-        private int interval;
-        private bool gameOver = false;
-        private bool gameStarted = false;
-        private Array tetreminoTypes = Enum.GetValues(typeof(Tetremino));
-        private Label[,] cell;
-        private ImageBrush background = new ImageBrush();
-        private ImageBrush border = new ImageBrush();
-        private Random rand = new Random();
+        private const int row            =     22;
+        private const int col            =     12;
+        private int interval             =     1000;
+        private bool gameOver            =     false;
+        private bool gameStarted         =     false;
+        private Array tetreminoTypes     =     Enum.GetValues(typeof(Tetremino));
+        private ImageBrush background    =     new ImageBrush();
+        private ImageBrush border        =     new ImageBrush();
+        private Random rand              =     new Random();
+        private Label[,] cell            =     new Label[col, row];
         private TetreminoModel currentTetremino;
         private TetreminoModel nextTetremino;
         private TetreminoModel heldTetremino;
@@ -40,37 +34,12 @@ namespace Tetris_Elimination.Views
 
         public BoardView()
         {
-            InitializeComponent();
-            interval = 1000;
             background.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Background_Tile.png", UriKind.Absolute));
             border.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Border_Tile.png", UriKind.Absolute));
-            cell = new Label[col, row];
 
-            for (int i = 0; i < col; i++)
-            {
-                for (int j = 0; j < row; j++)
-                {
-
-                    cell[i, j] = new Label();
-                    if (i == 0 || i == 11 || j == 0 || j == 21)
-                    {
-                        cell[i, j].Background = border;
-                        Grid.SetRow(cell[i, j], j);
-                        Grid.SetColumn(cell[i, j], i);
-                        BoardGrid.Children.Add(cell[i, j]);
-                    }
-                    else
-                    {
-                        cell[i, j].Background = background;
-                        Grid.SetRow(cell[i, j], j);
-                        Grid.SetColumn(cell[i, j], i);
-                        BoardGrid.Children.Add(cell[i, j]);
-                    }
-                }
-            }
-
+            InitializeComponent();
+            setupBoard();
             startGame();
-
         }
 
         private void BoardView_Loaded(object sender, RoutedEventArgs e)
@@ -118,16 +87,43 @@ namespace Tetris_Elimination.Views
             });
         }
 
+        private void setupBoard()
+        {
+            for (int i = 0; i < col; i++)
+            {
+                for (int j = 0; j < row; j++)
+                {
+
+                    cell[i, j] = new Label();
+
+                    if (i == 0 || i == 11 || j == 0 || j == 21)
+                    {
+                        cell[i, j].Background = border;
+                        Grid.SetRow(cell[i, j], j);
+                        Grid.SetColumn(cell[i, j], i);
+                        BoardGrid.Children.Add(cell[i, j]);
+                    }
+                    else
+                    {
+                        cell[i, j].Background = background;
+                        Grid.SetRow(cell[i, j], j);
+                        Grid.SetColumn(cell[i, j], i);
+                        BoardGrid.Children.Add(cell[i, j]);
+                    }
+                }
+            }
+        }
+
         private void startGame()
         {
-            eventTimer = new Timer();
+            eventTimer          = new Timer();
             eventTimer.Elapsed += new ElapsedEventHandler(gameLoop);
             eventTimer.Interval = interval;
             eventTimer.Start();
-            gameStarted = true;
+            gameStarted         = true;
 
-            currentTetremino = spawnTetromino();
-            nextTetremino = spawnTetromino();
+            currentTetremino    = spawnTetromino();
+            nextTetremino       = spawnTetromino();
             drawTetremino();
 
         }
@@ -171,8 +167,8 @@ namespace Tetris_Elimination.Views
             }
             else
             {
-                currentTetremino = nextTetremino;
-                nextTetremino = spawnTetromino();
+                currentTetremino  = nextTetremino;
+                nextTetremino     = spawnTetromino();
                 if (currentTetremino.getType() == nextTetremino.getType()) //to reduce odds of getting the same peice multiple times
                 {
                     nextTetremino = spawnTetromino();
@@ -272,14 +268,13 @@ namespace Tetris_Elimination.Views
                     }
                     break;
                 default:
-                    break;
+                    return false;
             }
             return true;
         }
 
         private void checkRows()
         {
-
             int count = 0;
 
             for (int i=1; i < row; i++)
@@ -294,9 +289,8 @@ namespace Tetris_Elimination.Views
                     {
                         count = 0;
                         clearRow(i);
-                        checkRows(); //call itself recursivly if a row was cleared, to see if a new row needs to be cleared. 
+                        checkRows();
                         break;
-
                     }
                     count++;
                 }
@@ -325,7 +319,6 @@ namespace Tetris_Elimination.Views
 
         private void holdPeice()
         {
-
             TetreminoModel temp;
 
             if (heldTetremino == null)
@@ -344,7 +337,6 @@ namespace Tetris_Elimination.Views
                 heldTetremino = new TetreminoModel(temp.getType());
                 drawTetremino();
             }
-
         }
     }
 }

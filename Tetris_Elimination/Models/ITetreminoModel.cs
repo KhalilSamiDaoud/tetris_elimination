@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+
 using System.Windows;
 using System.Windows.Media;
 using static Tetris_Elimination.Models.ConstantsModel;
@@ -13,18 +10,14 @@ namespace Tetris_Elimination.Models
     {
         ImageBrush getBrush();
 
-        Point getPosition();
+        Point      getPosition();
 
-        Point[] getShape();
+        Point[]    getShape();
 
-        Tetremino getType();
+        Tetremino  getType();
 
-        void move(Move direction);
+        void       move(Move direction);
 
-        Point[] spawn(Tetremino piece);
-
-
-
-
+        Point      rotatePoint(Point pointToRotate, Point centerPoint);
     }
 }

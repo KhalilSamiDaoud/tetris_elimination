@@ -28,6 +28,7 @@ namespace Tetris_Elimination.Views
         private int levelThreshhold      =     500;
         private bool gameOver            =     false;
         private bool gameStarted         =     false;
+        private bool swappedThisTurn     =     false;
         private Array tetreminoTypes     =     Enum.GetValues(typeof(Tetremino));
         private ImageBrush background    =     new ImageBrush();
         private ImageBrush border        =     new ImageBrush();
@@ -108,17 +109,17 @@ namespace Tetris_Elimination.Views
 
         public int GetScore()
         {
-            return this.score;
+            return score;
         }
 
         public int GetLevel()
         {
-            return this.level;
+            return level;
         }
 
         public bool GetGameStatus()
         {
-            return this.gameOver;
+            return gameOver;
         }
 
         public bool getGameStarted()
@@ -179,7 +180,7 @@ namespace Tetris_Elimination.Views
             }
             else
             {
-                this.gameOver = true;
+                gameOver = true;
                 return null;
             }
         }
@@ -214,6 +215,7 @@ namespace Tetris_Elimination.Views
             {
                 currentTetremino = nextTetremino;
                 nextTetremino = spawnTetromino();
+                swappedThisTurn = false;
                 if (nextTetremino != null)
                 {
                     //this check is to reduce the overall amounts of duplicates
@@ -379,27 +381,29 @@ namespace Tetris_Elimination.Views
             }
         }
 
-        private void holdPeice() //make it so you cant hold same peice twice
+        private void holdPeice()
         {
             TetreminoModel temp;
 
-            if (heldTetremino == null)
+            if (heldTetremino == null && !swappedThisTurn)
             {
                 clearTetremino();
                 heldTetremino = new TetreminoModel(currentTetremino.getType());
                 currentTetremino = nextTetremino;
                 nextTetremino = spawnTetromino();
                 drawTetremino();
+                swappedThisTurn = true;
             }
             else
             {
-                if(moveIsLegal(Move.SPAWN, heldTetremino))
+                if(moveIsLegal(Move.SPAWN, heldTetremino) && !swappedThisTurn)
                 {
                     temp = currentTetremino;
                     clearTetremino();
                     currentTetremino = new TetreminoModel(heldTetremino.getType());
                     heldTetremino = new TetreminoModel(temp.getType());
                     drawTetremino();
+                    swappedThisTurn = true;
                 }
             }
         }

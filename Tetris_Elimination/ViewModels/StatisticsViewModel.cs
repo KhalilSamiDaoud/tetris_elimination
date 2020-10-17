@@ -11,12 +11,14 @@ namespace Tetris_Elimination.ViewModels
     public class StatisticsViewModel : Screen, IHandle<int>
     {
         private int _dispScore;
+        private int _dispLevel;
         private EventAggregatorSingleton myEvents;
         public StatisticsViewModel()
         {
             myEvents = EventAggregatorSingleton.Instance;
             myEvents.getAggregator().Subscribe(this);
             dispScore = 0;
+            dispLevel = 1;
         }
 
         public int dispScore
@@ -29,6 +31,19 @@ namespace Tetris_Elimination.ViewModels
             {
                 _dispScore = value;
                 NotifyOfPropertyChange(() => dispScore);
+            }
+        }
+
+        public int dispLevel
+        {
+            get
+            {
+                return _dispLevel;
+            }
+            set
+            {
+                _dispLevel = value;
+                NotifyOfPropertyChange(() => dispLevel);
             }
         }
 

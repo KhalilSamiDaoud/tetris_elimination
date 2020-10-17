@@ -10,7 +10,7 @@
              Loaded="BoardView_Loaded"
              Focusable="True" >
 
-    <!-- Define the 10x20 grid for playing-->
+    <!-- Define the 12x22 grid for playing-->
         <Grid Name="BoardGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -50,5 +50,7 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-        </Grid>
+
+        <Label />
+    </Grid>
 </UserControl>

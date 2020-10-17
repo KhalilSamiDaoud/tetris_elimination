@@ -28,9 +28,10 @@ namespace Tetris_Elimination.Models
             LEFT,
             RIGHT,
             DOWN,
-            ROTATE
+            ROTATE,
+            SPAWN
         }
 
-        public static string CUR_VERSION = "Version: 0.4B";
+        public static string CUR_VERSION = "Version: 0.8B";
     }
 }

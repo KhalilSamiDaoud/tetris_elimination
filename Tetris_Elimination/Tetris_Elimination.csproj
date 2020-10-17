@@ -72,6 +72,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\EventAggregatorSingleton.cs" />
     <Compile Include="Models\TetreminoModel.cs" />
     <Compile Include="Models\ITetreminoModel.cs" />
     <Compile Include="Models\ConstantsModel.cs" />
@@ -199,6 +200,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\Border_Tile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Stats_Window.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

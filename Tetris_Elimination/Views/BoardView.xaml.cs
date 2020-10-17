@@ -1,5 +1,6 @@
 ﻿
 
+using Caliburn.Micro;
 using System;
 using System.Timers;
 using System.Windows;
@@ -8,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Tetris_Elimination.Models;
+using Tetris_Elimination.ViewModels;
 using static Tetris_Elimination.Models.ConstantsModel;
 
 namespace Tetris_Elimination.Views
@@ -20,6 +22,10 @@ namespace Tetris_Elimination.Views
         private const int row            =     22;
         private const int col            =     12;
         private int interval             =     1000;
+        private int score                =     0;
+        private int level                =     1;
+        private int clearedRows          =     0;
+        private int levelThreshhold      =     500;
         private bool gameOver            =     false;
         private bool gameStarted         =     false;
         private Array tetreminoTypes     =     Enum.GetValues(typeof(Tetremino));
@@ -31,9 +37,12 @@ namespace Tetris_Elimination.Views
         private TetreminoModel nextTetremino;
         private TetreminoModel heldTetremino;
         private static Timer eventTimer;
+        private EventAggregatorSingleton myEvents;
 
         public BoardView()
         {
+            myEvents = EventAggregatorSingleton.Instance;
+            myEvents.getAggregator().Subscribe(this);
             background.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Background_Tile.png", UriKind.Absolute));
             border.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Border_Tile.png", UriKind.Absolute));
 
@@ -50,7 +59,7 @@ namespace Tetris_Elimination.Views
 
         private void BoardView_KeyDown(object sender, KeyEventArgs e)
         {
-            if (getGameStarted())
+            if (getGameStarted() && !GetGameStatus())
             {
                 switch (e.Key)
                 {
@@ -83,8 +92,38 @@ namespace Tetris_Elimination.Views
         {
             this.Dispatcher.Invoke(() =>
             {
-                moveDown();
+                if (!GetGameStatus())
+                {
+                    moveDown();
+                    calculateScore();
+                    calculateLevel();
+                    calculateInterval();
+                }
+                else
+                {
+                    eventTimer.Stop();
+                }
             });
+        }
+
+        public int GetScore()
+        {
+            return this.score;
+        }
+
+        public int GetLevel()
+        {
+            return this.level;
+        }
+
+        public bool GetGameStatus()
+        {
+            return this.gameOver;
+        }
+
+        public bool getGameStarted()
+        {
+            return gameStarted;
         }
 
         private void setupBoard()
@@ -128,15 +167,21 @@ namespace Tetris_Elimination.Views
 
         }
 
-        public bool getGameStarted()
-        {
-            return gameStarted;
-        }
-
         private TetreminoModel spawnTetromino()
         {
             checkRows();
-            return new TetreminoModel((Tetremino)tetreminoTypes.GetValue(rand.Next(tetreminoTypes.Length)));
+            calculateScore();
+            TetreminoModel tempTetremino = new TetreminoModel((Tetremino)tetreminoTypes.GetValue(rand.Next(tetreminoTypes.Length)));
+
+            if(moveIsLegal(Move.SPAWN, tempTetremino))
+            {
+                return tempTetremino;
+            }
+            else
+            {
+                this.gameOver = true;
+                return null;
+            }
         }
 
         private void drawTetremino()
@@ -159,7 +204,7 @@ namespace Tetris_Elimination.Views
 
         private void moveDown()
         {
-            if (moveIsLegal(Move.DOWN))
+            if (moveIsLegal(Move.DOWN, currentTetremino))
             {
                 clearTetremino();
                 currentTetremino.move(Move.DOWN);
@@ -167,19 +212,23 @@ namespace Tetris_Elimination.Views
             }
             else
             {
-                currentTetremino  = nextTetremino;
-                nextTetremino     = spawnTetromino();
-                if (currentTetremino.getType() == nextTetremino.getType()) //to reduce odds of getting the same peice multiple times
+                currentTetremino = nextTetremino;
+                nextTetremino = spawnTetromino();
+                if (nextTetremino != null)
                 {
-                    nextTetremino = spawnTetromino();
+                    //this check is to reduce the overall amounts of duplicates
+                    if (currentTetremino.getType() == nextTetremino.getType())
+                    {
+                        nextTetremino = spawnTetromino();
+                    }
+                    drawTetremino();
                 }
-                drawTetremino();
             }
         }
 
         private void moveRight()
         {
-            if (moveIsLegal(Move.RIGHT))
+            if (moveIsLegal(Move.RIGHT, currentTetremino))
             {
                 clearTetremino();
                 currentTetremino.move(Move.RIGHT);
@@ -189,7 +238,7 @@ namespace Tetris_Elimination.Views
 
         private void moveLeft()
         {
-            if (moveIsLegal(Move.LEFT))
+            if (moveIsLegal(Move.LEFT, currentTetremino))
             {
                 clearTetremino();
                 currentTetremino.move(Move.LEFT);
@@ -201,7 +250,7 @@ namespace Tetris_Elimination.Views
         {
             if (currentTetremino.getType() != Tetremino.YELLOW_O)
             {
-                if(moveIsLegal(Move.ROTATE))
+                if(moveIsLegal(Move.ROTATE, currentTetremino))
                 {
                     clearTetremino();
                     currentTetremino.move(Move.ROTATE);
@@ -210,41 +259,53 @@ namespace Tetris_Elimination.Views
             }
         }
 
-        private Boolean moveIsLegal(Move direction)
+        private Boolean moveIsLegal(Move direction, TetreminoModel checkingTetremino)
         {
             switch(direction)
             {
-                case Move.DOWN:
-                    for (int i = 0; i < currentTetremino.getShape().Length; i++)
+                case Move.SPAWN:
+                    for (int i = 0; i < checkingTetremino.getShape().Length; i++)
                     {
-                        if (!cell[(int)(currentTetremino.getShape()[i].X + currentTetremino.getPosition().X),
-                                  (int)(currentTetremino.getShape()[i].Y + currentTetremino.getPosition().Y + 1)].Background.Equals(this.background) &&
-                            !cell[(int)(currentTetremino.getShape()[i].X + currentTetremino.getPosition().X),
-                                  (int)(currentTetremino.getShape()[i].Y + currentTetremino.getPosition().Y + 1)].Background.Equals(currentTetremino.getBrush()))
+                        if (!cell[(int)(checkingTetremino.getShape()[i].X + checkingTetremino.getPosition().X),
+                                  (int)(checkingTetremino.getShape()[i].Y + checkingTetremino.getPosition().Y)].Background.Equals(this.background) &&
+                            !cell[(int)(checkingTetremino.getShape()[i].X + checkingTetremino.getPosition().X),
+                                  (int)(checkingTetremino.getShape()[i].Y + checkingTetremino.getPosition().Y)].Background.Equals(currentTetremino.getBrush()))
+                        {
+                            return false;
+                        }
+                    }
+                    break;
+                case Move.DOWN:
+                    for (int i = 0; i < checkingTetremino.getShape().Length; i++)
+                    {
+                        if (!cell[(int)(checkingTetremino.getShape()[i].X + checkingTetremino.getPosition().X),
+                                  (int)(checkingTetremino.getShape()[i].Y + checkingTetremino.getPosition().Y + 1)].Background.Equals(this.background) &&
+                            !cell[(int)(checkingTetremino.getShape()[i].X + checkingTetremino.getPosition().X),
+                                  (int)(checkingTetremino.getShape()[i].Y + checkingTetremino.getPosition().Y + 1)].Background.Equals(currentTetremino.getBrush()))
                         {
                             return false;
                         }
                     }
                     break;
                 case Move.RIGHT:
-                    for (int i = 0; i < currentTetremino.getShape().Length; i++)
+                    for (int i = 0; i < checkingTetremino.getShape().Length; i++)
                     {
-                        if (!cell[(int)(currentTetremino.getShape()[i].X + currentTetremino.getPosition().X + 1),
-                                  (int)(currentTetremino.getShape()[i].Y + currentTetremino.getPosition().Y)].Background.Equals(this.background) &&
-                            !cell[(int)(currentTetremino.getShape()[i].X + currentTetremino.getPosition().X + 1),
-                                  (int)(currentTetremino.getShape()[i].Y + currentTetremino.getPosition().Y)].Background.Equals(currentTetremino.getBrush()))
+                        if (!cell[(int)(checkingTetremino.getShape()[i].X + checkingTetremino.getPosition().X + 1),
+                                  (int)(checkingTetremino.getShape()[i].Y + checkingTetremino.getPosition().Y)].Background.Equals(this.background) &&
+                            !cell[(int)(checkingTetremino.getShape()[i].X + checkingTetremino.getPosition().X + 1),
+                                  (int)(checkingTetremino.getShape()[i].Y + checkingTetremino.getPosition().Y)].Background.Equals(currentTetremino.getBrush()))
                         {
                             return false;
                         }
                     }
                     break;
                 case Move.LEFT:
-                    for (int i = 0; i < currentTetremino.getShape().Length; i++)
+                    for (int i = 0; i < checkingTetremino.getShape().Length; i++)
                     {
-                        if (!cell[(int)(currentTetremino.getShape()[i].X + currentTetremino.getPosition().X - 1),
-                                  (int)(currentTetremino.getShape()[i].Y + currentTetremino.getPosition().Y)].Background.Equals(this.background) &&
-                            !cell[(int)(currentTetremino.getShape()[i].X + currentTetremino.getPosition().X - 1),
-                                  (int)(currentTetremino.getShape()[i].Y + currentTetremino.getPosition().Y)].Background.Equals(currentTetremino.getBrush()))
+                        if (!cell[(int)(checkingTetremino.getShape()[i].X + checkingTetremino.getPosition().X - 1),
+                                  (int)(checkingTetremino.getShape()[i].Y + checkingTetremino.getPosition().Y)].Background.Equals(this.background) &&
+                            !cell[(int)(checkingTetremino.getShape()[i].X + checkingTetremino.getPosition().X - 1),
+                                  (int)(checkingTetremino.getShape()[i].Y + checkingTetremino.getPosition().Y)].Background.Equals(currentTetremino.getBrush()))
                         {
                             return false;
                         }
@@ -252,16 +313,16 @@ namespace Tetris_Elimination.Views
                     break;
                 case Move.ROTATE: //fix this and add auto-adjusting
 
-                    Point[] tempShape = currentTetremino.getShape();
+                    Point[] tempShape = checkingTetremino.getShape();
                     Point tempPoint;
 
-                    for (int i = 0; i < currentTetremino.getShape().Length; i++)
+                    for (int i = 0; i < checkingTetremino.getShape().Length; i++)
                     {
-                        tempPoint = currentTetremino.rotatePoint(tempShape[i], tempShape[2]);
-                        if (!cell[(int)(tempPoint.X + currentTetremino.getPosition().X),
-                                  (int)(tempPoint.Y + currentTetremino.getPosition().Y)].Background.Equals(this.background) &&
-                            !cell[(int)(tempPoint.X + currentTetremino.getPosition().X),
-                                  (int)(tempPoint.Y + currentTetremino.getPosition().Y)].Background.Equals(currentTetremino.getBrush()))
+                        tempPoint = checkingTetremino.rotatePoint(tempShape[i], tempShape[2]);
+                        if (!cell[(int)(tempPoint.X + checkingTetremino.getPosition().X),
+                                  (int)(tempPoint.Y + checkingTetremino.getPosition().Y)].Background.Equals(this.background) &&
+                            !cell[(int)(tempPoint.X + checkingTetremino.getPosition().X),
+                                  (int)(tempPoint.Y + checkingTetremino.getPosition().Y)].Background.Equals(currentTetremino.getBrush()))
                         {
                             return false;
                         }
@@ -288,6 +349,7 @@ namespace Tetris_Elimination.Views
                     else if (count == 10)
                     {
                         count = 0;
+                        clearedRows++;
                         clearRow(i);
                         checkRows();
                         break;
@@ -317,7 +379,7 @@ namespace Tetris_Elimination.Views
             }
         }
 
-        private void holdPeice()
+        private void holdPeice() //make it so you cant hold same peice twice
         {
             TetreminoModel temp;
 
@@ -331,11 +393,61 @@ namespace Tetris_Elimination.Views
             }
             else
             {
-                temp = currentTetremino;
-                clearTetremino();
-                currentTetremino = new TetreminoModel(heldTetremino.getType());
-                heldTetremino = new TetreminoModel(temp.getType());
-                drawTetremino();
+                if(moveIsLegal(Move.SPAWN, heldTetremino))
+                {
+                    temp = currentTetremino;
+                    clearTetremino();
+                    currentTetremino = new TetreminoModel(heldTetremino.getType());
+                    heldTetremino = new TetreminoModel(temp.getType());
+                    drawTetremino();
+                }
+            }
+        }
+
+        private void calculateScore()
+        {
+            int multiplier = 0;
+
+            switch(clearedRows)
+            {
+                case int n when (n == 0 || n == 1):
+                    multiplier = 100;
+                    break;
+                case int n when (n == 2 || n == 3):
+                    multiplier = 200;
+                    break;
+                case 4:
+                    multiplier = 500;
+                    break;
+                case 5:
+                    multiplier = 1000;
+                    break;
+                default:
+                    multiplier = 1500;
+                    break;
+            }
+
+            score = (score + (clearedRows * multiplier));
+            clearedRows = 0;
+            myEvents.getAggregator().PublishOnUIThread(score);
+        }
+
+        private void calculateLevel()
+        {
+            int tempLevel = (score / levelThreshhold);
+
+            if (tempLevel > level)
+            {
+                level++;
+                levelThreshhold = (int)(levelThreshhold * 1.25); 
+            }
+        }
+        private void calculateInterval()
+        {
+            if (level <= 8 && level > 1)
+            {
+                interval = (1000 - (level * 80));
+                eventTimer.Interval = interval;
             }
         }
     }

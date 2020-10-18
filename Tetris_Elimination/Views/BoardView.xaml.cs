@@ -8,8 +8,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Tetris_Elimination.Events;
 using Tetris_Elimination.Models;
-using Tetris_Elimination.ViewModels;
 using static Tetris_Elimination.Models.ConstantsModel;
 
 namespace Tetris_Elimination.Views
@@ -164,6 +164,7 @@ namespace Tetris_Elimination.Views
 
             currentTetremino    = spawnTetromino();
             nextTetremino       = spawnTetromino();
+            myEvents.getAggregator().PublishOnUIThread(new NextPieceEvent(nextTetremino));
             drawTetremino();
 
         }
@@ -172,6 +173,7 @@ namespace Tetris_Elimination.Views
         {
             checkRows();
             calculateScore();
+            calculateLevel();
             TetreminoModel tempTetremino = new TetreminoModel((Tetremino)tetreminoTypes.GetValue(rand.Next(tetreminoTypes.Length)));
 
             if(moveIsLegal(Move.SPAWN, tempTetremino))
@@ -224,6 +226,7 @@ namespace Tetris_Elimination.Views
                         nextTetremino = spawnTetromino();
                     }
                     drawTetremino();
+                    myEvents.getAggregator().PublishOnUIThread(new NextPieceEvent(nextTetremino));
                 }
             }
         }
@@ -388,11 +391,13 @@ namespace Tetris_Elimination.Views
             if (heldTetremino == null && !swappedThisTurn)
             {
                 clearTetremino();
-                heldTetremino = new TetreminoModel(currentTetremino.getType());
+                heldTetremino    = new TetreminoModel(currentTetremino.getType());
                 currentTetremino = nextTetremino;
-                nextTetremino = spawnTetromino();
+                nextTetremino    = spawnTetromino();
+                swappedThisTurn  = true;
                 drawTetremino();
-                swappedThisTurn = true;
+                myEvents.getAggregator().PublishOnUIThread(new NextPieceEvent(nextTetremino));
+                myEvents.getAggregator().PublishOnUIThread(new HeldPieceEvent(heldTetremino));
             }
             else
             {
@@ -404,6 +409,7 @@ namespace Tetris_Elimination.Views
                     heldTetremino = new TetreminoModel(temp.getType());
                     drawTetremino();
                     swappedThisTurn = true;
+                    myEvents.getAggregator().PublishOnUIThread(new HeldPieceEvent(heldTetremino));
                 }
             }
         }
@@ -433,7 +439,7 @@ namespace Tetris_Elimination.Views
 
             score = (score + (clearedRows * multiplier));
             clearedRows = 0;
-            myEvents.getAggregator().PublishOnUIThread(score);
+            myEvents.getAggregator().PublishOnUIThread(new ScoreEvent(score));
         }
 
         private void calculateLevel()
@@ -445,6 +451,7 @@ namespace Tetris_Elimination.Views
                 level++;
                 levelThreshhold = (int)(levelThreshhold * 1.25); 
             }
+            myEvents.getAggregator().PublishOnUIThread(new LevelEvent(level));
         }
         private void calculateInterval()
         {

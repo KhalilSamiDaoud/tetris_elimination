@@ -72,6 +72,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Events\HeldPieceEvent.cs" />
+    <Compile Include="Events\LevelEvent.cs" />
+    <Compile Include="Events\NextPieceEvent.cs" />
+    <Compile Include="Events\ScoreEvent.cs" />
     <Compile Include="Models\EventAggregatorSingleton.cs" />
     <Compile Include="Models\TetreminoModel.cs" />
     <Compile Include="Models\ITetreminoModel.cs" />

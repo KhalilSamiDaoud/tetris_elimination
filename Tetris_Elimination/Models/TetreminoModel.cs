@@ -8,7 +8,7 @@ using static Tetris_Elimination.Models.ConstantsModel;
 
 namespace Tetris_Elimination.Models
 {
-    class TetreminoModel : ITetreminoModel
+    public class TetreminoModel : ITetreminoModel
     {
         private ImageBrush image = new ImageBrush();
         private Point position;
@@ -111,7 +111,7 @@ namespace Tetris_Elimination.Models
                 X = (int)
                     Math.Round((cosTheta * (pointToRotate.X - centerPoint.X) -
                     sinTheta * (pointToRotate.Y - centerPoint.Y) + centerPoint.X)),
-                Y =(int)
+                Y = (int)
                     Math.Round((sinTheta * (pointToRotate.X - centerPoint.X) +
                     cosTheta * (pointToRotate.Y - centerPoint.Y) + centerPoint.Y))
             };

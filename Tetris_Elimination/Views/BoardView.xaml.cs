@@ -96,8 +96,6 @@ namespace Tetris_Elimination.Views
                 if (!GetGameStatus())
                 {
                     moveDown();
-                    calculateScore();
-                    calculateLevel();
                     calculateInterval();
                 }
                 else

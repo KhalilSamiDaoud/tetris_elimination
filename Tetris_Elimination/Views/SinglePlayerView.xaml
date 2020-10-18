@@ -24,7 +24,8 @@
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
 
-        <ContentControl cal:View.Model="{Binding Items[0]}" Grid.Column="2" Grid.Row="1" />
-        <ContentControl cal:View.Model="{Binding Items[1]}" Grid.Column="2" Grid.Row="3" />
+        <ContentControl cal:View.Model="{Binding Items[0]}" Grid.Column="2" Grid.Row="3" />
+        <ContentControl cal:View.Model="{Binding Items[1]}" Grid.Column="2" Grid.Row="1" />
+        
     </Grid>
 </UserControl>

@@ -68,7 +68,7 @@ namespace Tetris_Elimination.Views
 
             for (int i = 0; i < heldTetremino.getShape().Length; i++)
             {
-                if (heldTetremino.getType() == Tetremino.BLUE_I)
+                if (heldTetremino.getType() == Tetremino.BLUE_I || heldTetremino.getType() == Tetremino.YELLOW_O)
                 {
                     heldCell[(int)(heldTetremino.getShape()[i].X - 4),
                     (int)(heldTetremino.getShape()[i].Y)].Background = heldTetremino.getBrush();
@@ -87,7 +87,7 @@ namespace Tetris_Elimination.Views
 
             for (int i = 0; i < nextTetremino.getShape().Length; i++)
             {
-                if (nextTetremino.getType() == Tetremino.BLUE_I)
+                if (nextTetremino.getType() == Tetremino.BLUE_I || nextTetremino.getType() == Tetremino.YELLOW_O)
                 {
                     nextCell[(int)(nextTetremino.getShape()[i].X - 4),
                     (int)(nextTetremino.getShape()[i].Y)].Background = nextTetremino.getBrush();

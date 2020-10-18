@@ -10,11 +10,12 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.TextFormatting;
 using Tetris_Elimination.Views;
+using Tetris_Elimination.Events;
 using static Tetris_Elimination.Models.ConstantsModel;
 
 namespace Tetris_Elimination.ViewModels
 {
-    public class SinglePlayerViewModel : Conductor<Object>.Collection.AllActive
+    public class SinglePlayerViewModel : Conductor<Object>.Collection.AllActive, IHandle<GameOverEvent>
     {
         private MainViewModel mainWindow;
         private BoardViewModel gameWindow;
@@ -24,15 +25,19 @@ namespace Tetris_Elimination.ViewModels
             mainWindow = _mainWindow;
             statistics = new StatisticsViewModel();
             gameWindow = new BoardViewModel();
-            this.Items.Add(gameWindow);
             this.Items.Add(statistics);
-            ActivateItem(gameWindow);
+            this.Items.Add(gameWindow);
             ActivateItem(statistics);
+            ActivateItem(gameWindow);
         }
 
         public void LoadMenu()
         {
             mainWindow.SetNewView(Screens.MENU);
+        }
+
+        public void Handle(GameOverEvent message)
+        {
         }
     }
 }

@@ -18,14 +18,43 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
-            <RowDefinition Height="660" />
+            <RowDefinition Height="165" />
+            <RowDefinition Height="250" />
+            <RowDefinition Height="245" />
             <RowDefinition Height="10" />
-            <RowDefinition Height="150" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
 
-        <ContentControl cal:View.Model="{Binding Items[0]}" Grid.Column="2" Grid.Row="3" />
-        <ContentControl cal:View.Model="{Binding Items[1]}" Grid.Column="2" Grid.Row="1" />
-        
+        <ContentControl cal:View.Model="{Binding Items[0]}" Grid.Column="2" Grid.Row="5" />
+        <ContentControl cal:View.Model="{Binding Items[1]}" Grid.Column="2" Grid.Row="1" Grid.RowSpan="3" />
+
+        <StackPanel x:Name="gameOver" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="5" Visibility="{Binding Path=gameOver, Mode=OneWay}">
+            <StackPanel.Background>
+                <SolidColorBrush Color="Black" Opacity=".7" />
+            </StackPanel.Background>
+            <TextBlock Text="GAME OVER" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20,0,0"
+                       Foreground="White" FontSize="45"/>
+            <TextBlock x:Name="gameOverDialogue" Text="{Binding Path=gameOverDialogue, Mode=OneWay}" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20,0,0"
+                       Foreground="White" FontSize="20"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0" >
+                <Button x:Name="Restart" Grid.Column="2" Grid.Row="
+                3" Width="200" Height="50">
+                    <Button.Background>
+                        <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Button_Main.png" />
+                    </Button.Background>
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center">PLAY AGAIN</Label>
+                </Button>
+                <Button x:Name="LoadMenu" Grid.Column="2" Grid.Row="
+                3" Width="200" Height="50">
+                    <Button.Background>
+                        <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Button_Main.png" />
+                    </Button.Background>
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center">EXIT</Label>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+
+
     </Grid>
 </UserControl>

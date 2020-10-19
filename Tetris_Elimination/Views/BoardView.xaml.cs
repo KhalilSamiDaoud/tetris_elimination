@@ -17,18 +17,18 @@ namespace Tetris_Elimination.Views
     /// <summary>
     /// Interaction logic for BoardView.xaml
     /// </summary>
-    public partial class BoardView : UserControl
+    public partial class BoardView : UserControl, IHandle<NewGameEvent>
     {
         private const int row            =     22;
         private const int col            =     12;
+        private bool gameOver            =     false;
+        private bool gameStarted         =     false;
+        private bool swappedThisTurn     =     false;
         private int interval             =     1000;
         private int score                =     0;
         private int level                =     1;
         private int clearedRows          =     0;
         private int levelThreshhold      =     500;
-        private bool gameOver            =     false;
-        private bool gameStarted         =     false;
-        private bool swappedThisTurn     =     false;
         private Array tetreminoTypes     =     Enum.GetValues(typeof(Tetremino));
         private ImageBrush background    =     new ImageBrush();
         private ImageBrush border        =     new ImageBrush();
@@ -48,7 +48,6 @@ namespace Tetris_Elimination.Views
             border.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Border_Tile.png", UriKind.Absolute));
 
             InitializeComponent();
-            setupBoard();
             startGame();
         }
 
@@ -60,7 +59,7 @@ namespace Tetris_Elimination.Views
 
         private void BoardView_KeyDown(object sender, KeyEventArgs e)
         {
-            if (getGameStarted() && !GetGameStatus())
+            if (gameStarted && !gameOver)
             {
                 switch (e.Key)
                 {
@@ -80,7 +79,7 @@ namespace Tetris_Elimination.Views
                         holdPeice();
                         break;
                     case Key.Space:
-                        break;
+                        break; //add piece drops
                     case Key.P:
                         break;
                     default:
@@ -93,7 +92,7 @@ namespace Tetris_Elimination.Views
         {
             this.Dispatcher.Invoke(() =>
             {
-                if (!GetGameStatus())
+                if (!gameOver)
                 {
                     moveDown();
                     calculateInterval();
@@ -103,26 +102,6 @@ namespace Tetris_Elimination.Views
                     eventTimer.Stop();
                 }
             });
-        }
-
-        public int GetScore()
-        {
-            return score;
-        }
-
-        public int GetLevel()
-        {
-            return level;
-        }
-
-        public bool GetGameStatus()
-        {
-            return gameOver;
-        }
-
-        public bool getGameStarted()
-        {
-            return gameStarted;
         }
 
         private void setupBoard()
@@ -154,15 +133,26 @@ namespace Tetris_Elimination.Views
 
         private void startGame()
         {
+            interval            = 1000;
             eventTimer          = new Timer();
             eventTimer.Elapsed += new ElapsedEventHandler(gameLoop);
             eventTimer.Interval = interval;
             eventTimer.Start();
             gameStarted         = true;
+            gameOver            = false;
 
+            setupBoard();
             currentTetremino    = spawnTetromino();
             nextTetremino       = spawnTetromino();
+            heldTetremino       = null;
+            score               = 0;
+            level               = 1;
+            levelThreshhold     = 500;
+            myEvents.getAggregator().PublishOnUIThread(new GameOverEvent(gameOver));
             myEvents.getAggregator().PublishOnUIThread(new NextPieceEvent(nextTetremino));
+            myEvents.getAggregator().PublishOnUIThread(new HeldPieceEvent(null));
+            myEvents.getAggregator().PublishOnUIThread(new ScoreEvent(score));
+            myEvents.getAggregator().PublishOnUIThread(new LevelEvent(level));
             drawTetremino();
 
         }
@@ -181,6 +171,7 @@ namespace Tetris_Elimination.Views
             else
             {
                 gameOver = true;
+                myEvents.getAggregator().PublishOnUIThread(new GameOverEvent(gameOver));
                 return null;
             }
         }
@@ -458,6 +449,11 @@ namespace Tetris_Elimination.Views
                 interval = (1000 - (level * 80));
                 eventTimer.Interval = interval;
             }
+        }
+
+        public void Handle(NewGameEvent message)
+        {
+            startGame();
         }
     }
 }

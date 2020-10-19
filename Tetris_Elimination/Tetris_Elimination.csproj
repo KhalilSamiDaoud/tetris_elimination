@@ -74,9 +74,11 @@
     </Compile>
     <Compile Include="Events\HeldPieceEvent.cs" />
     <Compile Include="Events\LevelEvent.cs" />
+    <Compile Include="Events\NewGameEvent.cs" />
     <Compile Include="Events\NextPieceEvent.cs" />
     <Compile Include="Events\ScoreEvent.cs" />
     <Compile Include="Models\EventAggregatorSingleton.cs" />
+    <Compile Include="Events\GameOverEvent.cs" />
     <Compile Include="Models\TetreminoModel.cs" />
     <Compile Include="Models\ITetreminoModel.cs" />
     <Compile Include="Models\ConstantsModel.cs" />

@@ -113,12 +113,22 @@ namespace Tetris_Elimination.Views
 
         public void Handle(HeldPieceEvent message)
         {
-            setHeld(message.get());
+            if (message.get() == null)
+            {
+                clearCells(heldCell);
+            }
+            else
+            {
+                setHeld(message.get());
+            }
         }
 
         public void Handle(NextPieceEvent message)
         {
-            setNext(message.get());
+            if (message.get() != null)
+            {
+                setNext(message.get());
+            }
         }
     }
 }

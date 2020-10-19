@@ -8,8 +8,8 @@ namespace Tetris_Elimination.Events
 {
     public class GameOverEvent
     {
-
         private bool _gameOver;
+
         public GameOverEvent(bool gameOver)
         {
             this._gameOver = gameOver;

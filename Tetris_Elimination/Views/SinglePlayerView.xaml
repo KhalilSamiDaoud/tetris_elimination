@@ -4,9 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Tetris_Elimination.Views"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
-             d:DesignHeight="1000" d:DesignWidth="800">
+             d:DesignHeight="900" 
+             d:DesignWidth="1000">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
@@ -38,23 +40,56 @@
             <TextBlock x:Name="gameOverDialogue" Text="{Binding Path=gameOverDialogue, Mode=OneWay}" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20,0,0"
                        Foreground="White" FontSize="20"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0" >
-                <Button x:Name="Restart" Grid.Column="2" Grid.Row="
+                <Button x:Name="restart" Grid.Column="2" Grid.Row="
                 3" Width="200" Height="50">
                     <Button.Background>
                         <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Button_Main.png" />
                     </Button.Background>
                     <Label HorizontalAlignment="Center" VerticalAlignment="Center">PLAY AGAIN</Label>
                 </Button>
-                <Button x:Name="LoadMenu" Grid.Column="2" Grid.Row="
+                <Button x:Name="loadMenu" Grid.Column="2" Grid.Row="
                 3" Width="200" Height="50">
                     <Button.Background>
                         <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Button_Main.png" />
                     </Button.Background>
-                    <Label HorizontalAlignment="Center" VerticalAlignment="Center">EXIT</Label>
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center">QUIT</Label>
                 </Button>
             </StackPanel>
         </StackPanel>
 
+        <StackPanel x:Name="paused" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="5" Visibility="{Binding Path=paused, Mode=OneWay}">
+            <StackPanel.Background>
+                <SolidColorBrush Color="Black" Opacity=".7" />
+            </StackPanel.Background>
+            <TextBlock Text="PAUSED" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20,0,0"
+                       Foreground="White" FontSize="45"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0" >
+                <Button x:Name="reset" Grid.Column="2" Grid.Row="
+                3" Width="200" Height="50">
+                    <Button.Background>
+                        <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Button_Main.png" />
+                    </Button.Background>
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center">RESTART</Label>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="restart" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+                <Button x:Name="loadMenu2" Grid.Column="2" Grid.Row="
+                3" Width="200" Height="50">
+                    <Button.Background>
+                        <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Button_Main.png" />
+                    </Button.Background>
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center">QUIT</Label>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <cal:ActionMessage MethodName="loadMenu" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+            </StackPanel>
+        </StackPanel>
 
     </Grid>
 </UserControl>

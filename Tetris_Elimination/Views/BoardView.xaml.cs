@@ -44,10 +44,15 @@ namespace Tetris_Elimination.Views
         {
             myEvents = EventAggregatorSingleton.Instance;
             myEvents.getAggregator().Subscribe(this);
+
             background.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Background_Tile.png", UriKind.Absolute));
             border.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Border_Tile.png", UriKind.Absolute));
 
+            eventTimer = new Timer();
+            eventTimer.Elapsed += new ElapsedEventHandler(gameLoop);
+
             InitializeComponent();
+            setupBoard();
             startGame();
         }
 
@@ -76,11 +81,24 @@ namespace Tetris_Elimination.Views
                         Rotate();
                         break;
                     case Key.C:
-                        holdPeice();
+                        hold();
                         break;
                     case Key.Space:
-                        break; //add piece drops
+                        drop();
+                        break;
                     case Key.P:
+                        pauseGame();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else if (!gameStarted && !gameOver)
+            {
+                switch (e.Key)
+                {
+                    case Key.P:
+                        pauseGame();
                         break;
                     default:
                         break;
@@ -92,14 +110,10 @@ namespace Tetris_Elimination.Views
         {
             this.Dispatcher.Invoke(() =>
             {
-                if (!gameOver)
+                if (gameStarted && !gameOver)
                 {
                     moveDown();
                     calculateInterval();
-                }
-                else
-                {
-                    eventTimer.Stop();
                 }
             });
         }
@@ -133,15 +147,12 @@ namespace Tetris_Elimination.Views
 
         private void startGame()
         {
+            clearBoard();
             interval            = 1000;
-            eventTimer          = new Timer();
-            eventTimer.Elapsed += new ElapsedEventHandler(gameLoop);
             eventTimer.Interval = interval;
             eventTimer.Start();
             gameStarted         = true;
             gameOver            = false;
-
-            setupBoard();
             currentTetremino    = spawnTetromino();
             nextTetremino       = spawnTetromino();
             heldTetremino       = null;
@@ -150,11 +161,34 @@ namespace Tetris_Elimination.Views
             levelThreshhold     = 500;
             myEvents.getAggregator().PublishOnUIThread(new GameOverEvent(gameOver));
             myEvents.getAggregator().PublishOnUIThread(new NextPieceEvent(nextTetremino));
-            myEvents.getAggregator().PublishOnUIThread(new HeldPieceEvent(null));
+            myEvents.getAggregator().PublishOnUIThread(new HeldPieceEvent(heldTetremino));
             myEvents.getAggregator().PublishOnUIThread(new ScoreEvent(score));
             myEvents.getAggregator().PublishOnUIThread(new LevelEvent(level));
             drawTetremino();
 
+        }
+
+        private void pauseGame()
+        {
+            if (gameStarted)
+            {
+                gameStarted = false;
+                eventTimer.Stop();
+                myEvents.getAggregator().PublishOnUIThread(new GamePausedEvent(gameStarted));
+            }
+            else
+            {
+                gameStarted = true;
+                eventTimer.Start();
+                myEvents.getAggregator().PublishOnUIThread(new GamePausedEvent(gameStarted));
+            }
+        }
+
+        private void endGame()
+        {
+            gameOver = true;
+            eventTimer.Stop();
+            myEvents.getAggregator().PublishOnUIThread(new GameOverEvent(gameOver));
         }
 
         private TetreminoModel spawnTetromino()
@@ -170,8 +204,7 @@ namespace Tetris_Elimination.Views
             }
             else
             {
-                gameOver = true;
-                myEvents.getAggregator().PublishOnUIThread(new GameOverEvent(gameOver));
+                endGame();
                 return null;
             }
         }
@@ -253,6 +286,45 @@ namespace Tetris_Elimination.Views
             }
         }
 
+        private void hold()
+        {
+            TetreminoModel temp;
+
+            if (heldTetremino == null && !swappedThisTurn)
+            {
+                clearTetremino();
+                heldTetremino = new TetreminoModel(currentTetremino.getType());
+                currentTetremino = nextTetremino;
+                nextTetremino = spawnTetromino();
+                swappedThisTurn = true;
+                drawTetremino();
+                myEvents.getAggregator().PublishOnUIThread(new NextPieceEvent(nextTetremino));
+                myEvents.getAggregator().PublishOnUIThread(new HeldPieceEvent(heldTetremino));
+            }
+            else
+            {
+                if (moveIsLegal(Move.SPAWN, heldTetremino) && !swappedThisTurn)
+                {
+                    temp = currentTetremino;
+                    clearTetremino();
+                    currentTetremino = new TetreminoModel(heldTetremino.getType());
+                    heldTetremino = new TetreminoModel(temp.getType());
+                    drawTetremino();
+                    swappedThisTurn = true;
+                    myEvents.getAggregator().PublishOnUIThread(new HeldPieceEvent(heldTetremino));
+                }
+            }
+        }
+
+        private void drop()
+        {
+            while(moveIsLegal(Move.DOWN, currentTetremino))
+            {
+                moveDown();
+            }
+            moveDown();
+        }
+
         private Boolean moveIsLegal(Move direction, TetreminoModel checkingTetremino)
         {
             switch(direction)
@@ -328,6 +400,24 @@ namespace Tetris_Elimination.Views
             return true;
         }
 
+        private void clearBoard()
+        {
+            for (int i = 0; i < col; i++)
+            {
+                for (int j = 0; j < row; j++)
+                {
+                    if (i == 0 || i == 11 || j == 0 || j == 21)
+                    {
+                        cell[i, j].Background = border;
+                    }
+                    else
+                    {
+                        cell[i, j].Background = background;
+                    }
+                }
+            }
+        }
+
         private void checkRows()
         {
             int count = 0;
@@ -373,36 +463,6 @@ namespace Tetris_Elimination.Views
             }
         }
 
-        private void holdPeice()
-        {
-            TetreminoModel temp;
-
-            if (heldTetremino == null && !swappedThisTurn)
-            {
-                clearTetremino();
-                heldTetremino    = new TetreminoModel(currentTetremino.getType());
-                currentTetremino = nextTetremino;
-                nextTetremino    = spawnTetromino();
-                swappedThisTurn  = true;
-                drawTetremino();
-                myEvents.getAggregator().PublishOnUIThread(new NextPieceEvent(nextTetremino));
-                myEvents.getAggregator().PublishOnUIThread(new HeldPieceEvent(heldTetremino));
-            }
-            else
-            {
-                if(moveIsLegal(Move.SPAWN, heldTetremino) && !swappedThisTurn)
-                {
-                    temp = currentTetremino;
-                    clearTetremino();
-                    currentTetremino = new TetreminoModel(heldTetremino.getType());
-                    heldTetremino = new TetreminoModel(temp.getType());
-                    drawTetremino();
-                    swappedThisTurn = true;
-                    myEvents.getAggregator().PublishOnUIThread(new HeldPieceEvent(heldTetremino));
-                }
-            }
-        }
-
         private void calculateScore()
         {
             int multiplier = 0;
@@ -442,6 +502,7 @@ namespace Tetris_Elimination.Views
             }
             myEvents.getAggregator().PublishOnUIThread(new LevelEvent(level));
         }
+
         private void calculateInterval()
         {
             if (level <= 8 && level > 1)

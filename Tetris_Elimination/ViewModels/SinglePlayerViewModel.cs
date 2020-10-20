@@ -16,16 +16,17 @@ using static Tetris_Elimination.Models.ConstantsModel;
 
 namespace Tetris_Elimination.ViewModels
 {
-    public class SinglePlayerViewModel : Conductor<Object>.Collection.AllActive, IHandle<GameOverEvent>, IHandle<ScoreEvent>
+    public class SinglePlayerViewModel : Conductor<Object>.Collection.AllActive, IHandle<GameOverEvent>, IHandle<ScoreEvent>, IHandle<GamePausedEvent>
     {
         private MainViewModel mainWindow;
         private BoardViewModel gameWindow;
         private StatisticsViewModel statistics;
-        private Visibility _gameOver;
         private EventAggregatorSingleton myEvents;
         private string _gameOverDialogue;
         private String highScore;
         private String gameScore;
+        private Visibility _gameOver;
+        private Visibility _paused;
         public SinglePlayerViewModel(MainViewModel _mainWindow)
         {
             myEvents = EventAggregatorSingleton.Instance;
@@ -38,6 +39,7 @@ namespace Tetris_Elimination.ViewModels
             ActivateItem(statistics);
             ActivateItem(gameWindow);
             gameOver = Visibility.Hidden;
+            paused = Visibility.Hidden;
             highScore = "N/A";
             gameScore = "0";
         }
@@ -54,6 +56,7 @@ namespace Tetris_Elimination.ViewModels
                 NotifyOfPropertyChange(() => gameOver);
             }
         }
+
         public string gameOverDialogue
         {
             get
@@ -67,12 +70,26 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        public Visibility paused
+        {
+            get
+            {
+                return _paused;
+            }
+            set
+            {
+                _paused = value;
+                NotifyOfPropertyChange(() => paused);
+            }
+        }
+
         public void restart()
         {
+            paused = Visibility.Hidden;
             myEvents.getAggregator().PublishOnUIThread(new NewGameEvent());
         }
 
-        public void LoadMenu()
+        public void loadMenu()
         {
             mainWindow.SetNewView(Screens.MENU);
         }
@@ -81,6 +98,7 @@ namespace Tetris_Elimination.ViewModels
         {
             if(message.get())
             {
+                paused = Visibility.Hidden;
                 gameOver = Visibility.Visible;
                 gameOverDialogue = "Your Score: " + gameScore + "      " + "High Score: N / A";
             }
@@ -89,6 +107,19 @@ namespace Tetris_Elimination.ViewModels
                 gameOver = Visibility.Hidden;
             }
         }
+
+        public void Handle(GamePausedEvent message)
+        {
+            if (!message.get())
+            {
+                paused = Visibility.Visible;
+            }
+            else
+            {
+                paused = Visibility.Hidden;
+            }
+        }
+
         public void Handle(ScoreEvent message)
         {
             gameScore = message.get().ToString();

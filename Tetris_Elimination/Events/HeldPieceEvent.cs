@@ -11,9 +11,9 @@ namespace Tetris_Elimination.Events
     {
         private TetreminoModel _heldPiece;
 
-        public HeldPieceEvent(TetreminoModel heldPeice)
+        public HeldPieceEvent(TetreminoModel heldPiece)
         {
-            this._heldPiece = heldPeice;
+            this._heldPiece = heldPiece;
         }
 
         public TetreminoModel get()

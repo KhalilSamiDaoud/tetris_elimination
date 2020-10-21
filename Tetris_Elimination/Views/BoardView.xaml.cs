@@ -34,6 +34,7 @@ namespace Tetris_Elimination.Views
         private ImageBrush border        =     new ImageBrush();
         private Random rand              =     new Random();
         private Label[,] cell            =     new Label[col, row];
+        private AudioManagerModel audioManager;
         private TetreminoModel currentTetremino;
         private TetreminoModel nextTetremino;
         private TetreminoModel heldTetremino;
@@ -47,6 +48,7 @@ namespace Tetris_Elimination.Views
 
             background.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Background_Tile.png", UriKind.Absolute));
             border.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Border_Tile.png", UriKind.Absolute));
+            audioManager = new AudioManagerModel();
 
             eventTimer = new Timer();
             eventTimer.Elapsed += new ElapsedEventHandler(gameLoop);
@@ -282,6 +284,7 @@ namespace Tetris_Elimination.Views
                     clearTetremino();
                     currentTetremino.move(Move.ROTATE);
                     drawTetremino();
+                    audioManager.playSound(Sound.ROTATE);
                 }
             }
         }
@@ -323,6 +326,7 @@ namespace Tetris_Elimination.Views
                 moveDown();
             }
             moveDown();
+            audioManager.playSound(Sound.DROP);
         }
 
         private Boolean moveIsLegal(Move direction, TetreminoModel checkingTetremino)
@@ -418,7 +422,7 @@ namespace Tetris_Elimination.Views
             }
         }
 
-        private void checkRows()
+        private void checkRows() //row 12 & 15 does not clear?
         {
             int count = 0;
 
@@ -469,20 +473,27 @@ namespace Tetris_Elimination.Views
 
             switch(clearedRows)
             {
-                case int n when (n == 0 || n == 1):
+                case 0:
+                    break;
+                case 1:
                     multiplier = 100;
+                    audioManager.playSound(Sound.CLEARED_ROW);
                     break;
                 case int n when (n == 2 || n == 3):
                     multiplier = 200;
+                    audioManager.playSound(Sound.CLEARED_ROW);
                     break;
                 case 4:
                     multiplier = 500;
+                    audioManager.playSound(Sound.CLEARED_ROW);
                     break;
                 case 5:
                     multiplier = 1000;
+                    audioManager.playSound(Sound.CLEARED_ROW);
                     break;
                 default:
                     multiplier = 1500;
+                    audioManager.playSound(Sound.CLEARED_ROW);
                     break;
             }
 

@@ -32,6 +32,16 @@ namespace Tetris_Elimination.Models
             SPAWN
         }
 
+        public enum Sound
+        {
+            DROP,
+            ROTATE,
+            CLEARED_ROW,
+            TIMER,
+            TIMER_END,
+            INTRO
+        }
+
         public static string CUR_VERSION = "Version: 0.8B";
     }
 }

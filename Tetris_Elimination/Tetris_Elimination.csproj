@@ -78,6 +78,7 @@
     <Compile Include="Events\NewGameEvent.cs" />
     <Compile Include="Events\NextPieceEvent.cs" />
     <Compile Include="Events\ScoreEvent.cs" />
+    <Compile Include="Models\AudioManagerModel.cs" />
     <Compile Include="Models\EventAggregatorSingleton.cs" />
     <Compile Include="Events\GameOverEvent.cs" />
     <Compile Include="Models\TetreminoModel.cs" />
@@ -182,7 +183,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Music\" />
-    <Folder Include="Assets\Sounds\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\Button_Main.png" />
@@ -210,6 +210,14 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\Stats_Window.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\Sounds\ClearedRow.wav" />
+    <Content Include="Assets\Sounds\Drop.wav" />
+    <Content Include="Assets\Sounds\Intro.wav" />
+    <Content Include="Assets\Sounds\Rotate.wav" />
+    <Content Include="Assets\Sounds\Timer.wav" />
+    <Content Include="Assets\Sounds\TimerEnd.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

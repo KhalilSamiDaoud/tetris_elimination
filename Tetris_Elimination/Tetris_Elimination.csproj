@@ -221,12 +221,12 @@
     <Resource Include="Assets\Images\Stats_Window.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Sounds\ClearedRow.wav" />
-    <Content Include="Assets\Sounds\Drop.wav" />
-    <Content Include="Assets\Sounds\Intro.wav" />
-    <Content Include="Assets\Sounds\Rotate.wav" />
-    <Content Include="Assets\Sounds\Timer.wav" />
-    <Content Include="Assets\Sounds\TimerEnd.wav" />
+    <Resource Include="Assets\Sounds\ClearedRow.wav" />
+    <Resource Include="Assets\Sounds\Drop.wav" />
+    <Resource Include="Assets\Sounds\Intro.wav" />
+    <Resource Include="Assets\Sounds\Rotate.wav" />
+    <Resource Include="Assets\Sounds\Timer.wav" />
+    <Resource Include="Assets\Sounds\TimerEnd.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

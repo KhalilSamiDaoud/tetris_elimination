@@ -12,6 +12,7 @@ namespace Tetris_Elimination.Models
         private MediaPlayer rotatePlayer;
         private MediaPlayer timerPlayer;
         private MediaPlayer timerEndPlayer;
+        private MediaPlayer IntroPlayer;
         public AudioManagerModel()
         {
             rotatePlayer = new MediaPlayer();
@@ -19,6 +20,7 @@ namespace Tetris_Elimination.Models
             clearedPlayer = new MediaPlayer();
             timerPlayer = new MediaPlayer();
             timerEndPlayer = new MediaPlayer();
+            IntroPlayer = new MediaPlayer();
         }
 
         public void playSound(Sound sound)
@@ -44,6 +46,10 @@ namespace Tetris_Elimination.Models
                 case Sound.TIMER_END:
                     timerEndPlayer.Open(new Uri("C:/Users/khalil/source/repos/Tetris_Elimination/Tetris_Elimination/Assets/Sounds/TimerEnd.wav", UriKind.Absolute));
                     timerEndPlayer.Play();
+                    break;
+                case Sound.INTRO:
+                    IntroPlayer.Open(new Uri("C:/Users/khalil/source/repos/Tetris_Elimination/Tetris_Elimination/Assets/Sounds/Intro.wav", UriKind.Absolute));
+                    IntroPlayer.Play();
                     break;
                 default:
                     break;

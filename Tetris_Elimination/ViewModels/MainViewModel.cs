@@ -1,20 +1,27 @@
 ﻿using Caliburn.Micro;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using Tetris_Elimination.Views;
+using System.Timers;
 using static Tetris_Elimination.Models.ConstantsModel;
 
 namespace Tetris_Elimination.ViewModels
 {
     public class MainViewModel : Conductor<Object>
     {
+        private Timer eventTimer;
         public MainViewModel()
         {
+            ActivateItem(new IntroViewModel());
+            eventTimer = new Timer();
+            eventTimer.Elapsed += new ElapsedEventHandler(Transition);
+            eventTimer.Interval = 5000;
+            eventTimer.Start();
+        }
+
+        private void Transition(object sender, ElapsedEventArgs e)
+        {
             ActivateItem(new MenuViewModel(this));
+            eventTimer.Stop();
+            eventTimer.Dispose();
         }
 
         public void SetNewView(Screens cmd)

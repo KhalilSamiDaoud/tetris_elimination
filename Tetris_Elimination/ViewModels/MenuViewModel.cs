@@ -1,39 +1,39 @@
 ﻿using Caliburn.Micro;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using Tetris_Elimination.Models;
-using Tetris_Elimination.Views;
 using static Tetris_Elimination.Models.ConstantsModel;
 
 namespace Tetris_Elimination.ViewModels
 {
     public class MenuViewModel : Screen
     {
+        private MainViewModel _main_window;
         private string _Version;
-
-        MainViewModel main_window;
-        public MenuViewModel(MainViewModel _main_window)
+        private AudioManagerModel audioManager;
+        public MenuViewModel(MainViewModel main_window)
         {
-            main_window = _main_window;
+            _main_window = main_window;
             Version = CUR_VERSION;
+            audioManager = new AudioManagerModel();
         }
         public void LoadSinglePlayer()
         {
-            main_window.SetNewView(Screens.SINGLEPLAYER);
+           _main_window.SetNewView(Screens.SINGLEPLAYER);
         }
 
         public void LoadMultiPlayer()
         {
-            main_window.SetNewView(Screens.MULTIPLAYER);
+            _main_window.SetNewView(Screens.MULTIPLAYER);
         }
 
         public void LoadSettings()
         {
-            main_window.SetNewView(Screens.SETTINGS);
+            _main_window.SetNewView(Screens.SETTINGS);
+        }
+
+        public void hoveredOver() // make this work
+        {
+            audioManager.playSound(Sound.TIMER);
+
         }
         public string Version
         {

@@ -86,6 +86,7 @@
     <Compile Include="Models\ITetreminoModel.cs" />
     <Compile Include="Models\ConstantsModel.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
+    <Compile Include="ViewModels\IntroViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\MultiPlayerViewModel.cs" />
@@ -94,6 +95,9 @@
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Compile Include="Views\BoardView.xaml.cs">
       <DependentUpon>BoardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IntroView.xaml.cs">
+      <DependentUpon>IntroView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -148,6 +152,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\BoardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\IntroView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -42,6 +42,6 @@ namespace Tetris_Elimination.Models
             INTRO
         }
 
-        public static string CUR_VERSION = "Version: 0.8B";
+        public static string CUR_VERSION = "Version: 0.9B";
     }
 }

@@ -125,7 +125,11 @@ namespace Tetris_Elimination.Views
 
         public void Handle(NextPieceEvent message)
         {
-            if (message.get() != null)
+            if (message.get() == null)
+            {
+                clearCells(nextCell);
+            }
+            else
             {
                 setNext(message.get());
             }

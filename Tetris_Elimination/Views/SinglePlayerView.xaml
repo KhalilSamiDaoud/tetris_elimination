@@ -91,5 +91,10 @@
             </StackPanel>
         </StackPanel>
 
+        <StackPanel x:Name="countDown" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="5" Visibility="{Binding Path=countDown, Mode=OneWay}">
+            <TextBlock Text="{Binding Path=countDownDialouge, Mode=OneWay}" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20,0,0"
+                       Foreground="White" FontSize="80"/>
+        </StackPanel>
+
     </Grid>
 </UserControl>

@@ -16,21 +16,24 @@ using static Tetris_Elimination.Models.ConstantsModel;
 
 namespace Tetris_Elimination.ViewModels
 {
-    public class SinglePlayerViewModel : Conductor<Object>.Collection.AllActive, IHandle<GameOverEvent>, IHandle<ScoreEvent>, IHandle<GamePausedEvent>
+    public class SinglePlayerViewModel : Conductor<Object>.Collection.AllActive, IHandle<GameOverEvent>, IHandle<ScoreEvent>, IHandle<GamePausedEvent>, IHandle<TickDownEvent>
     {
         private MainViewModel mainWindow;
         private BoardViewModel gameWindow;
         private StatisticsViewModel statistics;
         private EventAggregatorSingleton myEvents;
         private string _gameOverDialogue;
+        private string _countDownDialouge;
         private String highScore;
         private String gameScore;
         private Visibility _gameOver;
         private Visibility _paused;
+        private Visibility _countDown;
         public SinglePlayerViewModel(MainViewModel _mainWindow)
         {
             myEvents = EventAggregatorSingleton.Instance;
             myEvents.getAggregator().Subscribe(this);
+
             mainWindow = _mainWindow;
             statistics = new StatisticsViewModel();
             gameWindow = new BoardViewModel();
@@ -38,23 +41,12 @@ namespace Tetris_Elimination.ViewModels
             this.Items.Add(gameWindow);
             ActivateItem(statistics);
             ActivateItem(gameWindow);
+
             gameOver = Visibility.Hidden;
             paused = Visibility.Hidden;
+            countDown = Visibility.Visible;
             highScore = "N/A";
             gameScore = "0";
-        }
-
-        public Visibility gameOver
-        {
-            get
-            {
-                return _gameOver;
-            }
-            set
-            {
-                _gameOver = value;
-                NotifyOfPropertyChange(() => gameOver);
-            }
         }
 
         public string gameOverDialogue
@@ -70,6 +62,32 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        public string countDownDialouge
+        {
+            get
+            {
+                return _countDownDialouge;
+            }
+            set
+            {
+                _countDownDialouge = value;
+                NotifyOfPropertyChange(() => countDownDialouge);
+            }
+        }
+
+        public Visibility gameOver
+        {
+            get
+            {
+                return _gameOver;
+            }
+            set
+            {
+                _gameOver = value;
+                NotifyOfPropertyChange(() => gameOver);
+            }
+        }
+
         public Visibility paused
         {
             get
@@ -80,6 +98,19 @@ namespace Tetris_Elimination.ViewModels
             {
                 _paused = value;
                 NotifyOfPropertyChange(() => paused);
+            }
+        }
+
+        public Visibility countDown
+        {
+            get
+            {
+                return _countDown;
+            }
+            set
+            {
+                _countDown = value;
+                NotifyOfPropertyChange(() => countDown);
             }
         }
 
@@ -123,6 +154,24 @@ namespace Tetris_Elimination.ViewModels
         public void Handle(ScoreEvent message)
         {
             gameScore = message.get().ToString();
+        }
+
+        public void Handle(TickDownEvent message)
+        {
+            countDown = Visibility.Visible;
+
+            if (message.get() > 0)
+            {
+                countDownDialouge = message.get().ToString();
+            }
+            else if (message.get() == 0)
+            {
+                countDownDialouge = "GO!";
+            }
+            else
+            {
+                countDown = Visibility.Hidden;
+            }
         }
     }
 }

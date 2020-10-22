@@ -78,6 +78,7 @@
     <Compile Include="Events\NewGameEvent.cs" />
     <Compile Include="Events\NextPieceEvent.cs" />
     <Compile Include="Events\ScoreEvent.cs" />
+    <Compile Include="Events\TickDownEvent.cs" />
     <Compile Include="Models\AudioManagerModel.cs" />
     <Compile Include="Models\EventAggregatorSingleton.cs" />
     <Compile Include="Events\GameOverEvent.cs" />

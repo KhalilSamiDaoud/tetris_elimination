@@ -46,6 +46,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -83,7 +84,6 @@
     <Compile Include="Models\EventAggregatorSingleton.cs" />
     <Compile Include="Events\GameOverEvent.cs" />
     <Compile Include="Models\TetreminoModel.cs" />
-    <Compile Include="Models\ITetreminoModel.cs" />
     <Compile Include="Models\ConstantsModel.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
     <Compile Include="ViewModels\IntroViewModel.cs" />

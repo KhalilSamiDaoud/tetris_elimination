@@ -8,7 +8,7 @@ using static Tetris_Elimination.Models.ConstantsModel;
 
 namespace Tetris_Elimination.Models
 {
-    public class TetreminoModel : ITetreminoModel
+    public class TetreminoModel
     {
         private ImageBrush image = new ImageBrush();
         private Point position;

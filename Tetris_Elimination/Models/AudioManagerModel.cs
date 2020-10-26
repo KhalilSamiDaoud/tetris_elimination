@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using System.Windows.Media;
 using static Tetris_Elimination.Models.ConstantsModel;
 
@@ -13,6 +15,7 @@ namespace Tetris_Elimination.Models
         private MediaPlayer timerPlayer;
         private MediaPlayer timerEndPlayer;
         private MediaPlayer IntroPlayer;
+        string audioFilePath;
         public AudioManagerModel()
         {
             rotatePlayer = new MediaPlayer();
@@ -21,6 +24,9 @@ namespace Tetris_Elimination.Models
             timerPlayer = new MediaPlayer();
             timerEndPlayer = new MediaPlayer();
             IntroPlayer = new MediaPlayer();
+
+            //Media Player does not support "pack" as a starting URI, so get the pack URI manually
+            audioFilePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "../../Assets/Sounds/");
         }
 
         public void playSound(Sound sound)
@@ -28,27 +34,27 @@ namespace Tetris_Elimination.Models
             switch(sound)
             {
                 case Sound.ROTATE:
-                    rotatePlayer.Open(new Uri("C:/Users/khalil/source/repos/Tetris_Elimination/Tetris_Elimination/Assets/Sounds/Rotate.wav", UriKind.Absolute));
+                    rotatePlayer.Open(new Uri(audioFilePath + "Rotate.wav"));
                     rotatePlayer.Play();
                     break;
                 case Sound.DROP:
-                    dropPlayer.Open(new Uri("C:/Users/khalil/source/repos/Tetris_Elimination/Tetris_Elimination/Assets/Sounds/Drop.wav", UriKind.Absolute));
+                    dropPlayer.Open(new Uri (audioFilePath + "Drop.wav"));
                     dropPlayer.Play();
                     break;
                 case Sound.CLEARED_ROW:
-                    clearedPlayer.Open(new Uri("C:/Users/khalil/source/repos/Tetris_Elimination/Tetris_Elimination/Assets/Sounds/ClearedRow.wav", UriKind.Absolute));
+                    clearedPlayer.Open(new Uri(audioFilePath + "ClearedRow.wav"));
                     clearedPlayer.Play();
                     break;
                 case Sound.TIMER:
-                    timerPlayer.Open(new Uri("C:/Users/khalil/source/repos/Tetris_Elimination/Tetris_Elimination/Assets/Sounds/Timer.wav", UriKind.Absolute));
+                    timerPlayer.Open(new Uri(audioFilePath + "Timer.wav"));
                     timerPlayer.Play();
                     break;
                 case Sound.TIMER_END:
-                    timerEndPlayer.Open(new Uri("C:/Users/khalil/source/repos/Tetris_Elimination/Tetris_Elimination/Assets/Sounds/TimerEnd.wav", UriKind.Absolute));
+                    timerEndPlayer.Open(new Uri(audioFilePath +  "TimerEnd.wav"));
                     timerEndPlayer.Play();
                     break;
                 case Sound.INTRO:
-                    IntroPlayer.Open(new Uri("C:/Users/khalil/source/repos/Tetris_Elimination/Tetris_Elimination/Assets/Sounds/Intro.wav", UriKind.Absolute));
+                    IntroPlayer.Open(new Uri(audioFilePath + "Intro.wav"));
                     IntroPlayer.Play();
                     break;
                 default:

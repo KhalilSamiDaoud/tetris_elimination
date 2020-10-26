@@ -6,12 +6,13 @@ using static Tetris_Elimination.Models.ConstantsModel;
 
 namespace Tetris_Elimination.ViewModels
 {
-    public class IntroViewModel: Screen
+    public class IntroViewModel : Screen
     {
         private String _title;
         private String _logoURL;
         private Timer eventTimer;
         private AudioManagerModel audioManager;
+
 
         public IntroViewModel()
         {
@@ -22,8 +23,8 @@ namespace Tetris_Elimination.ViewModels
             eventTimer.Interval = 2000;
             eventTimer.Start();
 
-            Title = "- A Game :O -";
-            LogoURL = "C:/Users/khalil/source/repos/Tetris_Elimination/Tetris_Elimination/Assets/Images/Blue_Bottle.png";
+            Title = "- A Game :P -";
+            LogoURL = "pack://application:,,,/Assets/Images/Blue_Bottle.png";
         }
 
         private void Intro(object sender, ElapsedEventArgs e)
@@ -35,6 +36,7 @@ namespace Tetris_Elimination.ViewModels
                 eventTimer.Dispose();
             });
         }
+
         public String Title
         {
             get

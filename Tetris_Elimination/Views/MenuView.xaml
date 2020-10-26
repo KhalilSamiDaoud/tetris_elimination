@@ -58,7 +58,7 @@
         </Button>
         <!-- Row 6  -->
         <Button x:Name="LoadSettings" Grid.Column="2" Grid.Row="
-                7" Width="400" Height="50" IsEnabled="False">
+                7" Width="400" Height="50">
             <Button.Background>
                 <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Button_Main.png" />
             </Button.Background>

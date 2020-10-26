@@ -120,9 +120,15 @@ namespace Tetris_Elimination.ViewModels
         {
             if(message.get())
             {
+                if (Int32.Parse(gameScore) > Properties.Settings.Default.highScore)
+                {
+                    Properties.Settings.Default.highScore = Int32.Parse(gameScore);
+                    Properties.Settings.Default.Save();
+                }
+
                 paused = Visibility.Hidden;
                 gameOver = Visibility.Visible;
-                gameOverDialogue = "Your Score: " + gameScore + "      " + "High Score: N / A";
+                gameOverDialogue = "Your Score: " + gameScore + "      " + "High Score: " + Properties.Settings.Default.highScore;
             }
             else
             {

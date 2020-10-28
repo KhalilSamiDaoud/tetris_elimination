@@ -15,7 +15,6 @@ namespace Tetris_Elimination.ViewModels
         private EventAggregatorSingleton myEvents;
         private string _gameOverDialogue;
         private string _countDownDialouge;
-        private String highScore;
         private String gameScore;
         private Visibility _gameOver;
         private Visibility _paused;
@@ -36,7 +35,6 @@ namespace Tetris_Elimination.ViewModels
             gameOver = Visibility.Hidden;
             paused = Visibility.Hidden;
             countDown = Visibility.Visible;
-            highScore = "N/A";
             gameScore = "0";
         }
 

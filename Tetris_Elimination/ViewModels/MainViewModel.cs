@@ -9,10 +9,9 @@ namespace Tetris_Elimination.ViewModels
     public class MainViewModel : Conductor<Object>
     {
         private Timer eventTimer;
-        private AudioManagerModel audioManager;
+
         public MainViewModel()
         {
-            audioManager         = new AudioManagerModel();
             eventTimer           = new Timer();
             eventTimer.Elapsed  += new ElapsedEventHandler(Transition);
             eventTimer.Interval  = 5000;
@@ -25,7 +24,6 @@ namespace Tetris_Elimination.ViewModels
             eventTimer.Stop();
             eventTimer.Dispose();
             ActivateItem(new MenuViewModel(this));
-            OnUIThread(audioManager.playTheme);
         }
 
         public void SetNewView(Screens cmd)

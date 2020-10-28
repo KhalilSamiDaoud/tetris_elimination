@@ -4,11 +4,12 @@ using System.Reflection;
 using System.Timers;
 using System.Windows.Media;
 using Caliburn.Micro;
+using System.Collections.Generic;
 using static Tetris_Elimination.Models.ConstantsModel;
 
 namespace Tetris_Elimination.Models
 {
-    public class AudioManagerModel : Conductor<Object>
+    public sealed class AudioManagerModel : Conductor<Object>
     {
         private MediaPlayer audioLoop;
         private MediaPlayer dropPlayer;
@@ -23,7 +24,10 @@ namespace Tetris_Elimination.Models
         double userMusicVol;
         Timer eventTimer;
 
-        public AudioManagerModel()
+        private static AudioManagerModel instance = null;
+        private static readonly object padlock = new object();
+
+        private AudioManagerModel()
         {
             rotatePlayer    = new MediaPlayer();
             dropPlayer      = new MediaPlayer();
@@ -38,6 +42,21 @@ namespace Tetris_Elimination.Models
             musicFilePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "../../Assets/Music/");
 
             setVolume();
+        }
+
+        public static AudioManagerModel Instance
+        {
+            get
+            {
+                lock (padlock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new AudioManagerModel();
+                    }
+                    return instance;
+                }
+            }
         }
 
         private void LoopAgain(object sender, EventArgs e)
@@ -114,14 +133,33 @@ namespace Tetris_Elimination.Models
         public void playTheme()
         {
             audioLoop.Open(new Uri(musicFilePath + "Tetris_theme.mp3"));
-            audioLoop.Volume      = 0;
-            audioLoop.Play();
+            audioLoop.Volume      = userMusicVol;
             audioLoop.MediaEnded += new EventHandler(LoopAgain);
+            audioLoop.Play();
+        }
+
+        public void playFadeInTheme()
+        {
+            audioLoop.Open(new Uri(musicFilePath + "Tetris_theme.mp3"));
+            audioLoop.Volume      = 0;
+            audioLoop.MediaEnded += new EventHandler(LoopAgain);
+            audioLoop.Play();
 
             eventTimer            = new Timer();
             eventTimer.Elapsed   += new ElapsedEventHandler(FadeIn);
             eventTimer.Interval   = 20;
             eventTimer.Start();
         }
+
+        public void PauseTheme()
+        {
+            audioLoop.Pause();
+        }
+
+        public void UnpauseTheme()
+        {
+            audioLoop.Play();
+        }
+
     }
 }

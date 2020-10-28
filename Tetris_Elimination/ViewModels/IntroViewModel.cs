@@ -11,19 +11,16 @@ namespace Tetris_Elimination.ViewModels
         private String _title;
         private String _logoURL;
         private Timer eventTimer;
-        private AudioManagerModel audioManager;
-
+        private AudioManagerModel audioManager = AudioManagerModel.Instance;
 
         public IntroViewModel()
         {
-            audioManager = new AudioManagerModel();
-
             eventTimer = new Timer();
             eventTimer.Elapsed += new ElapsedEventHandler(Intro);
             eventTimer.Interval = 2000;
             eventTimer.Start();
 
-            Title = "- A Game :P -";
+            Title = "- A Bit Bottle Game -";
             LogoURL = "pack://application:,,,/Assets/Images/Blue_Bottle.png";
         }
 

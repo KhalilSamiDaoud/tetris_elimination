@@ -35,9 +35,9 @@ namespace Tetris_Elimination.Views
         private ImageBrush border                   =     new ImageBrush();
         private Random rand                         =     new Random();
         private Label[,] cell                       =     new Label[col, row];
-        private AudioManagerModel audioManager      =     new AudioManagerModel();
         private static Timer eventTimer             =     new Timer();
         private EventAggregatorSingleton myEvents   =     EventAggregatorSingleton.Instance;
+        private AudioManagerModel audioManager      =     AudioManagerModel.Instance;
         private TetreminoModel currentTetremino;
         private TetreminoModel nextTetremino;
         private TetreminoModel heldTetremino;
@@ -45,6 +45,7 @@ namespace Tetris_Elimination.Views
         public BoardView()
         {
             myEvents.getAggregator().Subscribe(this);
+            audioManager.PauseTheme();
 
             background.ImageSource       =   new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Background_Tile.png", UriKind.Absolute));
             border.ImageSource           =   new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Border_Tile.png", UriKind.Absolute));
@@ -118,7 +119,9 @@ namespace Tetris_Elimination.Views
                 }
                 else if (countDown >= 0) 
                 {
+
                     countDown--;
+
                     if (countDown == -1)
                     {
                         myEvents.getAggregator().PublishOnUIThread(new TickDownEvent(countDown));
@@ -178,6 +181,7 @@ namespace Tetris_Elimination.Views
             myEvents.getAggregator().PublishOnUIThread(new ScoreEvent(score));
             myEvents.getAggregator().PublishOnUIThread(new LevelEvent(level));
             drawTetremino();
+            audioManager.playTheme();
         }
 
         private void resetGame()
@@ -196,7 +200,7 @@ namespace Tetris_Elimination.Views
             myEvents.getAggregator().PublishOnUIThread(new ScoreEvent(score));
             myEvents.getAggregator().PublishOnUIThread(new LevelEvent(level));
             eventTimer.Start();
-
+            audioManager.PauseTheme();
         }
 
         private void pauseGame()
@@ -205,12 +209,14 @@ namespace Tetris_Elimination.Views
             {
                 gameStarted = false;
                 eventTimer.Stop();
+                audioManager.PauseTheme();
                 myEvents.getAggregator().PublishOnUIThread(new GamePausedEvent(gameStarted));
             }
             else
             {
                 gameStarted = true;
                 eventTimer.Start();
+                audioManager.UnpauseTheme();
                 myEvents.getAggregator().PublishOnUIThread(new GamePausedEvent(gameStarted));
             }
         }

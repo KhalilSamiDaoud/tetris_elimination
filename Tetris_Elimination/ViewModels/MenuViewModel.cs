@@ -9,11 +9,14 @@ namespace Tetris_Elimination.ViewModels
         private MainViewModel _mainWindow;
         private string _version;
         private string _userName;
+        private AudioManagerModel audioManager = AudioManagerModel.Instance;
         public MenuViewModel(MainViewModel mainWindow)
         {
             _mainWindow   = mainWindow;
             Version       = Properties.Settings.Default.Version;
             UserName      = Properties.Settings.Default.Name;
+
+            OnUIThread(audioManager.playFadeInTheme);
         }
         public void LoadSinglePlayer()
         {

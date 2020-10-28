@@ -142,5 +142,29 @@ namespace Tetris_Elimination.Properties {
                 this["Version"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.05")]
+        public double MusicVol {
+            get {
+                return ((double)(this["MusicVol"]));
+            }
+            set {
+                this["MusicVol"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.1")]
+        public double EffectsVol {
+            get {
+                return ((double)(this["EffectsVol"]));
+            }
+            set {
+                this["EffectsVol"] = value;
+            }
+        }
     }
 }

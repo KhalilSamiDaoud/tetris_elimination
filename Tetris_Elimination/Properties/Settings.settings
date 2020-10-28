@@ -32,5 +32,11 @@
     <Setting Name="Version" Type="System.String" Scope="User">
       <Value Profile="(Default)">Version: 1.1a</Value>
     </Setting>
+    <Setting Name="MusicVol" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0.05</Value>
+    </Setting>
+    <Setting Name="EffectsVol" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0.1</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

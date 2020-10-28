@@ -19,41 +19,38 @@ namespace Tetris_Elimination.Views
     /// </summary>
     public partial class BoardView : UserControl, IHandle<NewGameEvent>
     {
-        private const int row            =     22;
-        private const int col            =     12;
-        private bool gameOver            =     false;
-        private bool gameStarted         =     false;
-        private bool swappedThisTurn     =     false;
-        private int interval             =     1000;
-        private int level                =     1;
-        private int clearedRows          =     0;
-        private int score                =     0;
-        private int levelThreshhold      =     500;
-        private int countDown            =     4;
-        private Array tetreminoTypes     =     Enum.GetValues(typeof(Tetremino));
-        private ImageBrush background    =     new ImageBrush();
-        private ImageBrush border        =     new ImageBrush();
-        private Random rand              =     new Random();
-        private Label[,] cell            =     new Label[col, row];
+        private const int row                       =     22;
+        private const int col                       =     12;
+        private bool gameOver                       =     false;
+        private bool gameStarted                    =     false;
+        private bool swappedThisTurn                =     false;
+        private int interval                        =     1000;
+        private int level                           =     1;
+        private int clearedRows                     =     0;
+        private int score                           =     0;
+        private int levelThreshhold                 =     500;
+        private int countDown                       =     4;
+        private Array tetreminoTypes                =     Enum.GetValues(typeof(Tetremino));
+        private ImageBrush background               =     new ImageBrush();
+        private ImageBrush border                   =     new ImageBrush();
+        private Random rand                         =     new Random();
+        private Label[,] cell                       =     new Label[col, row];
+        private AudioManagerModel audioManager      =     new AudioManagerModel();
+        private static Timer eventTimer             =     new Timer();
+        private EventAggregatorSingleton myEvents   =     EventAggregatorSingleton.Instance;
         private TetreminoModel currentTetremino;
         private TetreminoModel nextTetremino;
         private TetreminoModel heldTetremino;
-        private AudioManagerModel audioManager;
-        private EventAggregatorSingleton myEvents;
-        private static Timer eventTimer;
 
         public BoardView()
         {
-            myEvents = EventAggregatorSingleton.Instance;
             myEvents.getAggregator().Subscribe(this);
 
-            background.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Background_Tile.png", UriKind.Absolute));
-            border.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Border_Tile.png", UriKind.Absolute));
-            audioManager = new AudioManagerModel();
+            background.ImageSource       =   new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Background_Tile.png", UriKind.Absolute));
+            border.ImageSource           =   new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Border_Tile.png", UriKind.Absolute));
 
-            eventTimer = new Timer();
-            eventTimer.Elapsed += new ElapsedEventHandler(gameLoop);
-            eventTimer.Interval = interval;
+            eventTimer.Elapsed          +=   new ElapsedEventHandler(gameLoop);
+            eventTimer.Interval          =   interval;
             eventTimer.Start();
 
             InitializeComponent();
@@ -62,50 +59,50 @@ namespace Tetris_Elimination.Views
 
         private void BoardView_Loaded(object sender, RoutedEventArgs e)
         {
-            var window = Window.GetWindow(this);
-            window.KeyDown += BoardView_KeyDown;
+            var window         = Window.GetWindow(this);
+            window.KeyDown    += BoardView_KeyDown;
         }
 
         private void BoardView_KeyDown(object sender, KeyEventArgs e)
         {
+            int keyPressed = (int)e.Key;
+
             if (gameStarted && !gameOver && countDown < 0)
             {
-                switch (e.Key)
+                if (keyPressed == Properties.Settings.Default.Down)
                 {
-                    case Key.Down:
-                        moveDown();
-                        break;
-                    case Key.Right:
-                        moveRight();
-                        break;
-                    case Key.Left:
-                        moveLeft();
-                        break;
-                    case Key.Up:
-                        Rotate();
-                        break;
-                    case Key.C:
-                        hold();
-                        break;
-                    case Key.Space:
-                        drop();
-                        break;
-                    case Key.P:
-                        pauseGame();
-                        break;
-                    default:
-                        break;
+                    moveDown();
+                }
+                else if (keyPressed == Properties.Settings.Default.Right)
+                {
+                    moveRight();
+                }
+                else if (keyPressed == Properties.Settings.Default.Left)
+                {
+                    moveLeft();
+                }
+                else if (keyPressed == Properties.Settings.Default.Hold)
+                {
+                    hold();
+                }
+                else if (keyPressed == Properties.Settings.Default.Drop)
+                {
+                    drop();
+                }
+                else if (keyPressed == Properties.Settings.Default.Rotate)
+                {
+                    Rotate();
+                }
+                else if (keyPressed == Properties.Settings.Default.Pause)
+                {
+                    pauseGame();
                 }
             }
             else if (!gameStarted && !gameOver)
             {
-                switch (e.Key)
+                if (keyPressed == Properties.Settings.Default.Pause)
                 {
-                    case Key.P:
-                        pauseGame();
-                        break;
-                    default:
-                        break;
+                    pauseGame();
                 }
             }
         }

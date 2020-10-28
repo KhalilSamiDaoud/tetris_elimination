@@ -41,7 +41,5 @@ namespace Tetris_Elimination.Models
             TIMER_END,
             INTRO
         }
-
-        public static string CUR_VERSION = "Version: 0.9B";
     }
 }

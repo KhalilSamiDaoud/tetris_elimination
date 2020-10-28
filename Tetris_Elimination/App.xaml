@@ -18,6 +18,11 @@
                         <Setter Property="FontWeight" Value="DemiBold" />
                     </Style>
 
+                    <Style TargetType="TextBox">
+                        <Setter Property="FontFamily" Value="/Tetris_Elimination;component/Assets/Fonts/#Old School Adventures" />
+                        <Setter Property="FontWeight" Value="DemiBold" />
+                    </Style>
+
                     <local:Bootstrapper x:Key="Bootstrapper">
                     </local:Bootstrapper>
                     

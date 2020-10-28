@@ -190,14 +190,9 @@
   <ItemGroup>
     <Resource Include="Assets\icon.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\Music\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Assets\Images\Button_Main.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\Background.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\Banner_Black.png" />
@@ -227,6 +222,18 @@
     <Resource Include="Assets\Sounds\Rotate.wav" />
     <Resource Include="Assets\Sounds\Timer.wav" />
     <Resource Include="Assets\Sounds\TimerEnd.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Entry_Main.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Background_Settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\Music\Tetris_theme.mp3" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

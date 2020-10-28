@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using System;
 using System.Timers;
+using Tetris_Elimination.Models;
 using static Tetris_Elimination.Models.ConstantsModel;
 
 namespace Tetris_Elimination.ViewModels
@@ -8,20 +9,23 @@ namespace Tetris_Elimination.ViewModels
     public class MainViewModel : Conductor<Object>
     {
         private Timer eventTimer;
+        private AudioManagerModel audioManager;
         public MainViewModel()
         {
-            ActivateItem(new IntroViewModel());
-            eventTimer = new Timer();
-            eventTimer.Elapsed += new ElapsedEventHandler(Transition);
-            eventTimer.Interval = 5000;
+            audioManager         = new AudioManagerModel();
+            eventTimer           = new Timer();
+            eventTimer.Elapsed  += new ElapsedEventHandler(Transition);
+            eventTimer.Interval  = 5000;
             eventTimer.Start();
+            ActivateItem(new IntroViewModel());
         }
 
         private void Transition(object sender, ElapsedEventArgs e)
         {
-            ActivateItem(new MenuViewModel(this));
             eventTimer.Stop();
             eventTimer.Dispose();
+            ActivateItem(new MenuViewModel(this));
+            OnUIThread(audioManager.playTheme);
         }
 
         public void SetNewView(Screens cmd)

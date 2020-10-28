@@ -16,17 +16,26 @@ namespace Tetris_Elimination.Models
         private MediaPlayer timerEndPlayer;
         private MediaPlayer IntroPlayer;
         string audioFilePath;
+        string musicFilePath;
         public AudioManagerModel()
         {
-            rotatePlayer = new MediaPlayer();
-            dropPlayer = new MediaPlayer();
-            clearedPlayer = new MediaPlayer();
-            timerPlayer = new MediaPlayer();
-            timerEndPlayer = new MediaPlayer();
-            IntroPlayer = new MediaPlayer();
+            rotatePlayer    = new MediaPlayer();
+            dropPlayer      = new MediaPlayer();
+            clearedPlayer   = new MediaPlayer();
+            timerPlayer     = new MediaPlayer();
+            timerEndPlayer  = new MediaPlayer();
+            IntroPlayer     = new MediaPlayer();
+            audioLoop       = new MediaPlayer();
 
             //Media Player does not support "pack" as a starting URI, so get the pack URI manually
             audioFilePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "../../Assets/Sounds/");
+            musicFilePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "../../Assets/Music/");
+        }
+
+        private void LoopAgain(object sender, EventArgs e)
+        {
+            audioLoop.Position = TimeSpan.Zero;
+            audioLoop.Play();
         }
 
         public void playSound(Sound sound)
@@ -60,6 +69,13 @@ namespace Tetris_Elimination.Models
                 default:
                     break;
             }
+        }
+
+        public void playTheme()
+        {
+            audioLoop.Open(new Uri(musicFilePath + "Tetris_theme.mp3"));
+            audioLoop.Play();
+            audioLoop.MediaEnded += new EventHandler(LoopAgain);
         }
     }
 }

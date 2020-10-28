@@ -6,44 +6,53 @@ namespace Tetris_Elimination.ViewModels
 {
     public class MenuViewModel : Screen
     {
-        private MainViewModel _main_window;
-        private string _Version;
-        private AudioManagerModel audioManager;
-        public MenuViewModel(MainViewModel main_window)
+        private MainViewModel _mainWindow;
+        private string _version;
+        private string _userName;
+        public MenuViewModel(MainViewModel mainWindow)
         {
-            _main_window = main_window;
-            Version = CUR_VERSION;
-            audioManager = new AudioManagerModel();
+            _mainWindow   = mainWindow;
+            Version       = Properties.Settings.Default.Version;
+            UserName      = Properties.Settings.Default.Name;
         }
         public void LoadSinglePlayer()
         {
-           _main_window.SetNewView(Screens.SINGLEPLAYER);
+            _mainWindow.SetNewView(Screens.SINGLEPLAYER);
         }
 
         public void LoadMultiPlayer()
         {
-            _main_window.SetNewView(Screens.MULTIPLAYER);
+            _mainWindow.SetNewView(Screens.MULTIPLAYER);
         }
 
         public void LoadSettings()
         {
-            _main_window.SetNewView(Screens.SETTINGS);
+            _mainWindow.SetNewView(Screens.SETTINGS);
         }
 
-        public void hoveredOver() // make this work
-        {
-            audioManager.playSound(Sound.TIMER);
-
-        }
         public string Version
         {
             get
             {
-                return _Version;
+                return _version;
             }
-            set {
-                _Version = value;
+            set 
+            {
+                _version = value;
                 NotifyOfPropertyChange(() => Version);
+            }
+        }
+
+        public string UserName
+        {
+            get
+            {
+                return _userName;
+            }
+            set
+            {
+                _userName = "Welcome, " + value;
+                NotifyOfPropertyChange(() => UserName);
             }
         }
     }

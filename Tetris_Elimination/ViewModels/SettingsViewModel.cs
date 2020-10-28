@@ -16,8 +16,9 @@ namespace Tetris_Elimination.ViewModels
             main_window = _main_window;
         }
 
-        public void LoadMenu()
+        public void SaveAndExit()
         {
+            Properties.Settings.Default.Save();
             main_window.SetNewView(Screens.MENU);
         }
     }

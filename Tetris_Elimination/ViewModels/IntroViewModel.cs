@@ -20,7 +20,7 @@ namespace Tetris_Elimination.ViewModels
             eventTimer.Interval = 2000;
             eventTimer.Start();
 
-            Title = "- A Bit Bottle Game -";
+            Title = "- A Game -";
             LogoURL = "pack://application:,,,/Assets/Images/Blue_Bottle.png";
         }
 

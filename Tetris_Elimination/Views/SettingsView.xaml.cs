@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Controls.Primitives;
+using Tetris_Elimination.Models;
+using static Tetris_Elimination.Models.ConstantsModel;
 
 namespace Tetris_Elimination.Views
 {
@@ -20,9 +11,18 @@ namespace Tetris_Elimination.Views
     /// </summary>
     public partial class SettingsView : UserControl
     {
+
+        private AudioManagerModel audioManager;
+
         public SettingsView()
         {
+            audioManager = AudioManagerModel.Instance;
             InitializeComponent();
+        }
+
+        private void EffectsBlip(object sender, DragCompletedEventArgs e)
+        {
+            audioManager.playSound(Sound.TIMER_END);
         }
     }
 }

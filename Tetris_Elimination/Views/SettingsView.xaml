@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:cal="http://www.caliburnproject.org" 
              mc:Ignorable="d" 
              d:DesignHeight="900" 
              d:DesignWidth="1000">
@@ -52,8 +51,8 @@
 
             <TextBlock Text="DISPLAY NAME"  Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" 
                        FontSize="20"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-            <TextBox Height="50" Width="300" Text="Username" Foreground="White" HorizontalContentAlignment="Center"
-                     VerticalContentAlignment="Center" FontSize="20" MaxLength="10">
+            <TextBox x:Name="UserName" Height="50" Width="300" Text="{Binding Path=UserName, Mode=TwoWay}" Foreground="White" 
+                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" MaxLength="10">
                 <TextBox.Background>
                     <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Entry_Main.png" />
                 </TextBox.Background>
@@ -70,15 +69,16 @@
                 <StackPanel Orientation="Vertical" Margin="0,20,50,0">
                     <TextBlock Text="MUSIC VOLUME" FontSize="12"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10" />
 
-                    <Slider Width="300" Height="30"/>
+                    <Slider  x:Name="MusicVolume" Width="300" Height="30" Value="{Binding Path=MusicVolume, Mode=TwoWay}" Minimum="0" 
+                             Focusable="False" LargeChange="0" Maximum=".5" SmallChange=".01"/>
 
                 </StackPanel>
 
                 <StackPanel Orientation="Vertical" Margin="0,20,0,0">
                     <TextBlock Text="EFFECTS VOLUME" FontSize="12"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10" />
 
-                    <Slider Width="300" Height="30"/>
-
+                    <Slider  x:Name="EffectsVolume" Width="300" Height="30" Value="{Binding Path=EffectsVolume, Mode=TwoWay}" Minimum="0" Maximum=".5" SmallChange=".01"
+                             Focusable="False" LargeChange="0" Thumb.DragCompleted="EffectsBlip" />
                 </StackPanel>
             </StackPanel>
         </StackPanel>
@@ -166,12 +166,12 @@
             </StackPanel>
         </StackPanel>
 
-        <Button x:Name="SaveAndExit" Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2"
+            <Button x:Name="SaveAndExit" Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2"
                 Width="300" Height="50" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-            <Button.Background>
-                <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Button_Main.png" />
-            </Button.Background>
-            <Label HorizontalAlignment="Center" VerticalAlignment="Center">SAVE AND EXIT</Label>
-        </Button>
+                <Button.Background>
+                    <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Button_Main.png" />
+                </Button.Background>
+                <Label HorizontalAlignment="Center" VerticalAlignment="Center">SAVE AND EXIT</Label>
+            </Button>
     </Grid>
 </UserControl>

@@ -36,7 +36,7 @@ namespace Tetris_Elimination.Views
         private Random rand                         =     new Random();
         private Label[,] cell                       =     new Label[col, row];
         private static Timer eventTimer             =     new Timer();
-        private EventAggregatorSingleton myEvents   =     EventAggregatorSingleton.Instance;
+        private EventAggregatorModel myEvents       =     EventAggregatorModel.Instance;
         private AudioManagerModel audioManager      =     AudioManagerModel.Instance;
         private TetreminoModel currentTetremino;
         private TetreminoModel nextTetremino;

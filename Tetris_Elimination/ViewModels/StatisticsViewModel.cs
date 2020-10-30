@@ -13,10 +13,10 @@ namespace Tetris_Elimination.ViewModels
     {
         private int _dispScore;
         private int _dispLevel;
-        private EventAggregatorSingleton myEvents;
+        private EventAggregatorModel myEvents;
         public StatisticsViewModel()
         {
-            myEvents = EventAggregatorSingleton.Instance;
+            myEvents = EventAggregatorModel.Instance;
             myEvents.getAggregator().Subscribe(this);
             dispScore = 0;
             dispLevel = 1;

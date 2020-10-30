@@ -2,15 +2,15 @@
 
 namespace Tetris_Elimination.Models
 {
-    public sealed class EventAggregatorSingleton
+    public sealed class EventAggregatorModel
     {
-        private static EventAggregatorSingleton instance = null;
+        private static EventAggregatorModel instance = null;
         private static readonly object padlock = new object();
         private readonly EventAggregator globalAggregator = new EventAggregator();
-        private EventAggregatorSingleton()
+        private EventAggregatorModel()
         {
         }
-        public static EventAggregatorSingleton Instance
+        public static EventAggregatorModel Instance
         {
             get
             {
@@ -18,7 +18,7 @@ namespace Tetris_Elimination.Models
                 {
                     if (instance == null)
                     {
-                        instance = new EventAggregatorSingleton();
+                        instance = new EventAggregatorModel();
                     }
                     return instance;
                 }

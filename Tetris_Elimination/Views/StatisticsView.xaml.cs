@@ -29,10 +29,10 @@ namespace Tetris_Elimination.Views
         private Brush empty          = Brushes.Transparent;
         private Label[,] heldCell    = new Label[col, row];
         private Label[,] nextCell    = new Label[col, row];
-        private EventAggregatorSingleton myEvents;
+        private EventAggregatorModel myEvents;
         public StatisticsView()
         {
-            myEvents = EventAggregatorSingleton.Instance;
+            myEvents = EventAggregatorModel.Instance;
             myEvents.getAggregator().Subscribe(this);
             InitializeComponent();
             initializeBoards();

@@ -4,7 +4,6 @@ using System.Reflection;
 using System.Timers;
 using System.Windows.Media;
 using Caliburn.Micro;
-using System.Collections.Generic;
 using static Tetris_Elimination.Models.ConstantsModel;
 
 namespace Tetris_Elimination.Models
@@ -20,7 +19,7 @@ namespace Tetris_Elimination.Models
         private MediaPlayer introPlayer;
         string audioFilePath;
         string musicFilePath;
-        double userSoundVol;
+        double userEffectsVol;
         double userMusicVol;
         Timer eventTimer;
 
@@ -41,7 +40,7 @@ namespace Tetris_Elimination.Models
             audioFilePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "../../Assets/Sounds/");
             musicFilePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "../../Assets/Music/");
 
-            setVolume();
+            setVolume(Properties.Settings.Default.EffectsVol, Properties.Settings.Default.MusicVol);
         }
 
         public static AudioManagerModel Instance
@@ -85,10 +84,12 @@ namespace Tetris_Elimination.Models
             });
         }
 
-        public void setVolume()
+        public void setVolume(double effects, double music)
         {
-            userSoundVol = Properties.Settings.Default.EffectsVol;
-            userMusicVol = Properties.Settings.Default.MusicVol;
+            userEffectsVol = effects;
+            userMusicVol = music;
+
+            audioLoop.Volume = userMusicVol;
         }
 
         public void playSound(Sound sound)
@@ -97,32 +98,32 @@ namespace Tetris_Elimination.Models
             {
                 case Sound.ROTATE:
                     rotatePlayer.Open(new Uri(audioFilePath + "Rotate.wav"));
-                    rotatePlayer.Volume = userSoundVol;
+                    rotatePlayer.Volume = userEffectsVol;
                     rotatePlayer.Play();
                     break;
                 case Sound.DROP:
                     dropPlayer.Open(new Uri (audioFilePath + "Drop.wav"));
-                    dropPlayer.Volume = userSoundVol;
+                    dropPlayer.Volume = userEffectsVol;
                     dropPlayer.Play();
                     break;
                 case Sound.CLEARED_ROW:
                     clearedPlayer.Open(new Uri(audioFilePath + "ClearedRow.wav"));
-                    clearedPlayer.Volume = userSoundVol;
+                    clearedPlayer.Volume = userEffectsVol;
                     clearedPlayer.Play();
                     break;
                 case Sound.TIMER:
                     timerPlayer.Open(new Uri(audioFilePath + "Timer.wav"));
-                    timerPlayer.Volume = userSoundVol;
+                    timerPlayer.Volume = userEffectsVol;
                     timerPlayer.Play();
                     break;
                 case Sound.TIMER_END:
                     timerEndPlayer.Open(new Uri(audioFilePath +  "TimerEnd.wav"));
-                    timerEndPlayer.Volume = userSoundVol;
+                    timerEndPlayer.Volume = userEffectsVol;
                     timerEndPlayer.Play();
                     break;
                 case Sound.INTRO:
                     introPlayer.Open(new Uri(audioFilePath + "Intro.wav"));
-                    introPlayer.Volume = userSoundVol;
+                    introPlayer.Volume = userEffectsVol;
                     introPlayer.Play();
                     break;
                 default:

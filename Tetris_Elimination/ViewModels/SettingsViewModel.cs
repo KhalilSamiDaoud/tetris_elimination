@@ -24,10 +24,7 @@ namespace Tetris_Elimination.ViewModels
 
         public string UserName
         {
-            get
-            {
-                return _userName;
-            }
+            get { return _userName; }
             set
             {
                 _userName = value;

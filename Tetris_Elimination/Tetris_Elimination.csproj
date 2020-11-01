@@ -233,7 +233,7 @@
     <Resource Include="Assets\Images\Background.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Music\Tetris_theme.mp3" />
+    <Content Include="Assets\Music\TetrisTheme.mp3" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

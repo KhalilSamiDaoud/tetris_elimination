@@ -133,7 +133,7 @@ namespace Tetris_Elimination.Models
 
         public void playTheme()
         {
-            audioLoop.Open(new Uri(musicFilePath + "Tetris_theme.mp3"));
+            audioLoop.Open(new Uri(musicFilePath + "TetrisTheme.mp3"));
             audioLoop.Volume      = userMusicVol;
             audioLoop.MediaEnded += new EventHandler(LoopAgain);
             audioLoop.Play();
@@ -141,7 +141,7 @@ namespace Tetris_Elimination.Models
 
         public void playFadeInTheme()
         {
-            audioLoop.Open(new Uri(musicFilePath + "Tetris_theme.mp3"));
+            audioLoop.Open(new Uri(musicFilePath + "TetrisTheme.mp3"));
             audioLoop.Volume      = 0;
             audioLoop.MediaEnded += new EventHandler(LoopAgain);
             audioLoop.Play();

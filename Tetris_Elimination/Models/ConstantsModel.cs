@@ -1,6 +1,4 @@
-﻿
-
-namespace Tetris_Elimination.Models
+﻿namespace Tetris_Elimination.Models
 {
     public static class ConstantsModel
     {
@@ -40,6 +38,17 @@ namespace Tetris_Elimination.Models
             TIMER,
             TIMER_END,
             INTRO
+        }
+
+        public enum KeyBind
+        {
+            ROTATE,
+            DOWN,
+            LEFT,
+            RIGHT,
+            DROP,
+            HOLD,
+            PAUSE
         }
     }
 }

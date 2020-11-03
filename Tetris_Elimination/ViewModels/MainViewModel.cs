@@ -1,8 +1,7 @@
-﻿using Caliburn.Micro;
-using System;
+﻿using static Tetris_Elimination.Models.ConstantsModel;
+using Caliburn.Micro;
 using System.Timers;
-using Tetris_Elimination.Models;
-using static Tetris_Elimination.Models.ConstantsModel;
+using System;
 
 namespace Tetris_Elimination.ViewModels
 {
@@ -26,9 +25,9 @@ namespace Tetris_Elimination.ViewModels
             ActivateItem(new MenuViewModel(this));
         }
 
-        public void SetNewView(Screens cmd)
+        public void SetNewView(Screens newView)
         {
-            switch (cmd)
+            switch (newView)
             {
                 case Screens.MENU:
                     ActivateItem(new MenuViewModel(this));

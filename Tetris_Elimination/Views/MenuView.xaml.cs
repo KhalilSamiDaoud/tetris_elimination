@@ -1,6 +1,5 @@
 ﻿using System.Windows.Controls;
 
-
 namespace Tetris_Elimination.Views
 {
     /// <summary>

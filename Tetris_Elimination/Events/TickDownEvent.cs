@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Tetris_Elimination.Events
+﻿namespace Tetris_Elimination.Events
 {
     public class TickDownEvent
     {
@@ -12,10 +6,10 @@ namespace Tetris_Elimination.Events
 
         public TickDownEvent(int counter)
         {
-            this._counter = counter;
+            _counter = counter;
         }
 
-        public int get()
+        public int Get()
         {
             return _counter;
         }

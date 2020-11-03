@@ -1,26 +1,14 @@
-﻿using Caliburn.Micro;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using static Tetris_Elimination.Models.ConstantsModel;
 using Tetris_Elimination.Events;
 using Tetris_Elimination.Models;
-using static Tetris_Elimination.Models.ConstantsModel;
+using System.Windows.Controls;
+using System.Windows.Media;
+using Caliburn.Micro;
 
 namespace Tetris_Elimination.Views
 {
     /// <summary>
-    /// Interaction logic for StatisticsView.xaml
+    /// Interaction logic for StatisticsView.xaml, Breaking MVVM as CM does not support binding to grids
     /// </summary>
     public partial class StatisticsView : UserControl, IHandle<HeldPieceEvent>, IHandle<NextPieceEvent>
     {
@@ -34,11 +22,12 @@ namespace Tetris_Elimination.Views
         {
             myEvents = EventAggregatorModel.Instance;
             myEvents.getAggregator().Subscribe(this);
+
             InitializeComponent();
-            initializeBoards();
+            InitializeBoards();
         }
 
-        void initializeBoards()
+        private void InitializeBoards()
         {
             for (int i = 0; i < col; i++)
             {
@@ -62,45 +51,45 @@ namespace Tetris_Elimination.Views
                 }
             }
         }
-        void setHeld(TetreminoModel heldTetremino)
+        private void SetHeld(TetreminoModel heldTetremino)
         {
-            clearCells(heldCell);
+            ClearCells(heldCell);
 
-            for (int i = 0; i < heldTetremino.getShape().Length; i++)
+            for (int i = 0; i < heldTetremino.GetShape().Length; i++)
             {
-                if (heldTetremino.getType() == Tetremino.BLUE_I || heldTetremino.getType() == Tetremino.YELLOW_O)
+                if (heldTetremino.GetType() == Tetremino.BLUE_I || heldTetremino.GetType() == Tetremino.YELLOW_O)
                 {
-                    heldCell[(int)(heldTetremino.getShape()[i].X - 4),
-                    (int)(heldTetremino.getShape()[i].Y)].Background = heldTetremino.getBrush();
+                    heldCell[(int)(heldTetremino.GetShape()[i].X - 4),
+                    (int)(heldTetremino.GetShape()[i].Y)].Background = heldTetremino.GetBrush();
                 }
                 else
                 {
-                    heldCell[(int)(heldTetremino.getShape()[i].X - 3),
-                     (int)(heldTetremino.getShape()[i].Y)].Background = heldTetremino.getBrush();
+                    heldCell[(int)(heldTetremino.GetShape()[i].X - 3),
+                     (int)(heldTetremino.GetShape()[i].Y)].Background = heldTetremino.GetBrush();
                 }
             }
         }
 
-        void setNext(TetreminoModel nextTetremino)
+        private void SetNext(TetreminoModel nextTetremino)
         {
-            clearCells(nextCell);
+            ClearCells(nextCell);
 
-            for (int i = 0; i < nextTetremino.getShape().Length; i++)
+            for (int i = 0; i < nextTetremino.GetShape().Length; i++)
             {
-                if (nextTetremino.getType() == Tetremino.BLUE_I || nextTetremino.getType() == Tetremino.YELLOW_O)
+                if (nextTetremino.GetType() == Tetremino.BLUE_I || nextTetremino.GetType() == Tetremino.YELLOW_O)
                 {
-                    nextCell[(int)(nextTetremino.getShape()[i].X - 4),
-                    (int)(nextTetremino.getShape()[i].Y)].Background = nextTetremino.getBrush();
+                    nextCell[(int)(nextTetremino.GetShape()[i].X - 4),
+                    (int)(nextTetremino.GetShape()[i].Y)].Background = nextTetremino.GetBrush();
                 }
                 else
                 {
-                    nextCell[(int)(nextTetremino.getShape()[i].X - 3),
-                     (int)(nextTetremino.getShape()[i].Y)].Background = nextTetremino.getBrush();
+                    nextCell[(int)(nextTetremino.GetShape()[i].X - 3),
+                     (int)(nextTetremino.GetShape()[i].Y)].Background = nextTetremino.GetBrush();
                 }
             }
         }
 
-        void clearCells(Label[,] board)
+        private void ClearCells(Label[,] board)
         {
             for (int i = 0; i < col; i++)
             {
@@ -113,25 +102,25 @@ namespace Tetris_Elimination.Views
 
         public void Handle(HeldPieceEvent message)
         {
-            if (message.get() == null)
+            if (message.Get() == null)
             {
-                clearCells(heldCell);
+                ClearCells(heldCell);
             }
             else
             {
-                setHeld(message.get());
+                SetHeld(message.Get());
             }
         }
 
         public void Handle(NextPieceEvent message)
         {
-            if (message.get() == null)
+            if (message.Get() == null)
             {
-                clearCells(nextCell);
+                ClearCells(nextCell);
             }
             else
             {
-                setNext(message.get());
+                SetNext(message.Get());
             }
         }
     }

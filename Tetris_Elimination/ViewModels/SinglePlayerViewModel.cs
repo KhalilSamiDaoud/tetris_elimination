@@ -1,18 +1,18 @@
-﻿using Caliburn.Micro;
-using System;
-using System.Windows;
+﻿using static Tetris_Elimination.Models.ConstantsModel;
 using Tetris_Elimination.Events;
 using Tetris_Elimination.Models;
-using static Tetris_Elimination.Models.ConstantsModel;
+using Caliburn.Micro;
+using System.Windows;
+using System;
 
 namespace Tetris_Elimination.ViewModels
 {
     public class SinglePlayerViewModel : Conductor<Object>.Collection.AllActive, IHandle<GameOverEvent>, IHandle<ScoreEvent>, IHandle<GamePausedEvent>, IHandle<TickDownEvent>
     {
-        private MainViewModel mainWindow;
-        private BoardViewModel gameWindow;
         private StatisticsViewModel statistics;
         private EventAggregatorModel myEvents;
+        private MainViewModel mainWindow;
+        private BoardViewModel gameWindow;
         private Visibility _gameOver;
         private Visibility _paused;
         private Visibility _countDown;
@@ -101,7 +101,7 @@ namespace Tetris_Elimination.ViewModels
 
         public void Handle(GameOverEvent message)
         {
-            if(message.get())
+            if(message.Get())
             {
                 if (Int32.Parse(gameScore) > Properties.Settings.Default.highScore)
                 {
@@ -121,7 +121,7 @@ namespace Tetris_Elimination.ViewModels
 
         public void Handle(GamePausedEvent message)
         {
-            if (!message.get())
+            if (!message.Get())
             {
                 paused = Visibility.Visible;
             }
@@ -133,18 +133,18 @@ namespace Tetris_Elimination.ViewModels
 
         public void Handle(ScoreEvent message)
         {
-            gameScore = message.get().ToString();
+            gameScore = message.Get().ToString();
         }
 
         public void Handle(TickDownEvent message)
         {
             countDown = Visibility.Visible;
 
-            if (message.get() > 0)
+            if (message.Get() > 0)
             {
-                countDownDialouge = message.get().ToString();
+                countDownDialouge = message.Get().ToString();
             }
-            else if (message.get() == 0)
+            else if (message.Get() == 0)
             {
                 countDownDialouge = "GO!";
             }

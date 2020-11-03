@@ -1,10 +1,5 @@
-﻿using Caliburn.Micro;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Tetris_Elimination.Models.ConstantsModel;
+﻿using static Tetris_Elimination.Models.ConstantsModel;
+using Caliburn.Micro;
 
 namespace Tetris_Elimination.ViewModels
 {

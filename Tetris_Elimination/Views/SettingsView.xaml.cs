@@ -1,18 +1,16 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using static Tetris_Elimination.Models.ConstantsModel;
 using System.Windows.Controls.Primitives;
-using System.Windows.Input;
 using Tetris_Elimination.Models;
-using static Tetris_Elimination.Models.ConstantsModel;
+using System.Windows.Controls;
 
 namespace Tetris_Elimination.Views
 {
     /// <summary>
     /// Interaction logic for SettingsView.xaml
+    /// Code behind breaking MVVM as CM does not surrport Thumb.DragComplete events
     /// </summary>
     public partial class SettingsView : UserControl
     {
-
         private AudioManagerModel audioManager;
 
         public SettingsView()
@@ -23,7 +21,7 @@ namespace Tetris_Elimination.Views
 
         private void EffectsBlip(object sender, DragCompletedEventArgs e)
         {
-            audioManager.playSound(Sound.TIMER_END);
+            audioManager.PlaySound(Sound.TIMER_END);
         }
     }
 }

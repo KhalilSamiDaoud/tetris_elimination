@@ -1,22 +1,23 @@
-﻿using Caliburn.Micro;
+﻿using static Tetris_Elimination.Models.ConstantsModel;
 using Tetris_Elimination.Models;
-using static Tetris_Elimination.Models.ConstantsModel;
+using Caliburn.Micro;
 
 namespace Tetris_Elimination.ViewModels
 {
     public class MenuViewModel : Screen
     {
+        private AudioManagerModel audioManager;
         private MainViewModel _mainWindow;
         private string _version;
         private string _userName;
-        private AudioManagerModel audioManager = AudioManagerModel.Instance;
         public MenuViewModel(MainViewModel mainWindow)
         {
+            audioManager  = AudioManagerModel.Instance;
             _mainWindow   = mainWindow;
             Version       = Properties.Settings.Default.Version;
             UserName      = Properties.Settings.Default.Name;
 
-            OnUIThread(audioManager.playFadeInTheme);
+            OnUIThread(audioManager.PlayFadeInTheme);
         }
         public void LoadSinglePlayer()
         {
@@ -35,10 +36,7 @@ namespace Tetris_Elimination.ViewModels
 
         public string Version
         {
-            get
-            {
-                return _version;
-            }
+            get { return _version; }
             set 
             {
                 _version = value;
@@ -48,10 +46,7 @@ namespace Tetris_Elimination.ViewModels
 
         public string UserName
         {
-            get
-            {
-                return _userName;
-            }
+            get { return _userName; }
             set
             {
                 _userName = "Welcome, " + value;

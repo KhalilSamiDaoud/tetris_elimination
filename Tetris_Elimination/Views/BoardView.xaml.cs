@@ -1,16 +1,14 @@
-﻿
-
-using Caliburn.Micro;
-using System;
-using System.Timers;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
+﻿using static Tetris_Elimination.Models.ConstantsModel;
 using System.Windows.Media.Imaging;
 using Tetris_Elimination.Events;
 using Tetris_Elimination.Models;
-using static Tetris_Elimination.Models.ConstantsModel;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
+using Caliburn.Micro;
+using System.Windows;
+using System.Timers;
+using System;
 
 namespace Tetris_Elimination.Views
 {
@@ -19,43 +17,62 @@ namespace Tetris_Elimination.Views
     /// </summary>
     public partial class BoardView : UserControl, IHandle<NewGameEvent>
     {
-        private const int row                       =     22;
-        private const int col                       =     12;
-        private bool gameOver                       =     false;
-        private bool gameStarted                    =     false;
-        private bool swappedThisTurn                =     false;
-        private int interval                        =     1000;
-        private int level                           =     1;
-        private int clearedRows                     =     0;
-        private int score                           =     0;
-        private int levelThreshhold                 =     500;
-        private int countDown                       =     4;
-        private Array tetreminoTypes                =     Enum.GetValues(typeof(Tetremino));
-        private ImageBrush background               =     new ImageBrush();
-        private ImageBrush border                   =     new ImageBrush();
-        private Random rand                         =     new Random();
-        private Label[,] cell                       =     new Label[col, row];
-        private static Timer eventTimer             =     new Timer();
-        private EventAggregatorModel myEvents       =     EventAggregatorModel.Instance;
-        private AudioManagerModel audioManager      =     AudioManagerModel.Instance;
+        private const int row  = 22;
+        private const int col  = 12;
         private TetreminoModel currentTetremino;
         private TetreminoModel nextTetremino;
         private TetreminoModel heldTetremino;
+        private EventAggregatorModel myEvents;
+        private AudioManagerModel audioManager;
+        private ImageBrush background;
+        private ImageBrush border;
+        private Array tetreminoTypes;
+        private Random rand;
+        private Label[,] cell;
+        private bool gameOver;
+        private bool gameStarted;
+        private bool swappedThisTurn;
+        private int interval;
+        private int level;
+        private int clearedRows;
+        private int score;
+        private int levelThreshhold;
+        private int countDown;
+        private static Timer eventTimer;
 
         public BoardView()
         {
+            gameOver          = false;
+            gameStarted       = false;
+            swappedThisTurn   = false;
+            interval          = 1000;
+            level             = 1;
+            clearedRows       = 0;
+            score             = 0;
+            levelThreshhold   = 500;
+            countDown         = 4;
+            tetreminoTypes    = Enum.GetValues(typeof(Tetremino));
+            background        = new ImageBrush();
+            border            = new ImageBrush();
+            rand              = new Random();
+            cell              = new Label[col, row];
+            eventTimer        = new Timer();
+
+            myEvents          = EventAggregatorModel.Instance;
+            audioManager      = AudioManagerModel.Instance;
+
             myEvents.getAggregator().Subscribe(this);
             audioManager.PauseTheme();
 
-            background.ImageSource       =   new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Background_Tile.png", UriKind.Absolute));
-            border.ImageSource           =   new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Border_Tile.png", UriKind.Absolute));
+            background.ImageSource   =   new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Background_Tile.png", UriKind.Absolute));
+            border.ImageSource       =   new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Border_Tile.png", UriKind.Absolute));
 
-            eventTimer.Elapsed          +=   new ElapsedEventHandler(gameLoop);
-            eventTimer.Interval          =   interval;
+            eventTimer.Elapsed      +=   new ElapsedEventHandler(GameLoop);
+            eventTimer.Interval      =   interval;
             eventTimer.Start();
 
             InitializeComponent();
-            setupBoard();
+            SetupBoard();
         }
 
         private void BoardView_Loaded(object sender, RoutedEventArgs e)
@@ -72,23 +89,23 @@ namespace Tetris_Elimination.Views
             {
                 if (keyPressed == Properties.Settings.Default.Down)
                 {
-                    moveDown();
+                    MoveDown();
                 }
                 else if (keyPressed == Properties.Settings.Default.Right)
                 {
-                    moveRight();
+                    MoveRight();
                 }
                 else if (keyPressed == Properties.Settings.Default.Left)
                 {
-                    moveLeft();
+                    MoveLeft();
                 }
                 else if (keyPressed == Properties.Settings.Default.Hold)
                 {
-                    hold();
+                    HoldPiece();
                 }
                 else if (keyPressed == Properties.Settings.Default.Drop)
                 {
-                    drop();
+                    DropPiece();
                 }
                 else if (keyPressed == Properties.Settings.Default.Rotate)
                 {
@@ -96,26 +113,26 @@ namespace Tetris_Elimination.Views
                 }
                 else if (keyPressed == Properties.Settings.Default.Pause)
                 {
-                    pauseGame();
+                    PauseGame();
                 }
             }
             else if (!gameStarted && !gameOver && countDown < 0)
             {
                 if (keyPressed == Properties.Settings.Default.Pause)
                 {
-                    pauseGame();
+                    PauseGame();
                 }
             }
         }
 
-        private void gameLoop(object sender, ElapsedEventArgs e)
+        private void GameLoop(object sender, ElapsedEventArgs e)
         {
             this.Dispatcher.Invoke(() =>
             {
                 if (gameStarted && !gameOver && countDown < 0)
                 {
-                    moveDown();
-                    calculateInterval();
+                    MoveDown();
+                    CalculateInterval();
                 }
                 else if (countDown >= 0) 
                 {
@@ -125,17 +142,17 @@ namespace Tetris_Elimination.Views
                     if (countDown == -1)
                     {
                         myEvents.getAggregator().PublishOnUIThread(new TickDownEvent(countDown));
-                        startGame();
+                        StartGame();
                     }
                     else
                     {
                        if (countDown == 0)
                         {
-                            audioManager.playSound(Sound.TIMER_END);
+                            audioManager.PlaySound(Sound.TIMER_END);
                         }
                     else
                         {
-                            audioManager.playSound(Sound.TIMER);
+                            audioManager.PlaySound(Sound.TIMER);
                         }
                         myEvents.getAggregator().PublishOnUIThread(new TickDownEvent(countDown));
                     }
@@ -143,7 +160,7 @@ namespace Tetris_Elimination.Views
             });
         }
 
-        private void setupBoard()
+        private void SetupBoard()
         {
             for (int i = 0; i < col; i++)
             {
@@ -170,23 +187,23 @@ namespace Tetris_Elimination.Views
             }
         }
 
-        private void startGame()
+        private void StartGame()
         {
             gameStarted         = true;
-            currentTetremino    = spawnTetromino();
-            nextTetremino       = spawnTetromino();
+            currentTetremino    = SpawnTetromino();
+            nextTetremino       = SpawnTetromino();
             heldTetremino       = null;
             myEvents.getAggregator().PublishOnUIThread(new NextPieceEvent(nextTetremino));
             myEvents.getAggregator().PublishOnUIThread(new HeldPieceEvent(heldTetremino));
             myEvents.getAggregator().PublishOnUIThread(new ScoreEvent(score));
             myEvents.getAggregator().PublishOnUIThread(new LevelEvent(level));
-            drawTetremino();
-            audioManager.playTheme();
+            DrawTetremino();
+            audioManager.PlayTheme();
         }
 
-        private void resetGame()
+        private void ResetGame()
         {
-            clearBoard();
+            ClearBoard();
             score               = 0;
             level               = 1;
             levelThreshhold     = 500;
@@ -203,7 +220,7 @@ namespace Tetris_Elimination.Views
             audioManager.PauseTheme();
         }
 
-        private void pauseGame()
+        private void PauseGame()
         {
             if (gameStarted)
             {
@@ -221,196 +238,196 @@ namespace Tetris_Elimination.Views
             }
         }
 
-        private void endGame()
+        private void EndGame()
         {
             gameOver = true;
             eventTimer.Stop();
             myEvents.getAggregator().PublishOnUIThread(new GameOverEvent(gameOver));
         }
 
-        private TetreminoModel spawnTetromino()
+        private TetreminoModel SpawnTetromino()
         {
-            checkRows();
-            calculateScore();
-            calculateLevel();
+            CheckRows();
+            CalculateScore();
+            CalculateLevel();
             TetreminoModel tempTetremino = new TetreminoModel((Tetremino)tetreminoTypes.GetValue(rand.Next(tetreminoTypes.Length)));
 
-            if(moveIsLegal(Move.SPAWN, tempTetremino))
+            if(MoveIsLegal(Move.SPAWN, tempTetremino))
             {
                 return tempTetremino;
             }
             else
             {
-                endGame();
+                EndGame();
                 return null;
             }
         }
 
-        private void drawTetremino()
+        private void DrawTetremino()
         {
-           for(int i=0; i < currentTetremino.getShape().Length; i++)
+           for(int i=0; i < currentTetremino.GetShape().Length; i++)
            {
-                cell[(int)(currentTetremino.getShape()[i].X + currentTetremino.getPosition().X), 
-                     (int)(currentTetremino.getShape()[i].Y + currentTetremino.getPosition().Y)].Background = currentTetremino.getBrush();
+                cell[(int)(currentTetremino.GetShape()[i].X + currentTetremino.GetPosition().X), 
+                     (int)(currentTetremino.GetShape()[i].Y + currentTetremino.GetPosition().Y)].Background = currentTetremino.GetBrush();
             }
         }
 
-        private void clearTetremino()
+        private void ClearTetremino()
         {
-            for (int i = 0; i < currentTetremino.getShape().Length; i++)
+            for (int i = 0; i < currentTetremino.GetShape().Length; i++)
             {
-                cell[(int)(currentTetremino.getShape()[i].X + currentTetremino.getPosition().X),
-                     (int)(currentTetremino.getShape()[i].Y + currentTetremino.getPosition().Y)].Background = this.background;
+                cell[(int)(currentTetremino.GetShape()[i].X + currentTetremino.GetPosition().X),
+                     (int)(currentTetremino.GetShape()[i].Y + currentTetremino.GetPosition().Y)].Background = this.background;
             }
         }
 
-        private void moveDown()
+        private void MoveDown()
         {
-            if (moveIsLegal(Move.DOWN, currentTetremino))
+            if (MoveIsLegal(Move.DOWN, currentTetremino))
             {
-                clearTetremino();
-                currentTetremino.move(Move.DOWN);
-                drawTetremino();
+                ClearTetremino();
+                currentTetremino.MovePoint(Move.DOWN);
+                DrawTetremino();
             }
             else
             {
-                currentTetremino = nextTetremino;
-                nextTetremino = spawnTetromino();
-                swappedThisTurn = false;
+                currentTetremino  = nextTetremino;
+                nextTetremino     = SpawnTetromino();
+                swappedThisTurn   = false;
                 if (nextTetremino != null)
                 {
                     //this check is to reduce the overall amounts of duplicates
-                    if (currentTetremino.getType() == nextTetremino.getType())
+                    if (currentTetremino.GetType() == nextTetremino.GetType())
                     {
-                        nextTetremino = spawnTetromino();
+                        nextTetremino = SpawnTetromino();
                     }
-                    drawTetremino();
+                    DrawTetremino();
                     myEvents.getAggregator().PublishOnUIThread(new NextPieceEvent(nextTetremino));
                 }
             }
         }
 
-        private void moveRight()
+        private void MoveRight()
         {
-            if (moveIsLegal(Move.RIGHT, currentTetremino))
+            if (MoveIsLegal(Move.RIGHT, currentTetremino))
             {
-                clearTetremino();
-                currentTetremino.move(Move.RIGHT);
-                drawTetremino();
+                ClearTetremino();
+                currentTetremino.MovePoint(Move.RIGHT);
+                DrawTetremino();
             }
         }
 
-        private void moveLeft()
+        private void MoveLeft()
         {
-            if (moveIsLegal(Move.LEFT, currentTetremino))
+            if (MoveIsLegal(Move.LEFT, currentTetremino))
             {
-                clearTetremino();
-                currentTetremino.move(Move.LEFT);
-                drawTetremino();
+                ClearTetremino();
+                currentTetremino.MovePoint(Move.LEFT);
+                DrawTetremino();
             }
         }
 
         private void Rotate()
         {
-            if (currentTetremino.getType() != Tetremino.YELLOW_O)
+            if (currentTetremino.GetType() != Tetremino.YELLOW_O)
             {
-                if(moveIsLegal(Move.ROTATE, currentTetremino))
+                if(MoveIsLegal(Move.ROTATE, currentTetremino))
                 {
-                    clearTetremino();
-                    currentTetremino.move(Move.ROTATE);
-                    drawTetremino();
-                    audioManager.playSound(Sound.ROTATE);
+                    ClearTetremino();
+                    currentTetremino.MovePoint(Move.ROTATE);
+                    DrawTetremino();
+                    audioManager.PlaySound(Sound.ROTATE);
                 }
             }
         }
 
-        private void hold()
+        private void HoldPiece()
         {
             TetreminoModel temp;
 
             if (heldTetremino == null && !swappedThisTurn)
             {
-                clearTetremino();
-                heldTetremino = new TetreminoModel(currentTetremino.getType());
-                currentTetremino = nextTetremino;
-                nextTetremino = spawnTetromino();
-                swappedThisTurn = true;
-                drawTetremino();
+                ClearTetremino();
+                heldTetremino     = new TetreminoModel(currentTetremino.GetType());
+                currentTetremino  = nextTetremino;
+                nextTetremino     = SpawnTetromino();
+                swappedThisTurn   = true;
+                DrawTetremino();
                 myEvents.getAggregator().PublishOnUIThread(new NextPieceEvent(nextTetremino));
                 myEvents.getAggregator().PublishOnUIThread(new HeldPieceEvent(heldTetremino));
             }
             else
             {
-                if (moveIsLegal(Move.SPAWN, heldTetremino) && !swappedThisTurn)
+                if (MoveIsLegal(Move.SPAWN, heldTetremino) && !swappedThisTurn)
                 {
-                    temp = currentTetremino;
-                    clearTetremino();
-                    currentTetremino = new TetreminoModel(heldTetremino.getType());
-                    heldTetremino = new TetreminoModel(temp.getType());
-                    drawTetremino();
-                    swappedThisTurn = true;
+                    temp              = currentTetremino;
+                    ClearTetremino();
+                    currentTetremino  = new TetreminoModel(heldTetremino.GetType());
+                    heldTetremino     = new TetreminoModel(temp.GetType());
+                    DrawTetremino();
+                    swappedThisTurn   = true;
                     myEvents.getAggregator().PublishOnUIThread(new HeldPieceEvent(heldTetremino));
                 }
             }
         }
 
-        private void drop()
+        private void DropPiece()
         {
-            while(moveIsLegal(Move.DOWN, currentTetremino))
+            while(MoveIsLegal(Move.DOWN, currentTetremino))
             {
-                moveDown();
+                MoveDown();
             }
-            moveDown();
-            audioManager.playSound(Sound.DROP);
+            MoveDown();
+            audioManager.PlaySound(Sound.DROP);
         }
 
-        private Boolean moveIsLegal(Move direction, TetreminoModel checkingTetremino)
+        private Boolean MoveIsLegal(Move direction, TetreminoModel checkingTetremino)
         {
             switch(direction)
             {
                 case Move.SPAWN:
-                    for (int i = 0; i < checkingTetremino.getShape().Length; i++)
+                    for (int i = 0; i < checkingTetremino.GetShape().Length; i++)
                     {
-                        if (!cell[(int)(checkingTetremino.getShape()[i].X + checkingTetremino.getPosition().X),
-                                  (int)(checkingTetremino.getShape()[i].Y + checkingTetremino.getPosition().Y)].Background.Equals(this.background) &&
-                            !cell[(int)(checkingTetremino.getShape()[i].X + checkingTetremino.getPosition().X),
-                                  (int)(checkingTetremino.getShape()[i].Y + checkingTetremino.getPosition().Y)].Background.Equals(currentTetremino.getBrush()))
+                        if (!cell[(int)(checkingTetremino.GetShape()[i].X + checkingTetremino.GetPosition().X),
+                                  (int)(checkingTetremino.GetShape()[i].Y + checkingTetremino.GetPosition().Y)].Background.Equals(this.background) &&
+                            !cell[(int)(checkingTetremino.GetShape()[i].X + checkingTetremino.GetPosition().X),
+                                  (int)(checkingTetremino.GetShape()[i].Y + checkingTetremino.GetPosition().Y)].Background.Equals(currentTetremino.GetBrush()))
                         {
                             return false;
                         }
                     }
                     break;
                 case Move.DOWN:
-                    for (int i = 0; i < checkingTetremino.getShape().Length; i++)
+                    for (int i = 0; i < checkingTetremino.GetShape().Length; i++)
                     {
-                        if (!cell[(int)(checkingTetremino.getShape()[i].X + checkingTetremino.getPosition().X),
-                                  (int)(checkingTetremino.getShape()[i].Y + checkingTetremino.getPosition().Y + 1)].Background.Equals(this.background) &&
-                            !cell[(int)(checkingTetremino.getShape()[i].X + checkingTetremino.getPosition().X),
-                                  (int)(checkingTetremino.getShape()[i].Y + checkingTetremino.getPosition().Y + 1)].Background.Equals(currentTetremino.getBrush()))
+                        if (!cell[(int)(checkingTetremino.GetShape()[i].X + checkingTetremino.GetPosition().X),
+                                  (int)(checkingTetremino.GetShape()[i].Y + checkingTetremino.GetPosition().Y + 1)].Background.Equals(this.background) &&
+                            !cell[(int)(checkingTetremino.GetShape()[i].X + checkingTetremino.GetPosition().X),
+                                  (int)(checkingTetremino.GetShape()[i].Y + checkingTetremino.GetPosition().Y + 1)].Background.Equals(currentTetremino.GetBrush()))
                         {
                             return false;
                         }
                     }
                     break;
                 case Move.RIGHT:
-                    for (int i = 0; i < checkingTetremino.getShape().Length; i++)
+                    for (int i = 0; i < checkingTetremino.GetShape().Length; i++)
                     {
-                        if (!cell[(int)(checkingTetremino.getShape()[i].X + checkingTetremino.getPosition().X + 1),
-                                  (int)(checkingTetremino.getShape()[i].Y + checkingTetremino.getPosition().Y)].Background.Equals(this.background) &&
-                            !cell[(int)(checkingTetremino.getShape()[i].X + checkingTetremino.getPosition().X + 1),
-                                  (int)(checkingTetremino.getShape()[i].Y + checkingTetremino.getPosition().Y)].Background.Equals(currentTetremino.getBrush()))
+                        if (!cell[(int)(checkingTetremino.GetShape()[i].X + checkingTetremino.GetPosition().X + 1),
+                                  (int)(checkingTetremino.GetShape()[i].Y + checkingTetremino.GetPosition().Y)].Background.Equals(this.background) &&
+                            !cell[(int)(checkingTetremino.GetShape()[i].X + checkingTetremino.GetPosition().X + 1),
+                                  (int)(checkingTetremino.GetShape()[i].Y + checkingTetremino.GetPosition().Y)].Background.Equals(currentTetremino.GetBrush()))
                         {
                             return false;
                         }
                     }
                     break;
                 case Move.LEFT:
-                    for (int i = 0; i < checkingTetremino.getShape().Length; i++)
+                    for (int i = 0; i < checkingTetremino.GetShape().Length; i++)
                     {
-                        if (!cell[(int)(checkingTetremino.getShape()[i].X + checkingTetremino.getPosition().X - 1),
-                                  (int)(checkingTetremino.getShape()[i].Y + checkingTetremino.getPosition().Y)].Background.Equals(this.background) &&
-                            !cell[(int)(checkingTetremino.getShape()[i].X + checkingTetremino.getPosition().X - 1),
-                                  (int)(checkingTetremino.getShape()[i].Y + checkingTetremino.getPosition().Y)].Background.Equals(currentTetremino.getBrush()))
+                        if (!cell[(int)(checkingTetremino.GetShape()[i].X + checkingTetremino.GetPosition().X - 1),
+                                  (int)(checkingTetremino.GetShape()[i].Y + checkingTetremino.GetPosition().Y)].Background.Equals(this.background) &&
+                            !cell[(int)(checkingTetremino.GetShape()[i].X + checkingTetremino.GetPosition().X - 1),
+                                  (int)(checkingTetremino.GetShape()[i].Y + checkingTetremino.GetPosition().Y)].Background.Equals(currentTetremino.GetBrush()))
                         {
                             return false;
                         }
@@ -418,16 +435,16 @@ namespace Tetris_Elimination.Views
                     break;
                 case Move.ROTATE: //fix this and add auto-adjusting
 
-                    Point[] tempShape = checkingTetremino.getShape();
+                    Point[] tempShape = checkingTetremino.GetShape();
                     Point tempPoint;
 
-                    for (int i = 0; i < checkingTetremino.getShape().Length; i++)
+                    for (int i = 0; i < checkingTetremino.GetShape().Length; i++)
                     {
-                        tempPoint = checkingTetremino.rotatePoint(tempShape[i], tempShape[2]);
-                        if (!cell[(int)(tempPoint.X + checkingTetremino.getPosition().X),
-                                  (int)(tempPoint.Y + checkingTetremino.getPosition().Y)].Background.Equals(this.background) &&
-                            !cell[(int)(tempPoint.X + checkingTetremino.getPosition().X),
-                                  (int)(tempPoint.Y + checkingTetremino.getPosition().Y)].Background.Equals(currentTetremino.getBrush()))
+                        tempPoint = checkingTetremino.RotatePoint(tempShape[i], tempShape[2]);
+                        if (!cell[(int)(tempPoint.X + checkingTetremino.GetPosition().X),
+                                  (int)(tempPoint.Y + checkingTetremino.GetPosition().Y)].Background.Equals(this.background) &&
+                            !cell[(int)(tempPoint.X + checkingTetremino.GetPosition().X),
+                                  (int)(tempPoint.Y + checkingTetremino.GetPosition().Y)].Background.Equals(currentTetremino.GetBrush()))
                         {
                             return false;
                         }
@@ -439,7 +456,7 @@ namespace Tetris_Elimination.Views
             return true;
         }
 
-        private void clearBoard()
+        private void ClearBoard()
         {
             for (int i = 0; i < col; i++)
             {
@@ -457,7 +474,7 @@ namespace Tetris_Elimination.Views
             }
         }
 
-        private void checkRows() //row 12 & 15 does not clear?
+        private void CheckRows() //row 12 & 15 does not clear?
         {
             int count = 0;
 
@@ -473,8 +490,8 @@ namespace Tetris_Elimination.Views
                     {
                         count = 0;
                         clearedRows++;
-                        clearRow(i);
-                        checkRows();
+                        ClearRow(i);
+                        CheckRows();
                         break;
                     }
                     count++;
@@ -482,16 +499,16 @@ namespace Tetris_Elimination.Views
             }
         }
 
-        private void clearRow(int rowToBeCleared)
+        private void ClearRow(int rowToBeCleared)
         {
             for (int j=1; j < (col-1); j++)
             {
                 cell[j, (rowToBeCleared-1)].Background = this.background;
             }
-            shiftRows(rowToBeCleared-1);
+            ShiftRows(rowToBeCleared-1);
         }
 
-        private void shiftRows(int rowToStartAt)
+        private void ShiftRows(int rowToStartAt)
         {
             for (int i=rowToStartAt; i > 1; i--)
             {
@@ -502,7 +519,7 @@ namespace Tetris_Elimination.Views
             }
         }
 
-        private void calculateScore()
+        private void CalculateScore()
         {
             int multiplier = 0;
 
@@ -529,7 +546,7 @@ namespace Tetris_Elimination.Views
 
             if (multiplier != 0)
             {
-                audioManager.playSound(Sound.CLEARED_ROW);
+                audioManager.PlaySound(Sound.CLEARED_ROW);
             }
 
             score = (score + (clearedRows * multiplier));
@@ -537,7 +554,7 @@ namespace Tetris_Elimination.Views
             myEvents.getAggregator().PublishOnUIThread(new ScoreEvent(score));
         }
 
-        private void calculateLevel()
+        private void CalculateLevel()
         {
             int tempLevel = (score / levelThreshhold);
 
@@ -549,7 +566,7 @@ namespace Tetris_Elimination.Views
             myEvents.getAggregator().PublishOnUIThread(new LevelEvent(level));
         }
 
-        private void calculateInterval()
+        private void CalculateInterval()
         {
             if (level <= 8 && level > 1)
             {
@@ -560,7 +577,7 @@ namespace Tetris_Elimination.Views
 
         public void Handle(NewGameEvent message)
         {
-            resetGame();
+            ResetGame();
         }
     }
 }

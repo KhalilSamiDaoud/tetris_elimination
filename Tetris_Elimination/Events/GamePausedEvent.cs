@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Tetris_Elimination.Events
+﻿namespace Tetris_Elimination.Events
 {
     public class GamePausedEvent
     {
@@ -12,10 +6,10 @@ namespace Tetris_Elimination.Events
 
         public GamePausedEvent(bool paused)
         {
-            this._paused = paused;
+            _paused = paused;
         }
 
-        public bool get()
+        public bool Get()
         {
             return _paused;
         }

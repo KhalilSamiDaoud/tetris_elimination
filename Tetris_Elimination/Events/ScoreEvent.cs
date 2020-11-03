@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Tetris_Elimination.Events
+﻿namespace Tetris_Elimination.Events
 {
     public class ScoreEvent
     {
@@ -12,10 +6,10 @@ namespace Tetris_Elimination.Events
 
         public ScoreEvent(int score)
         {
-            this._score = score;
+            _score = score;
         }
 
-        public int get()
+        public int Get()
         {
             return _score;
         }

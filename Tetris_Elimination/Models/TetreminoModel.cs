@@ -1,85 +1,85 @@
-﻿
-
-using System;
-using System.Windows;
-using System.Windows.Media;
+﻿using static Tetris_Elimination.Models.ConstantsModel;
 using System.Windows.Media.Imaging;
-using static Tetris_Elimination.Models.ConstantsModel;
+using System.Windows.Media;
+using System.Windows;
+using System;
 
 namespace Tetris_Elimination.Models
 {
     public class TetreminoModel
     {
-        private ImageBrush image = new ImageBrush();
+        private ImageBrush image;
+        private Tetremino type;
         private Point position;
         private Point[] shape;
-        private Tetremino type;
         public TetreminoModel(Tetremino piece)
         {
-            spawn(piece);
+            image = new ImageBrush();
+
+            Spawn(piece);
         }
-        public ImageBrush getBrush()
+        public ImageBrush GetBrush()
         {
             return image;
         }
 
-        public Point getPosition()
+        public Point GetPosition()
         {
             return position;
         }
 
-        public Point[] getShape()
+        public Point[] GetShape()
         {
             return shape;
         }
 
-        public Tetremino getType()
+        public Tetremino GetType()
         {
             return type;
         }
 
-        private void spawn(Tetremino _piece)
+        private void Spawn(Tetremino _piece)
         {
 
             position = new Point(0, 0);
-            type = _piece;
+            type     = _piece;
 
             switch (_piece)
             {
                 case Tetremino.PURPLE_T:
                     image.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Purple_Tile.png", UriKind.Absolute));
-                    shape = initialize(Tetremino.PURPLE_T);
+                    shape = Initialize(Tetremino.PURPLE_T);
                     break;
                 case Tetremino.BLUE_I:
                     image.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Blue_Tile.png", UriKind.Absolute));
-                    shape = initialize(Tetremino.BLUE_I);
+                    shape = Initialize(Tetremino.BLUE_I);
                     break;
                 case Tetremino.BLUE_L:
                     image.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Dark_Blue_Tile.png", UriKind.Absolute));
-                    shape = initialize(Tetremino.BLUE_L);
+                    shape = Initialize(Tetremino.BLUE_L);
                     break;
                 case Tetremino.GREEN_Z:
                     image.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Green_Tile.png", UriKind.Absolute));
-                    shape = initialize(Tetremino.GREEN_Z);
+                    shape = Initialize(Tetremino.GREEN_Z);
                     break;
                 case Tetremino.ORANGE_J:
                     image.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Orange_Tile.png", UriKind.Absolute));
-                    shape = initialize(Tetremino.ORANGE_J);
+                    shape = Initialize(Tetremino.ORANGE_J);
                     break;
                 case Tetremino.RED_S:
                     image.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Red_Tile.png", UriKind.Absolute));
-                    shape = initialize(Tetremino.RED_S);
+                    shape = Initialize(Tetremino.RED_S);
                     break;
                 case Tetremino.YELLOW_O:
                     image.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Yellow_Tile.png", UriKind.Absolute));
-                    shape = initialize(Tetremino.YELLOW_O);
+                    shape = Initialize(Tetremino.YELLOW_O);
                     break;
                 default:
                     break;
             }
         }
 
-        public void move(Move direction)
+        public void MovePoint(Move direction)
         {
             switch (direction)
             {
@@ -95,13 +95,14 @@ namespace Tetris_Elimination.Models
                 case Move.ROTATE:
                     for (int i = 0; i < shape.Length; i++)
                     {
-                        shape[i] = rotatePoint(shape[i], shape[2]);
+                        shape[i] = RotatePoint(shape[i], shape[2]);
                     }
                     break;
             }
         }
+
         //credit to Fraser at StackOverflow for this algorithm!
-        public Point rotatePoint(Point pointToRotate, Point centerPoint)
+        public Point RotatePoint(Point pointToRotate, Point centerPoint)
         {
             double angleInRadians = 90 * (Math.PI / 180);
             double cosTheta       = Math.Cos(angleInRadians);
@@ -117,9 +118,8 @@ namespace Tetris_Elimination.Models
             };
         }
 
-        private Point[] initialize(Tetremino _piece)
+        private Point[] Initialize(Tetremino _piece)
         {
-
             Point[] temp = new Point[4];
 
             switch (_piece)

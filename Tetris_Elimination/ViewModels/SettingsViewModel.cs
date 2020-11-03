@@ -1,4 +1,5 @@
 ﻿using static Tetris_Elimination.Models.ConstantsModel;
+using System.Collections.Generic;
 using Tetris_Elimination.Models;
 using System.Windows.Input;
 using Caliburn.Micro;
@@ -6,12 +7,10 @@ using System;
 
 namespace Tetris_Elimination.ViewModels
 {
-
-    //add all controls to dictionary to make things cleaner
-
     class SettingsViewModel : Screen
     {
-        private AudioManagerModel audioManager;
+        private List<UserKeyBindModel> userKeys;
+        private AudioManagerModel audioManager;        
         private MainViewModel main_window;
         private Double _effectsVolume;
         private Double _musicVolume;
@@ -29,7 +28,21 @@ namespace Tetris_Elimination.ViewModels
             main_window  = _main_window;
             audioManager = AudioManagerModel.Instance;
 
+            CreateKeyList();
             LoadSettings();
+        }
+
+        private void CreateKeyList()
+        {
+            userKeys = new List<UserKeyBindModel>();
+
+            userKeys.Add(new UserKeyBindModel((Key)Properties.Settings.Default.Rotate));
+            userKeys.Add(new UserKeyBindModel((Key)Properties.Settings.Default.Down));
+            userKeys.Add(new UserKeyBindModel((Key)Properties.Settings.Default.Left));
+            userKeys.Add(new UserKeyBindModel((Key)Properties.Settings.Default.Right));
+            userKeys.Add(new UserKeyBindModel((Key)Properties.Settings.Default.Drop));
+            userKeys.Add(new UserKeyBindModel((Key)Properties.Settings.Default.Hold));
+            userKeys.Add(new UserKeyBindModel((Key)Properties.Settings.Default.Pause));
         }
 
         public void CheckInput(ActionExecutionContext e, KeyBind keyBind)
@@ -41,25 +54,32 @@ namespace Tetris_Elimination.ViewModels
             switch (keyBind)
             {
                 case KeyBind.ROTATE:
-                    RotateKey = keyArgs.Key.ToString();
+                    userKeys[0] = new UserKeyBindModel(keyArgs.Key);
+                    RotateKey   = userKeys[0].GetString();
                     break;
                 case KeyBind.DOWN:
-                    DownKey   = keyArgs.Key.ToString();
+                    userKeys[1] = new UserKeyBindModel(keyArgs.Key);
+                    DownKey     = userKeys[1].GetString();
                     break;
                 case KeyBind.LEFT:
-                    LeftKey   = keyArgs.Key.ToString();
+                    userKeys[2] = new UserKeyBindModel(keyArgs.Key);
+                    LeftKey     = userKeys[2].GetString();
                     break;
                 case KeyBind.RIGHT:
-                    RightKey  = keyArgs.Key.ToString();
+                    userKeys[3] = new UserKeyBindModel(keyArgs.Key);
+                    RightKey    = userKeys[3].GetString();
                     break;
                 case KeyBind.DROP:
-                    DropKey   = keyArgs.Key.ToString();
+                    userKeys[4] = new UserKeyBindModel(keyArgs.Key);
+                    DropKey     = userKeys[4].GetString();
                     break;
                 case KeyBind.HOLD:
-                    HoldKey   = keyArgs.Key.ToString();
+                    userKeys[5] = new UserKeyBindModel(keyArgs.Key);
+                    HoldKey     = userKeys[5].GetString();
                     break;
                 case KeyBind.PAUSE:
-                    PauseKey  = keyArgs.Key.ToString();
+                    userKeys[6] = new UserKeyBindModel(keyArgs.Key);
+                    PauseKey    = userKeys[6].GetString();
                     break;
                 default:
                     break;
@@ -74,22 +94,22 @@ namespace Tetris_Elimination.ViewModels
                     RotateKey = Key.None.ToString();
                     break;
                 case KeyBind.DOWN:
-                    DownKey = Key.None.ToString();
+                    DownKey   = Key.None.ToString();
                     break;
                 case KeyBind.LEFT:
-                    LeftKey = Key.None.ToString();
+                    LeftKey   = Key.None.ToString();
                     break;
                 case KeyBind.RIGHT:
-                    RightKey = Key.None.ToString();
+                    RightKey  = Key.None.ToString();
                     break;
                 case KeyBind.DROP:
-                    DropKey = Key.None.ToString();
+                    DropKey   = Key.None.ToString();
                     break;
                 case KeyBind.HOLD:
-                    HoldKey = Key.None.ToString();
+                    HoldKey   = Key.None.ToString();
                     break;
                 case KeyBind.PAUSE:
-                    PauseKey = Key.None.ToString();
+                    PauseKey  = Key.None.ToString();
                     break;
                 default:
                     break;
@@ -102,25 +122,31 @@ namespace Tetris_Elimination.ViewModels
             {
                 case KeyBind.ROTATE:
                     if (String.IsNullOrEmpty(RotateKey))
-                        RotateKey = ((Key)Properties.Settings.Default.Rotate).ToString();
+                        RotateKey = userKeys[0].GetString();
                     break;
                 case KeyBind.DOWN:
-                    DownKey = Key.None.ToString();
+                    if (String.IsNullOrEmpty(DownKey))
+                        DownKey   = userKeys[1].GetString();
                     break;
                 case KeyBind.LEFT:
-                    LeftKey = Key.None.ToString();
+                    if (String.IsNullOrEmpty(LeftKey))
+                        LeftKey   = userKeys[2].GetString();
                     break;
                 case KeyBind.RIGHT:
-                    RightKey = Key.None.ToString();
+                    if (String.IsNullOrEmpty(RightKey))
+                        RightKey  = userKeys[3].GetString();
                     break;
                 case KeyBind.DROP:
-                    DropKey = Key.None.ToString();
+                    if (String.IsNullOrEmpty(DropKey))
+                        DropKey   = userKeys[4].GetString();
                     break;
                 case KeyBind.HOLD:
-                    HoldKey = Key.None.ToString();
+                    if (String.IsNullOrEmpty(HoldKey))
+                        HoldKey   = userKeys[5].GetString();
                     break;
                 case KeyBind.PAUSE:
-                    PauseKey = Key.None.ToString();
+                    if (String.IsNullOrEmpty(PauseKey))
+                        PauseKey  = userKeys[6].GetString();
                     break;
                 default:
                     break;
@@ -131,11 +157,11 @@ namespace Tetris_Elimination.ViewModels
         {
             if (keyString == Key.None.ToString())
             {
-                return "";
+                return String.Empty;
             }
             else
             {
-                return keyString.ToUpper();
+                return keyString;
             }
         }
 
@@ -152,24 +178,22 @@ namespace Tetris_Elimination.ViewModels
 
         public double EffectsVolume
         {
-            get
-            { return _effectsVolume; }
+            get { return _effectsVolume; }
             set
             {
                 _effectsVolume = value;
-                audioManager.setVolume(_effectsVolume, _musicVolume);
+                audioManager.SetVolume(_effectsVolume, _musicVolume);
                 NotifyOfPropertyChange(() => EffectsVolume);
             }
         }
 
         public double MusicVolume
         {
-            get
-            { return _musicVolume; }
+            get { return _musicVolume; }
             set
             {
                 _musicVolume = value;
-                audioManager.setVolume(_effectsVolume, _musicVolume);
+                audioManager.SetVolume(_effectsVolume, _musicVolume);
                 NotifyOfPropertyChange(() => MusicVolume);
             }
         }
@@ -186,10 +210,7 @@ namespace Tetris_Elimination.ViewModels
 
         public string DownKey
         {
-            get
-            {
-                return _downKey;
-            }
+            get{ return _downKey; }
             set
             {
                 _downKey = TranslateKeyString(value);
@@ -199,7 +220,7 @@ namespace Tetris_Elimination.ViewModels
 
         public string LeftKey
         {
-            get{ return _leftKey; }
+            get { return _leftKey; }
             set
             {
                 _leftKey = TranslateKeyString(value);
@@ -229,8 +250,7 @@ namespace Tetris_Elimination.ViewModels
 
         public string HoldKey
         {
-            get
-            { return _holdKey; }
+            get { return _holdKey; }
             set
             {
                 _holdKey = TranslateKeyString(value);
@@ -240,8 +260,7 @@ namespace Tetris_Elimination.ViewModels
 
         public string PauseKey
         {
-            get
-            { return _pauseKey; }
+            get { return _pauseKey; }
             set
             {
                 _pauseKey = TranslateKeyString(value);
@@ -254,13 +273,13 @@ namespace Tetris_Elimination.ViewModels
             UserName       = Properties.Settings.Default.Name;
             MusicVolume    = Properties.Settings.Default.MusicVol;
             EffectsVolume  = Properties.Settings.Default.EffectsVol;
-            RotateKey      = ((Key)Properties.Settings.Default.Rotate).ToString();
-            DownKey        = ((Key)Properties.Settings.Default.Down).ToString();
-            LeftKey        = ((Key)Properties.Settings.Default.Left).ToString();
-            RightKey       = ((Key)Properties.Settings.Default.Right).ToString();
-            DropKey        = ((Key)Properties.Settings.Default.Drop).ToString();
-            HoldKey        = ((Key)Properties.Settings.Default.Hold).ToString();
-            PauseKey       = ((Key)Properties.Settings.Default.Pause).ToString();
+            RotateKey      = userKeys[0].GetString();
+            DownKey        = userKeys[1].GetString();
+            LeftKey        = userKeys[2].GetString();
+            RightKey       = userKeys[3].GetString();
+            DropKey        = userKeys[4].GetString();
+            HoldKey        = userKeys[5].GetString();
+            PauseKey       = userKeys[6].GetString();
         }
 
         private void SaveSettings()
@@ -268,13 +287,13 @@ namespace Tetris_Elimination.ViewModels
             Properties.Settings.Default.Name        = UserName;
             Properties.Settings.Default.MusicVol    = MusicVolume;
             Properties.Settings.Default.EffectsVol  = EffectsVolume;
-            Properties.Settings.Default.Rotate      = (int)Enum.Parse(typeof(Key), (RotateKey[0] + RotateKey.Substring(1).ToLower()));
-            Properties.Settings.Default.Down        = (int)Enum.Parse(typeof(Key), (DownKey[0] + DownKey.Substring(1).ToLower()));
-            Properties.Settings.Default.Left        = (int)Enum.Parse(typeof(Key), (LeftKey[0] + LeftKey.Substring(1).ToLower()));
-            Properties.Settings.Default.Right       = (int)Enum.Parse(typeof(Key), (RightKey[0] + RightKey.Substring(1).ToLower()));
-            Properties.Settings.Default.Drop        = (int)Enum.Parse(typeof(Key), (DropKey[0] + DropKey.Substring(1).ToLower()));
-            Properties.Settings.Default.Hold        = (int)Enum.Parse(typeof(Key), (HoldKey[0] + HoldKey.Substring(1).ToLower()));
-            Properties.Settings.Default.Pause       = (int)Enum.Parse(typeof(Key), (PauseKey[0] + PauseKey.Substring(1).ToLower()));
+            Properties.Settings.Default.Rotate      = userKeys[0].GetInt();
+            Properties.Settings.Default.Down        = userKeys[1].GetInt();
+            Properties.Settings.Default.Left        = userKeys[2].GetInt();
+            Properties.Settings.Default.Right       = userKeys[3].GetInt();
+            Properties.Settings.Default.Drop        = userKeys[4].GetInt();
+            Properties.Settings.Default.Hold        = userKeys[5].GetInt();
+            Properties.Settings.Default.Pause       = userKeys[6].GetInt();
             Properties.Settings.Default.Save();
         }
 

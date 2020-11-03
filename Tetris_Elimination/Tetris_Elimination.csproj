@@ -85,6 +85,7 @@
     <Compile Include="Events\GameOverEvent.cs" />
     <Compile Include="Models\TetreminoModel.cs" />
     <Compile Include="Models\ConstantsModel.cs" />
+    <Compile Include="Models\UserKeyBindModel.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
     <Compile Include="ViewModels\IntroViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

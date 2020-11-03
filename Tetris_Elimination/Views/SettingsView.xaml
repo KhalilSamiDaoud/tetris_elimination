@@ -106,6 +106,7 @@
                     <TextBlock Text="MOVE DOWN" FontSize="12"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10" />
                     <TextBox x:Uid="Down"  Text="{Binding Path=DownKey, Mode=TwoWay}"
                      cal:Message.Attach="[Event GotFocus] = [Action TextBoxClear('DOWN')];
+                                         [Event LostFocus] = [Action CheckNotEmpty('DOWN')];
                                          [Event PreviewKeyDown] = [Action CheckInput($executionContext, 'DOWN')];">
                         <TextBox.Background>
                             <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Entry_Main.png" />
@@ -117,6 +118,7 @@
                     <TextBlock Text="MOVE LEFT" FontSize="12"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10" />
                     <TextBox x:Uid="Left" Text="{Binding Path=LeftKey, Mode=TwoWay}"
                      cal:Message.Attach="[Event GotFocus] = [Action TextBoxClear('LEFT')];
+                                         [Event LostFocus] = [Action CheckNotEmpty('LEFT')];
                                          [Event PreviewKeyDown] = [Action CheckInput($executionContext, 'LEFT')];">
                         <TextBox.Background>
                             <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Entry_Main.png" />
@@ -128,6 +130,7 @@
                     <TextBlock Text="MOVE RIGHT" FontSize="12"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10" />
                     <TextBox x:Uid="Right" Text="{Binding Path=RightKey, Mode=TwoWay}"
                      cal:Message.Attach="[Event GotFocus] = [Action TextBoxClear('RIGHT')];
+                                         [Event LostFocus] = [Action CheckNotEmpty('RIGHT')];
                                          [Event PreviewKeyDown] = [Action CheckInput($executionContext, 'RIGHT')];">
                         <TextBox.Background>
                             <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Entry_Main.png" />
@@ -142,6 +145,7 @@
                     <TextBlock Text="DROP" FontSize="12"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10" />
                     <TextBox x:Uid="Drop" Text="{Binding Path=DropKey, Mode=TwoWay}"
                      cal:Message.Attach="[Event GotFocus] = [Action TextBoxClear('DROP')];
+                                         [Event LostFocus] = [Action CheckNotEmpty('DROP')];
                                          [Event PreviewKeyDown] = [Action CheckInput($executionContext, 'DROP')];">
                         <TextBox.Background>
                             <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Entry_Main.png" />
@@ -153,6 +157,7 @@
                     <TextBlock Text="HOLD" FontSize="12"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10" />
                     <TextBox x:Uid="Hold" Text="{Binding Path=HoldKey, Mode=TwoWay}"
                      cal:Message.Attach="[Event GotFocus] = [Action TextBoxClear('HOLD')];
+                                         [Event LostFocus] = [Action CheckNotEmpty('HOLD')];
                                          [Event PreviewKeyDown] = [Action CheckInput($executionContext, 'HOLD')];">
                         <TextBox.Background>
                             <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Entry_Main.png" />
@@ -164,6 +169,7 @@
                     <TextBlock Text="PAUSE" FontSize="12"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10" />
                     <TextBox x:Uid="Pause" Text="{Binding Path=PauseKey, Mode=TwoWay}"
                      cal:Message.Attach="[Event GotFocus] = [Action TextBoxClear('PAUSE')];
+                                         [Event LostFocus] = [Action CheckNotEmpty('PAUSE')];
                                          [Event PreviewKeyDown] = [Action CheckInput($executionContext, 'PAUSE')];">
                         <TextBox.Background>
                             <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Entry_Main.png" />

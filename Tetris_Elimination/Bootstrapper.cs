@@ -1,6 +1,6 @@
-﻿using Caliburn.Micro;
+﻿using Tetris_Elimination.ViewModels;
+using Caliburn.Micro;
 using System.Windows;
-using Tetris_Elimination.ViewModels;
 
 namespace Tetris_Elimination
 {

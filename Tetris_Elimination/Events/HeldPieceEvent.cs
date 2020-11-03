@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Tetris_Elimination.Models;
+﻿using Tetris_Elimination.Models;
 
 namespace Tetris_Elimination.Events
 {
@@ -13,10 +8,10 @@ namespace Tetris_Elimination.Events
 
         public HeldPieceEvent(TetreminoModel heldPiece)
         {
-            this._heldPiece = heldPiece;
+            _heldPiece = heldPiece;
         }
 
-        public TetreminoModel get()
+        public TetreminoModel Get()
         {
             return _heldPiece;
         }

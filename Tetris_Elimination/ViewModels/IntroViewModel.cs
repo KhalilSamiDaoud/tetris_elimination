@@ -1,26 +1,28 @@
-﻿using Caliburn.Micro;
-using System;
-using System.Timers;
+﻿using static Tetris_Elimination.Models.ConstantsModel;
 using Tetris_Elimination.Models;
-using static Tetris_Elimination.Models.ConstantsModel;
+using Caliburn.Micro;
+using System.Timers;
+using System;
 
 namespace Tetris_Elimination.ViewModels
 {
     public class IntroViewModel : Screen
     {
-        private String _title;
-        private String _logoURL;
+        private AudioManagerModel audioManager;
         private Timer eventTimer;
-        private AudioManagerModel audioManager = AudioManagerModel.Instance;
+        private String _logoURL;
+        private String _title;
 
         public IntroViewModel()
         {
-            eventTimer = new Timer();
+            audioManager = AudioManagerModel.Instance;
+
+            eventTimer          = new Timer();
             eventTimer.Elapsed += new ElapsedEventHandler(Intro);
             eventTimer.Interval = 2000;
             eventTimer.Start();
 
-            Title = "- A Game -";
+            Title   = "- A Game -";
             LogoURL = "pack://application:,,,/Assets/Images/Blue_Bottle.png";
         }
 
@@ -28,7 +30,7 @@ namespace Tetris_Elimination.ViewModels
         {
             this.OnUIThread(() =>
             {
-                audioManager.playSound(Sound.INTRO);
+                audioManager.PlaySound(Sound.INTRO);
                 eventTimer.Stop();
                 eventTimer.Dispose();
             });
@@ -36,10 +38,7 @@ namespace Tetris_Elimination.ViewModels
 
         public String Title
         {
-            get
-            {
-                return _title;
-            }
+            get { return _title; }
             set
             {
                 _title = value;
@@ -49,10 +48,7 @@ namespace Tetris_Elimination.ViewModels
 
         public String LogoURL
         {
-            get
-            {
-                return _logoURL;
-            }
+            get { return _logoURL; }
             set
             {
                 _logoURL = value;

@@ -1,11 +1,11 @@
 ﻿<UserControl x:Class="Tetris_Elimination.Views.SettingsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="http://www.caliburnproject.org"
-             mc:Ignorable="d" 
-             d:DesignHeight="900" 
+             mc:Ignorable="d"
+             d:DesignHeight="900"
              d:DesignWidth="1000">
 
     <UserControl.Background>
@@ -18,7 +18,7 @@
             </VisualBrush.Visual>
         </VisualBrush>
     </UserControl.Background>
-    
+
     <Grid>
 
         <Grid.Background>
@@ -43,17 +43,16 @@
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
 
-
-        <TextBlock Text="-SETTINGS-"  Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" 
+        <TextBlock Text="-SETTINGS-"  Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1"
                FontSize="60"  Foreground="White" Margin="0,0,0,40" />
 
         <StackPanel HorizontalAlignment="Center" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2"
                     VerticalAlignment="Center" Margin="0,0,0,40">
 
-            <TextBlock Text="DISPLAY NAME"  Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" 
-                       FontSize="20"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-            <TextBox x:Name="UserName" Height="50" Width="300" Text="{Binding Path=UserName, Mode=TwoWay}" Foreground="White" 
-                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" MaxLength="10">
+            <TextBlock Text="DISPLAY NAME"  Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1"
+                       FontSize="20"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10" />
+            <TextBox x:Name="UserName" Width="300" Text="{Binding Path=UserName, Mode=TwoWay}" 
+                     MaxLength="10" CharacterCasing="Normal" CaretBrush="Black">
                 <TextBox.Background>
                     <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Entry_Main.png" />
                 </TextBox.Background>
@@ -63,16 +62,15 @@
         <StackPanel HorizontalAlignment="Center" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2"
                     VerticalAlignment="Top"  Margin="0,0,0,40">
 
-            <TextBlock Text="AUDIO SETTINGS"  Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" 
-                       FontSize="20"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+            <TextBlock Text="AUDIO SETTINGS"  Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1"
+                       FontSize="20"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10" />
 
             <StackPanel Orientation="Horizontal">
                 <StackPanel Orientation="Vertical" Margin="0,20,50,0">
                     <TextBlock Text="MUSIC VOLUME" FontSize="12"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10" />
 
-                    <Slider  x:Name="MusicVolume" Width="300" Height="30" Value="{Binding Path=MusicVolume, Mode=TwoWay}" Minimum="0" 
-                             Focusable="False" LargeChange="0" Maximum=".5" SmallChange=".01"/>
-
+                    <Slider  x:Name="MusicVolume" Width="300" Height="30" Value="{Binding Path=MusicVolume, Mode=TwoWay}" Minimum="0"
+                             Focusable="False" LargeChange="0" Maximum=".5" SmallChange=".01" />
                 </StackPanel>
 
                 <StackPanel Orientation="Vertical" Margin="0,20,0,0">
@@ -87,16 +85,17 @@
         <StackPanel HorizontalAlignment="Center" Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2"
                     VerticalAlignment="Top" Orientation="Vertical">
 
-            <TextBlock Text="KEY BINDINGS"  Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" 
-                       FontSize="20"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+            <TextBlock Text="KEY BINDINGS"  Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1"
+                       FontSize="20"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10" />
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 
                 <StackPanel Orientation="Vertical" Margin="0,0,20,0">
-                    <TextBlock Text="ROTATE" FontSize="12"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                    <TextBox x:Uid="Rotate"  Height="50" Width="125" Foreground="White" HorizontalContentAlignment="Center"
-                     VerticalContentAlignment="Center" FontSize="20" MaxLength="1" Text="{Binding Path=RotateKey, Mode=TwoWay}"
-                     cal:Message.Attach="[Event GotFocus] = [Action TextBoxClear('ROTATE')]">
+                    <TextBlock Text="ROTATE" FontSize="12"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10" />
+                    <TextBox x:Uid="Rotate" Text="{Binding Path=RotateKey, Mode=TwoWay}"
+                     cal:Message.Attach="[Event GotFocus] = [Action TextBoxClear('ROTATE')];
+                                         [Event LostFocus] = [Action CheckNotEmpty('ROTATE')];
+                                         [Event PreviewKeyDown] = [Action CheckInput($executionContext, 'ROTATE')];">
                         <TextBox.Background>
                             <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Entry_Main.png" />
                         </TextBox.Background>
@@ -104,9 +103,10 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Vertical" Margin="0,0,20,0">
-                    <TextBlock Text="MOVE DOWN" FontSize="12"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                    <TextBox Height="50" Width="125" Text="DOWN" Foreground="White" HorizontalContentAlignment="Center"
-                     VerticalContentAlignment="Center" FontSize="20" >
+                    <TextBlock Text="MOVE DOWN" FontSize="12"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10" />
+                    <TextBox x:Uid="Down"  Text="{Binding Path=DownKey, Mode=TwoWay}"
+                     cal:Message.Attach="[Event GotFocus] = [Action TextBoxClear('DOWN')];
+                                         [Event PreviewKeyDown] = [Action CheckInput($executionContext, 'DOWN')];">
                         <TextBox.Background>
                             <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Entry_Main.png" />
                         </TextBox.Background>
@@ -114,9 +114,10 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Vertical" Margin="0,0,20,0">
-                    <TextBlock Text="MOVE LEFT" FontSize="12"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                    <TextBox Height="50" Width="125" Text="LEFT" Foreground="White" HorizontalContentAlignment="Center"
-                     VerticalContentAlignment="Center" FontSize="20" >
+                    <TextBlock Text="MOVE LEFT" FontSize="12"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10" />
+                    <TextBox x:Uid="Left" Text="{Binding Path=LeftKey, Mode=TwoWay}"
+                     cal:Message.Attach="[Event GotFocus] = [Action TextBoxClear('LEFT')];
+                                         [Event PreviewKeyDown] = [Action CheckInput($executionContext, 'LEFT')];">
                         <TextBox.Background>
                             <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Entry_Main.png" />
                         </TextBox.Background>
@@ -124,9 +125,10 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="MOVE RIGHT" FontSize="12"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                    <TextBox Height="50" Width="125" Text="RIGHT" Foreground="White" HorizontalContentAlignment="Center"
-                     VerticalContentAlignment="Center" FontSize="20" >
+                    <TextBlock Text="MOVE RIGHT" FontSize="12"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10" />
+                    <TextBox x:Uid="Right" Text="{Binding Path=RightKey, Mode=TwoWay}"
+                     cal:Message.Attach="[Event GotFocus] = [Action TextBoxClear('RIGHT')];
+                                         [Event PreviewKeyDown] = [Action CheckInput($executionContext, 'RIGHT')];">
                         <TextBox.Background>
                             <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Entry_Main.png" />
                         </TextBox.Background>
@@ -137,9 +139,10 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 
                 <StackPanel Orientation="Vertical" Margin="0,20,20,0">
-                    <TextBlock Text="DROP" FontSize="12"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                    <TextBox Height="50" Width="125" Text="SPACE" Foreground="White" HorizontalContentAlignment="Center"
-                     VerticalContentAlignment="Center" FontSize="20" >
+                    <TextBlock Text="DROP" FontSize="12"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10" />
+                    <TextBox x:Uid="Drop" Text="{Binding Path=DropKey, Mode=TwoWay}"
+                     cal:Message.Attach="[Event GotFocus] = [Action TextBoxClear('DROP')];
+                                         [Event PreviewKeyDown] = [Action CheckInput($executionContext, 'DROP')];">
                         <TextBox.Background>
                             <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Entry_Main.png" />
                         </TextBox.Background>
@@ -147,9 +150,10 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Vertical" Margin="0,20,20,0">
-                    <TextBlock Text="HOLD" FontSize="12"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                    <TextBox Height="50" Width="125" Text="C" Foreground="White" HorizontalContentAlignment="Center"
-                     VerticalContentAlignment="Center" FontSize="20" >
+                    <TextBlock Text="HOLD" FontSize="12"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10" />
+                    <TextBox x:Uid="Hold" Text="{Binding Path=HoldKey, Mode=TwoWay}"
+                     cal:Message.Attach="[Event GotFocus] = [Action TextBoxClear('HOLD')];
+                                         [Event PreviewKeyDown] = [Action CheckInput($executionContext, 'HOLD')];">
                         <TextBox.Background>
                             <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Entry_Main.png" />
                         </TextBox.Background>
@@ -158,8 +162,9 @@
 
                 <StackPanel Orientation="Vertical" Margin="0,20,0,0">
                     <TextBlock Text="PAUSE" FontSize="12"  Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10" />
-                    <TextBox Height="50" Width="125" Text="UP" Foreground="White" HorizontalContentAlignment="Center"
-                     VerticalContentAlignment="Center" FontSize="20" >
+                    <TextBox x:Uid="Pause" Text="{Binding Path=PauseKey, Mode=TwoWay}"
+                     cal:Message.Attach="[Event GotFocus] = [Action TextBoxClear('PAUSE')];
+                                         [Event PreviewKeyDown] = [Action CheckInput($executionContext, 'PAUSE')];">
                         <TextBox.Background>
                             <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Entry_Main.png" />
                         </TextBox.Background>
@@ -168,12 +173,12 @@
             </StackPanel>
         </StackPanel>
 
-            <Button x:Name="SaveAndExit" Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2"
+        <Button x:Name="SaveAndExit" Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2"
                 Width="300" Height="50" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-                <Button.Background>
-                    <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Button_Main.png" />
-                </Button.Background>
-                <Label HorizontalAlignment="Center" VerticalAlignment="Center">SAVE AND EXIT</Label>
-            </Button>
+            <Button.Background>
+                <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Button_Main.png" />
+            </Button.Background>
+            <Label HorizontalAlignment="Center" VerticalAlignment="Center">SAVE AND EXIT</Label>
+        </Button>
     </Grid>
 </UserControl>

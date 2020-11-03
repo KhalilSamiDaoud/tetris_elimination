@@ -133,7 +133,7 @@ namespace Tetris_Elimination.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Version: 1.1a")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Version: 1.5b")]
         public string Version {
             get {
                 return ((string)(this["Version"]));

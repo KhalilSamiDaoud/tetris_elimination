@@ -99,7 +99,7 @@ namespace Tetris_Elimination.Views
                     pauseGame();
                 }
             }
-            else if (!gameStarted && !gameOver)
+            else if (!gameStarted && !gameOver && countDown < 0)
             {
                 if (keyPressed == Properties.Settings.Default.Pause)
                 {

@@ -21,11 +21,19 @@
                     <Style TargetType="TextBox">
                         <Setter Property="FontFamily" Value="/Tetris_Elimination;component/Assets/Fonts/#Old School Adventures" />
                         <Setter Property="FontWeight" Value="DemiBold" />
+                        <Setter Property="Height" Value="50" />
+                        <Setter Property="Width" Value="125" />
+                        <Setter Property="FontSize" Value="20" />
+                        <Setter Property="MaxLength" Value="1" />
+                        <Setter Property="CharacterCasing" Value="Upper" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="CaretBrush" Value="Transparent" />
                     </Style>
 
                     <local:Bootstrapper x:Key="Bootstrapper">
                     </local:Bootstrapper>
-                    
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

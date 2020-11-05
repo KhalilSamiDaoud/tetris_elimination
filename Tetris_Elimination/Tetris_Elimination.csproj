@@ -81,8 +81,10 @@
     <Compile Include="Events\ScoreEvent.cs" />
     <Compile Include="Events\TickDownEvent.cs" />
     <Compile Include="Models\AudioManagerModel.cs" />
+    <Compile Include="Models\ClientManagerModel.cs" />
     <Compile Include="Models\EventAggregatorModel.cs" />
     <Compile Include="Events\GameOverEvent.cs" />
+    <Compile Include="ViewModels\MultiPlayerMenuViewModel.cs" />
     <Compile Include="Models\TetreminoModel.cs" />
     <Compile Include="Models\ConstantsModel.cs" />
     <Compile Include="Models\UserKeyBindModel.cs" />
@@ -91,6 +93,7 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\MultiPlayerViewModel.cs" />
+    <Compile Include="ViewModels\ServerViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\SinglePlayerViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
@@ -106,8 +109,14 @@
     <Compile Include="Views\MenuView.xaml.cs">
       <DependentUpon>MenuView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MultiPlayerMenuView.xaml.cs">
+      <DependentUpon>MultiPlayerMenuView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MultiPlayerView.xaml.cs">
       <DependentUpon>MultiPlayerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ServerView.xaml.cs">
+      <DependentUpon>ServerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -168,7 +177,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\MultiPlayerMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MultiPlayerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ServerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -234,6 +251,7 @@
     <Resource Include="Assets\Images\Background.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Assets\Images\Server_Window.png" />
     <Content Include="Assets\Music\TetrisTheme.mp3" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

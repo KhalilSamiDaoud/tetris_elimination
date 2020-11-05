@@ -67,7 +67,6 @@ namespace Tetris_Elimination.Models
 
         private void FadeIn(object sender, EventArgs e)
         {
-            //changed this from run on UI thread
             OnUIThread(() =>
             {
                 if (audioLoop.Volume >= userMusicVol)

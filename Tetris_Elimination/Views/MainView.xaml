@@ -3,19 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Tetris_Elimination.Views"
         mc:Ignorable="d"
         Title="Tetris Elemination" 
-        Height="900" 
-        Width="1000" 
-        ResizeMode="NoResize"
+        Height="800" 
+        Width="900" 
         WindowStartupLocation="CenterScreen"
         Icon="/Assets/icon.ico">
 
     <Window.Background>
         <VisualBrush TileMode="Tile"  Viewport="0,0,1,1">
             <VisualBrush.Visual>
-                <Image Source="pack://application:,,,/Assets/Images/Background.png"
+                <Image Source="{Binding Path=SetBackground, NotifyOnTargetUpdated=True}"
                        RenderOptions.BitmapScalingMode="NearestNeighbor"
                        SnapsToDevicePixels="True">
                 </Image>
@@ -24,11 +22,14 @@
     </Window.Background>
 
     <Grid>
+
         <Grid.Background>
-            <SolidColorBrush Color="Black" Opacity=".25" />
+            <SolidColorBrush Color="Black" Opacity="{Binding Path=SetShade, NotifyOnTargetUpdated=True}" />
         </Grid.Background>
-        <ContentControl x:Name="ActiveItem" />
+
+        <Viewbox StretchDirection="Both" Stretch="Fill" MaxWidth="1400">
+            <ContentControl x:Name="ActiveItem" />
+        </Viewbox>
     </Grid>
-    
 </Window>
 

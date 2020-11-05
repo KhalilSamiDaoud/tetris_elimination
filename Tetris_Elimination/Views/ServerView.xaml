@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="Tetris_Elimination.Views.ServerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Tetris_Elimination.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="400">
+    <Grid>
+        <Grid.Background>
+            <VisualBrush TileMode="Tile"  Viewport="0,0,1,1">
+                <VisualBrush.Visual>
+                    <Image Source="pack://application:,,,/Assets/Images/Server_Window.png"
+                       RenderOptions.BitmapScalingMode="NearestNeighbor"
+                       SnapsToDevicePixels="True">
+                    </Image>
+                </VisualBrush.Visual>
+            </VisualBrush>
+        </Grid.Background>
+
+    </Grid>
+</UserControl>

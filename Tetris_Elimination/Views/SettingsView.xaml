@@ -8,23 +8,7 @@
              d:DesignHeight="900"
              d:DesignWidth="1000">
 
-    <UserControl.Background>
-        <VisualBrush TileMode="Tile"  Viewport="0,0,1,1">
-            <VisualBrush.Visual>
-                <Image Source="pack://application:,,,/Assets/Images/Background_Settings.png"
-                       RenderOptions.BitmapScalingMode="NearestNeighbor"
-                       SnapsToDevicePixels="True">
-                </Image>
-            </VisualBrush.Visual>
-        </VisualBrush>
-    </UserControl.Background>
-
     <Grid>
-
-        <Grid.Background>
-            <SolidColorBrush Color="Black" Opacity=".5" />
-        </Grid.Background>
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
             <ColumnDefinition Width="*" />
@@ -39,7 +23,8 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
 
@@ -179,7 +164,7 @@
             </StackPanel>
         </StackPanel>
 
-        <Button x:Name="SaveAndExit" Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2"
+        <Button x:Name="SaveAndExit" Grid.Column="2" Grid.Row="5" Grid.ColumnSpan="2" Margin="0,70,0,0"
                 Width="300" Height="50" VerticalAlignment="Bottom" HorizontalAlignment="Center">
             <Button.Background>
                 <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Button_Main.png" />

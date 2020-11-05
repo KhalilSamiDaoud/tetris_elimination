@@ -7,31 +7,34 @@ namespace Tetris_Elimination.ViewModels
     public class MenuViewModel : Screen
     {
         private AudioManagerModel audioManager;
-        private MainViewModel _mainWindow;
+        private MainViewModel mainWindow;
         private string _version;
         private string _userName;
-        public MenuViewModel(MainViewModel mainWindow)
+        public MenuViewModel(MainViewModel _mainWindow)
         {
             audioManager  = AudioManagerModel.Instance;
-            _mainWindow   = mainWindow;
+            mainWindow   = _mainWindow;
             Version       = Properties.Settings.Default.Version;
             UserName      = Properties.Settings.Default.Name;
+
+            mainWindow.SetBackground = "pack://application:,,,/Assets/Images/Background.png";
+            mainWindow.SetShade      = .25;
 
             OnUIThread(audioManager.PlayFadeInTheme);
         }
         public void LoadSinglePlayer()
         {
-            _mainWindow.SetNewView(Screens.SINGLEPLAYER);
+            mainWindow.SetNewView(Screens.SINGLEPLAYER);
         }
 
         public void LoadMultiPlayer()
         {
-            _mainWindow.SetNewView(Screens.MULTIPLAYER);
+            mainWindow.SetNewView(Screens.MULTIPLAYER);
         }
 
         public void LoadSettings()
         {
-            _mainWindow.SetNewView(Screens.SETTINGS);
+            mainWindow.SetNewView(Screens.SETTINGS);
         }
 
         public string Version

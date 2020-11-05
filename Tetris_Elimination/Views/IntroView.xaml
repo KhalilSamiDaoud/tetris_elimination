@@ -3,13 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Tetris_Elimination.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="900" d:DesignWidth="1000">
+             Height="900"
+             Width="1000">
     <Grid>
-        <Grid.Background>
-            <SolidColorBrush Color="Black"/>
-        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions >
             <RowDefinition Height="*"/>
@@ -18,10 +21,8 @@
         </Grid.RowDefinitions>
 
         <!-- Credit to: Anu Viswan from stack overflow-->
-        <StackPanel Grid.Row="1" Orientation="Vertical">
-            <Image x:Name="Logo" Source="{Binding LogoURL, NotifyOnTargetUpdated=True}"
-                   HorizontalAlignment="Center" Stretch="Fill" Height="300" Width="300"
-                   RenderOptions.BitmapScalingMode="NearestNeighbor" SnapsToDevicePixels="True">
+            <Image x:Name="Logo" Source="{Binding LogoURL, NotifyOnTargetUpdated=True}" Height="300" Width="300"
+                   RenderOptions.BitmapScalingMode="NearestNeighbor" SnapsToDevicePixels="True" Grid.Row="1" Grid.Column="1">
                 <Image.Triggers>
                     <EventTrigger RoutedEvent="Binding.TargetUpdated">
                         <BeginStoryboard>
@@ -36,21 +37,20 @@
                 </Image.Triggers>
             </Image>
 
-            <TextBlock x:Name="Title" Text="{Binding Title, NotifyOnTargetUpdated=True}" Foreground="White"
-                   HorizontalAlignment="Center" FontSize="30">
-                <TextBlock.Triggers>
-                    <EventTrigger RoutedEvent="Binding.TargetUpdated">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+        <TextBlock x:Name="Title" Text="{Binding Title, NotifyOnTargetUpdated=True}" Foreground="White"
+                   HorizontalAlignment="Center" FontSize="30" Grid.Row="2" Grid.Column="1">
+            <TextBlock.Triggers>
+                <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
                               Duration="0:0:2" From="0.0" To="1.0" BeginTime="0:0:0"/>
-                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
                               Duration="0:0:2" From="1.0" To="0.0" BeginTime="0:0:3" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </TextBlock.Triggers>
-            </TextBlock>
-        </StackPanel>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </TextBlock.Triggers>
+        </TextBlock>
     </Grid>
 </UserControl>

@@ -11,7 +11,7 @@ namespace Tetris_Elimination.ViewModels
     {
         private List<UserKeyBindModel> userKeys;
         private AudioManagerModel audioManager;        
-        private MainViewModel main_window;
+        private MainViewModel mainWindow;
         private Double _effectsVolume;
         private Double _musicVolume;
         private String _userName;
@@ -23,10 +23,13 @@ namespace Tetris_Elimination.ViewModels
         private String _holdKey;
         private String _pauseKey;
 
-        public SettingsViewModel(MainViewModel _main_window)
+        public SettingsViewModel(MainViewModel _mainWindow)
         {
-            main_window  = _main_window;
+            mainWindow   = _mainWindow;
             audioManager = AudioManagerModel.Instance;
+
+            mainWindow.SetBackground = "pack://application:,,,/Assets/Images/Background_Settings.png";
+            mainWindow.SetShade      = .5;
 
             CreateKeyList();
             LoadSettings();
@@ -172,7 +175,6 @@ namespace Tetris_Elimination.ViewModels
             {
                 _userName = value;
                 NotifyOfPropertyChange(() => UserName);
-
             }
         }
 
@@ -300,7 +302,7 @@ namespace Tetris_Elimination.ViewModels
         public void SaveAndExit()
         {
             SaveSettings();
-            main_window.SetNewView(Screens.MENU);
+            mainWindow.SetNewView(Screens.MENU);
         }
     }
 }

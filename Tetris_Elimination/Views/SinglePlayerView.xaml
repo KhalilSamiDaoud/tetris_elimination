@@ -7,8 +7,8 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d"
-             d:DesignHeight="900"
-             d:DesignWidth="1000">
+             Height="900"
+             Width="1000">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
@@ -23,8 +23,8 @@
             <RowDefinition Height="165" />
             <RowDefinition Height="250" />
             <RowDefinition Height="245" />
-            <RowDefinition Height="10" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="150" />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
 

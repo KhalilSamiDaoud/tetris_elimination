@@ -23,8 +23,8 @@
             <RowDefinition Height="165" />
             <RowDefinition Height="250" />
             <RowDefinition Height="245" />
-            <RowDefinition Height="20" />
-            <RowDefinition Height="150" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="200" />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
 

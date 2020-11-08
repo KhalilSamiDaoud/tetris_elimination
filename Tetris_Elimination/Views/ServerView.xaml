@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Tetris_Elimination.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="400">
+             d:DesignHeight="450"
+             d:DesignWidth="400">
     <Grid>
         <Grid.Background>
             <VisualBrush TileMode="Tile"  Viewport="0,0,1,1">
@@ -17,6 +18,17 @@
                 </VisualBrush.Visual>
             </VisualBrush>
         </Grid.Background>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="nani"  Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
 
     </Grid>
 </UserControl>

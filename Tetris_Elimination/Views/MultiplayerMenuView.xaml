@@ -13,8 +13,9 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="20" />
         </Grid.ColumnDefinitions>
@@ -24,29 +25,28 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="450" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
 
-        <TextBlock Text="-MULTIPLAYER-"  Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1"
-               FontSize="55"  Foreground="White" Margin="0,0,0,40" />
+        <TextBlock Text="-MULTIPLAYER-"  Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="1"
+               FontSize="55"  Foreground="White" Margin="0,0,0,40" HorizontalAlignment="Center" />
 
-        <TextBlock Text="PLAYING AS, NavyCheeze_"  Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2"
+        <TextBlock Text="PLAYING AS, NavyCheeze_"  Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="2"
                FontSize="20"  Foreground="White" Margin="0,0,0,40" HorizontalAlignment="Center"/>
 
-        <StackPanel HorizontalAlignment="Center" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2"
+        <StackPanel HorizontalAlignment="Center" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="3"
                     VerticalAlignment="Center" Margin="0,0,0,40" Orientation="Horizontal">
 
-            <TextBlock Text="IP: "  Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1"
-                       FontSize="18"  Foreground="White" VerticalAlignment="Center"/>
-            <TextBox x:Name="UserName" Width="350" Text="{Binding Path=UserName, Mode=TwoWay}" 
+            <TextBlock Text="IP: "  Grid.Column="2" FontSize="18"  Foreground="White" VerticalAlignment="Center"/>
+            <TextBox x:Name="InputIP" Width="350" Text="{Binding Path=InputIP, Mode=TwoWay}" 
                      MaxLength="21" CharacterCasing="Normal" CaretBrush="Black">
                 <TextBox.Background>
                     <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Entry_Main.png" />
                 </TextBox.Background>
             </TextBox>
-            <Button x:Name="Connect" Width="120" Height="50" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+            <Button x:Name="AttemptConnect" Width="120" Height="50" VerticalAlignment="Bottom" HorizontalAlignment="Center"
                     Margin="20,0,0,0">
                 <Button.Background>
                     <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Button_Main.png" />
@@ -55,10 +55,10 @@
             </Button>
         </StackPanel>
 
-        <ContentControl cal:View.Model="{Binding Items[0]}" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4" />
+        <ContentControl cal:View.Model="{Binding Items[0]}" Grid.Column="3" Grid.Row="4" />
 
 
-        <Button x:Name="LoadMenu" Grid.Column="2" Grid.Row="5" Grid.ColumnSpan="2"
+        <Button x:Name="LoadMenu" Grid.Column="2" Grid.Row="5" Grid.ColumnSpan="3" Margin="0,40,0,0"
                 Width="300" Height="50" VerticalAlignment="Bottom" HorizontalAlignment="Center">
             <Button.Background>
                 <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Button_Main.png" />

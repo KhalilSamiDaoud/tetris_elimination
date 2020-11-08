@@ -16,7 +16,6 @@ namespace Tetris_Elimination.Models
         private ClientManagerModel()
         {
             dataBufferSize = 4096;
-            IP             = "127.0.0.1";
             Port           = 26950;
             tcp            = new TCP();
         }
@@ -42,9 +41,15 @@ namespace Tetris_Elimination.Models
 
         public int MyID { get; private set; }
 
-        public void ConnectToServer()
+        public void ConnectToServer(string ip, string port)
         {
+            int tempPort;
+            Int32.TryParse(port, out tempPort);
 
+            IP = ip;
+            Port = tempPort;
+
+            tcp.Connect();
         }
 
         public class TCP
@@ -62,7 +67,7 @@ namespace Tetris_Elimination.Models
 
             public void Connect()
             {
-                socket = new TcpClient
+                socket        = new TcpClient
                 {
                     ReceiveBufferSize = dataBufferSize,
                     SendBufferSize = dataBufferSize

@@ -1,4 +1,5 @@
 ﻿using static Tetris_Elimination.Models.ConstantsModel;
+using Tetris_Elimination.Networking;
 using Tetris_Elimination.Models;
 using Tetris_Elimination.Events;
 using Caliburn.Micro;
@@ -8,7 +9,7 @@ namespace Tetris_Elimination.ViewModels
 {
     public class MultiPlayerMenuViewModel : Conductor<Object>.Collection.AllActive, IHandle<NewGameEvent>
     {
-        private ClientManagerModel clientManager;
+        private ClientManager clientManager;
         private EventAggregatorModel myEvents;
         private MainViewModel mainWindow;
         private ServerViewModel server;
@@ -19,7 +20,7 @@ namespace Tetris_Elimination.ViewModels
             myEvents.getAggregator().Subscribe(this);
 
             mainWindow    = _mainWindow;
-            clientManager = ClientManagerModel.Instance;
+            clientManager = ClientManager.Instance;
             server        = new ServerViewModel();
 
             mainWindow.SetBackground = "pack://application:,,,/Assets/Images/Background_Settings.png";
@@ -41,7 +42,7 @@ namespace Tetris_Elimination.ViewModels
         {
             string[] ipAndPort = ParseInputIP();
 
-           // clientManager.ConnectToServer(ipAndPort[0], ipAndPort[1]);
+           clientManager.ConnectToServer(ipAndPort[0], ipAndPort[1]);
 
             myEvents.getAggregator().PublishOnUIThread(new ClientConnectedEvent());
         }

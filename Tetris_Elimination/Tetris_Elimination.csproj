@@ -81,11 +81,16 @@
     <Compile Include="Events\NewGameEvent.cs" />
     <Compile Include="Events\NextPieceEvent.cs" />
     <Compile Include="Events\ScoreEvent.cs" />
+    <Compile Include="Events\ServerInformationEvent.cs" />
     <Compile Include="Events\TickDownEvent.cs" />
     <Compile Include="Models\AudioManagerModel.cs" />
-    <Compile Include="Models\ClientManagerModel.cs" />
+    <Compile Include="Networking\ClientHandle.cs" />
+    <Compile Include="Networking\ClientManager.cs" />
     <Compile Include="Models\EventAggregatorModel.cs" />
     <Compile Include="Events\GameOverEvent.cs" />
+    <Compile Include="Networking\PacketSend.cs" />
+    <Compile Include="Networking\Packet.cs" />
+    <Compile Include="Networking\ThreadManager.cs" />
     <Compile Include="ViewModels\MultiPlayerBoardViewModel.cs" />
     <Compile Include="ViewModels\MultiPlayerMenuViewModel.cs" />
     <Compile Include="Models\TetreminoModel.cs" />

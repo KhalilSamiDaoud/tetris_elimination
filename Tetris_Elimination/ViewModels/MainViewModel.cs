@@ -39,8 +39,11 @@ namespace Tetris_Elimination.ViewModels
                 case Screens.SINGLEPLAYER:
                     ActivateItem(new SinglePlayerViewModel(this));
                     break;
-                case Screens.MULTIPLAYER:
+                case Screens.MULTIPLAYER_MENU:
                     ActivateItem(new MultiPlayerMenuViewModel(this));
+                    break;
+                case Screens.MULTIPLAYER:
+                    ActivateItem(new MultiPlayerViewModel(this));
                     break;
                 case Screens.SETTINGS:
                     ActivateItem(new SettingsViewModel(this));

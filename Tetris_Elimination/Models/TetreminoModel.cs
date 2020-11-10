@@ -1,5 +1,4 @@
 ﻿using static Tetris_Elimination.Models.ConstantsModel;
-using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows;
 using System;
@@ -33,7 +32,7 @@ namespace Tetris_Elimination.Models
             return shape;
         }
 
-        public Tetremino GetType()
+        public new Tetremino GetType()
         {
             return type;
         }
@@ -47,31 +46,31 @@ namespace Tetris_Elimination.Models
             switch (_piece)
             {
                 case Tetremino.PURPLE_T:
-                    image.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Purple_Tile.png", UriKind.Absolute));
+                    image = PURPLE_TILE;
                     shape = Initialize(Tetremino.PURPLE_T);
                     break;
                 case Tetremino.BLUE_I:
-                    image.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Blue_Tile.png", UriKind.Absolute));
+                    image = LIGHT_BLUE_TILE;
                     shape = Initialize(Tetremino.BLUE_I);
                     break;
                 case Tetremino.BLUE_L:
-                    image.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Dark_Blue_Tile.png", UriKind.Absolute));
+                    image = BLUE_TILE;
                     shape = Initialize(Tetremino.BLUE_L);
                     break;
                 case Tetremino.GREEN_Z:
-                    image.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Green_Tile.png", UriKind.Absolute));
+                    image = GREEN_TILE;
                     shape = Initialize(Tetremino.GREEN_Z);
                     break;
                 case Tetremino.ORANGE_J:
-                    image.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Orange_Tile.png", UriKind.Absolute));
+                    image = ORANGE_TILE;
                     shape = Initialize(Tetremino.ORANGE_J);
                     break;
                 case Tetremino.RED_S:
-                    image.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Red_Tile.png", UriKind.Absolute));
+                    image = RED_TILE;
                     shape = Initialize(Tetremino.RED_S);
                     break;
                 case Tetremino.YELLOW_O:
-                    image.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Yellow_Tile.png", UriKind.Absolute));
+                    image = YELLOW_TILE;
                     shape = Initialize(Tetremino.YELLOW_O);
                     break;
                 default:

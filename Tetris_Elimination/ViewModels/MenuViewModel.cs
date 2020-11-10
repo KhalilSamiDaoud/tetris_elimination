@@ -29,7 +29,7 @@ namespace Tetris_Elimination.ViewModels
 
         public void LoadMultiPlayer()
         {
-            mainWindow.SetNewView(Screens.MULTIPLAYER);
+            mainWindow.SetNewView(Screens.MULTIPLAYER_MENU);
         }
 
         public void LoadSettings()

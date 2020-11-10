@@ -14,10 +14,10 @@ namespace Tetris_Elimination.Views
     /// <summary>
     /// Interaction logic for BoardView.xaml
     /// </summary>
-    public partial class BoardView : UserControl, IHandle<NewGameEvent>
+    public partial class MultiPlayerBoardView : UserControl, IHandle<NewGameEvent>
     {
-        private const int row  = 22;
-        private const int col  = 12;
+        private const int row = 22;
+        private const int col = 12;
         private TetreminoModel currentTetremino;
         private TetreminoModel nextTetremino;
         private TetreminoModel heldTetremino;
@@ -38,34 +38,39 @@ namespace Tetris_Elimination.Views
         private int levelThreshhold;
         private int countDown;
         private static Timer eventTimer;
+        private static Timer encoderTimer;
 
-        public BoardView()
+        public MultiPlayerBoardView()
         {
-            gameOver          = false;
-            gameStarted       = false;
-            swappedThisTurn   = false;
-            interval          = 1000;
-            level             = 1;
-            clearedRows       = 0;
-            score             = 0;
-            levelThreshhold   = 500;
-            countDown         = 4;
-            tetreminoTypes    = Enum.GetValues(typeof(Tetremino));
-            background        = BACKGROUND_TILE;
-            border            = BORDER_TILE;
-            rand              = new Random();
-            cell              = new Label[col, row];
-            eventTimer        = new Timer();
+            gameOver = false;
+            gameStarted = false;
+            swappedThisTurn = false;
+            interval = 1000;
+            level = 1;
+            clearedRows = 0;
+            score = 0;
+            levelThreshhold = 500;
+            countDown = 4;
+            tetreminoTypes = Enum.GetValues(typeof(Tetremino));
+            background = BACKGROUND_TILE;
+            border = BORDER_TILE;
+            rand = new Random();
+            cell = new Label[col, row];
+            eventTimer = new Timer();
+            encoderTimer = new Timer();
 
-            myEvents          = EventAggregatorModel.Instance;
-            audioManager      = AudioManagerModel.Instance;
+            myEvents = EventAggregatorModel.Instance;
+            audioManager = AudioManagerModel.Instance;
 
             myEvents.getAggregator().Subscribe(this);
             audioManager.PauseTheme();
 
-            eventTimer.Elapsed      +=   new ElapsedEventHandler(GameLoop);
-            eventTimer.Interval      =   interval;
+            eventTimer.Elapsed += new ElapsedEventHandler(GameLoop);
+            eventTimer.Interval = interval;
             eventTimer.Start();
+
+            encoderTimer.Elapsed += new ElapsedEventHandler(EncodeGrid);
+            encoderTimer.Interval = 50;
 
             InitializeComponent();
             SetupBoard();
@@ -73,8 +78,8 @@ namespace Tetris_Elimination.Views
 
         private void BoardView_Loaded(object sender, RoutedEventArgs e)
         {
-            var window         = Window.GetWindow(this);
-            window.KeyDown    += BoardView_KeyDown;
+            var window = Window.GetWindow(this);
+            window.KeyDown += BoardView_KeyDown;
         }
 
         private void BoardView_KeyDown(object sender, KeyEventArgs e)
@@ -130,7 +135,7 @@ namespace Tetris_Elimination.Views
                     MoveDown();
                     CalculateInterval();
                 }
-                else if (countDown >= 0) 
+                else if (countDown >= 0)
                 {
 
                     countDown--;
@@ -139,20 +144,39 @@ namespace Tetris_Elimination.Views
                     {
                         myEvents.getAggregator().PublishOnUIThread(new TickDownEvent(countDown));
                         StartGame();
+                        encoderTimer.Start();
                     }
                     else
                     {
-                       if (countDown == 0)
+                        if (countDown == 0)
                         {
                             audioManager.PlaySound(Sound.TIMER_END);
                         }
-                    else
+                        else
                         {
                             audioManager.PlaySound(Sound.TIMER);
                         }
                         myEvents.getAggregator().PublishOnUIThread(new TickDownEvent(countDown));
                     }
                 }
+            });
+        }
+
+        private void EncodeGrid(object sender, ElapsedEventArgs e)
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                string encodedGrid = "";
+
+                for (int i = 1; i < (col - 1); i++)
+                {
+                    for (int j = 1; j < row; j++)
+                    {
+                        encodedGrid += Array.IndexOf(TILE_ARRAY, cell[i, j].Background);
+                    }
+                }
+
+                myEvents.getAggregator().PublishOnUIThread(new BoardUpdateEvent(1, encodedGrid));
             });
         }
 
@@ -167,7 +191,7 @@ namespace Tetris_Elimination.Views
 
                     if (i == 0 || i == 11 || j == 0 || j == 21)
                     {
-                        cell[i,j].Background = border;
+                        cell[i, j].Background = border;
                         Grid.SetRow(cell[i, j], j);
                         Grid.SetColumn(cell[i, j], i);
                         BoardGrid.Children.Add(cell[i, j]);
@@ -185,10 +209,10 @@ namespace Tetris_Elimination.Views
 
         private void StartGame()
         {
-            gameStarted         = true;
-            currentTetremino    = SpawnTetromino();
-            nextTetremino       = SpawnTetromino();
-            heldTetremino       = null;
+            gameStarted = true;
+            currentTetremino = SpawnTetromino();
+            nextTetremino = SpawnTetromino();
+            heldTetremino = null;
             myEvents.getAggregator().PublishOnUIThread(new NextPieceEvent(nextTetremino));
             myEvents.getAggregator().PublishOnUIThread(new HeldPieceEvent(heldTetremino));
             myEvents.getAggregator().PublishOnUIThread(new ScoreEvent(score));
@@ -200,14 +224,14 @@ namespace Tetris_Elimination.Views
         private void ResetGame()
         {
             ClearBoard();
-            score               = 0;
-            level               = 1;
-            levelThreshhold     = 500;
-            gameOver            = false;
-            countDown           = 4;
-            interval            = 1000;
+            score = 0;
+            level = 1;
+            levelThreshhold = 500;
+            gameOver = false;
+            countDown = 4;
+            interval = 1000;
             eventTimer.Interval = interval;
-            currentTetremino    = null;
+            currentTetremino = null;
             myEvents.getAggregator().PublishOnUIThread(new NextPieceEvent(null));
             myEvents.getAggregator().PublishOnUIThread(new HeldPieceEvent(null));
             myEvents.getAggregator().PublishOnUIThread(new GameOverEvent(gameOver));
@@ -223,6 +247,7 @@ namespace Tetris_Elimination.Views
             {
                 gameStarted = false;
                 eventTimer.Stop();
+                encoderTimer.Stop();
                 audioManager.PauseTheme();
                 myEvents.getAggregator().PublishOnUIThread(new GamePausedEvent(gameStarted));
             }
@@ -230,6 +255,7 @@ namespace Tetris_Elimination.Views
             {
                 gameStarted = true;
                 eventTimer.Start();
+                encoderTimer.Start();
                 audioManager.UnpauseTheme();
                 myEvents.getAggregator().PublishOnUIThread(new GamePausedEvent(gameStarted));
             }
@@ -239,6 +265,7 @@ namespace Tetris_Elimination.Views
         {
             gameOver = true;
             eventTimer.Stop();
+            encoderTimer.Stop();
             myEvents.getAggregator().PublishOnUIThread(new GameOverEvent(gameOver));
         }
 
@@ -249,7 +276,7 @@ namespace Tetris_Elimination.Views
             CalculateLevel();
             TetreminoModel tempTetremino = new TetreminoModel((Tetremino)tetreminoTypes.GetValue(rand.Next(tetreminoTypes.Length)));
 
-            if(MoveIsLegal(Move.SPAWN, tempTetremino))
+            if (MoveIsLegal(Move.SPAWN, tempTetremino))
             {
                 return tempTetremino;
             }
@@ -274,7 +301,7 @@ namespace Tetris_Elimination.Views
 
         private void ClearTetremino()
         {
-            if(currentTetremino != null)
+            if (currentTetremino != null)
             {
                 for (int i = 0; i < currentTetremino.GetShape().Length; i++)
                 {
@@ -294,9 +321,9 @@ namespace Tetris_Elimination.Views
             }
             else
             {
-                currentTetremino  = nextTetremino;
-                nextTetremino     = SpawnTetromino();
-                swappedThisTurn   = false;
+                currentTetremino = nextTetremino;
+                nextTetremino = SpawnTetromino();
+                swappedThisTurn = false;
                 if (nextTetremino != null)
                 {
                     //this check is to reduce the overall amounts of duplicates
@@ -334,7 +361,7 @@ namespace Tetris_Elimination.Views
         {
             if (currentTetremino.GetType() != Tetremino.YELLOW_O)
             {
-                if(MoveIsLegal(Move.ROTATE, currentTetremino))
+                if (MoveIsLegal(Move.ROTATE, currentTetremino))
                 {
                     ClearTetremino();
                     currentTetremino.MovePoint(Move.ROTATE);
@@ -351,10 +378,10 @@ namespace Tetris_Elimination.Views
             if (heldTetremino == null && !swappedThisTurn)
             {
                 ClearTetremino();
-                heldTetremino     = new TetreminoModel(currentTetremino.GetType());
-                currentTetremino  = nextTetremino;
-                nextTetremino     = SpawnTetromino();
-                swappedThisTurn   = true;
+                heldTetremino = new TetreminoModel(currentTetremino.GetType());
+                currentTetremino = nextTetremino;
+                nextTetremino = SpawnTetromino();
+                swappedThisTurn = true;
                 DrawTetremino();
                 myEvents.getAggregator().PublishOnUIThread(new NextPieceEvent(nextTetremino));
                 myEvents.getAggregator().PublishOnUIThread(new HeldPieceEvent(heldTetremino));
@@ -363,12 +390,12 @@ namespace Tetris_Elimination.Views
             {
                 if (MoveIsLegal(Move.SPAWN, heldTetremino) && !swappedThisTurn)
                 {
-                    temp              = currentTetremino;
+                    temp = currentTetremino;
                     ClearTetremino();
-                    currentTetremino  = new TetreminoModel(heldTetremino.GetType());
-                    heldTetremino     = new TetreminoModel(temp.GetType());
+                    currentTetremino = new TetreminoModel(heldTetremino.GetType());
+                    heldTetremino = new TetreminoModel(temp.GetType());
                     DrawTetremino();
-                    swappedThisTurn   = true;
+                    swappedThisTurn = true;
                     myEvents.getAggregator().PublishOnUIThread(new HeldPieceEvent(heldTetremino));
                 }
             }
@@ -376,7 +403,7 @@ namespace Tetris_Elimination.Views
 
         private void DropPiece()
         {
-            while(MoveIsLegal(Move.DOWN, currentTetremino))
+            while (MoveIsLegal(Move.DOWN, currentTetremino))
             {
                 MoveDown();
             }
@@ -484,11 +511,12 @@ namespace Tetris_Elimination.Views
         {
             int count = 0;
 
-            for (int i=1; i < row; i++)
+            for (int i = 1; i < row; i++)
             {
-                for (int j=1; j < (col-1); j++)
+                for (int j = 1; j < (col - 1); j++)
                 {
-                    if (cell[j,i].Background.Equals(this.background)) {
+                    if (cell[j, i].Background.Equals(this.background))
+                    {
                         count = 0;
                         break;
                     }
@@ -507,20 +535,20 @@ namespace Tetris_Elimination.Views
 
         private void ClearRow(int rowToBeCleared)
         {
-            for (int j=1; j < (col-1); j++)
+            for (int j = 1; j < (col - 1); j++)
             {
-                cell[j, (rowToBeCleared-1)].Background = this.background;
+                cell[j, (rowToBeCleared - 1)].Background = this.background;
             }
-            ShiftRows(rowToBeCleared-1);
+            ShiftRows(rowToBeCleared - 1);
         }
 
         private void ShiftRows(int rowToStartAt)
         {
-            for (int i=rowToStartAt; i > 1; i--)
+            for (int i = rowToStartAt; i > 1; i--)
             {
                 for (int j = 1; j < (col - 1); j++)
                 {
-                    cell[j, i].Background = cell[j, (i-1)].Background;
+                    cell[j, i].Background = cell[j, (i - 1)].Background;
                 }
             }
         }
@@ -529,7 +557,7 @@ namespace Tetris_Elimination.Views
         {
             int multiplier = 0;
 
-            switch(clearedRows)
+            switch (clearedRows)
             {
                 case 0:
                     break;
@@ -567,7 +595,7 @@ namespace Tetris_Elimination.Views
             if (tempLevel > level)
             {
                 level++;
-                levelThreshhold = (int)(levelThreshhold * 1.25); 
+                levelThreshhold = (int)(levelThreshhold * 1.25);
             }
             myEvents.getAggregator().PublishOnUIThread(new LevelEvent(level));
         }

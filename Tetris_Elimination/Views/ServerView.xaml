@@ -3,11 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:cal="http://www.caliburnproject.org"
              xmlns:local="clr-namespace:Tetris_Elimination.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450"
              d:DesignWidth="400">
-    <Grid>
+    <Grid Visibility="{Binding Path=WindowVisibility}">
         <Grid.Background>
             <VisualBrush TileMode="Tile"  Viewport="0,0,1,1">
                 <VisualBrush.Visual>
@@ -20,15 +21,122 @@
         </Grid.Background>
 
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="25" />
+            <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="25" />
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="25" />
         </Grid.RowDefinitions>
 
-        <TextBlock Text="nani"  Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center"
-                   VerticalAlignment="Center"/>
+        <TextBlock Text="SERVER IP:"  Grid.Column="1" Grid.Row="1" Margin="15,5,5,5"
+                   VerticalAlignment="Bottom" Foreground="White" />
+        <TextBlock Text="SERVER STATUS:"  Grid.Column="1" Grid.Row="2" Margin="15,5,5,5"
+                   VerticalAlignment="Bottom" Foreground="White" />
+        <TextBlock Text="CONNECTED PLAYERS:"  Grid.Column="1" Grid.Row="3" Margin="15,5,5,5"
+                   VerticalAlignment="Bottom" Foreground="White" />
+
+        <TextBlock Text="???"  Grid.Column="2" Grid.Row="1" HorizontalAlignment="Right"
+                   VerticalAlignment="Bottom" Foreground="White" Margin="5,5,15,5" />
+        <TextBlock Text="OFFLINE"  Grid.Column="2" Grid.Row="2" HorizontalAlignment="Right"
+                   VerticalAlignment="Bottom" Foreground="Red" Margin="5,5,15,5" />
+        <TextBlock Text="n/a"  Grid.Column="2" Grid.Row="3" HorizontalAlignment="Right"
+                   VerticalAlignment="Bottom" Foreground="White" Margin="5,5,15,5" />
+
+        <Rectangle Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" Fill="White" Height="2" 
+                   Margin="15,5,15,5" />
+
+        <TextBlock Text="- LOBBIES -"  Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2" Margin="5,5,5,5"
+                   VerticalAlignment="Bottom" Foreground="White" HorizontalAlignment="Center" Visibility="{Binding Path=ServerVisibility}"/>
+
+        <StackPanel x:Name="Server" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="6" Visibility="{Binding Path=ServerVisibility}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Main_Lobby" Margin="15,5,5,5" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White" Width="110" />
+                <Button Content="JOIN" Width="80" Height="25" FontSize="10" HorizontalAlignment="Right"  Margin="125,5,5,5" 
+                        cal:Message.Attach="[Event Click] = [Action JoinLobby(1)];" >
+                    <Button.Background>
+                        <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Button_Main.png" />
+                    </Button.Background>
+                </Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="n/a" Margin="15,5,5,5" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White" Width="110" />
+                <Button Content="JOIN" Width="80" Height="25" FontSize="10" HorizontalAlignment="Right"  Margin="125,5,5,5" IsEnabled="False" >
+                    <Button.Background>
+                        <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Button_Main.png" />
+                    </Button.Background>
+                </Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="n/a" Margin="15,5,5,5" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White" Width="110" />
+                <Button Content="JOIN" Width="80" Height="25" FontSize="10" HorizontalAlignment="Right"  Margin="125,5,5,5" IsEnabled="False" >
+                    <Button.Background>
+                        <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Button_Main.png" />
+                    </Button.Background>
+                </Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="n/a" Margin="15,5,5,5" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White" Width="110" />
+                <Button Content="JOIN" Width="80" Height="25" FontSize="10" HorizontalAlignment="Right"  Margin="125,5,5,5" IsEnabled="False" >
+                    <Button.Background>
+                        <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Button_Main.png" />
+                    </Button.Background>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+
+        <TextBlock Text="- GAME LOBBY -"  Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2" Margin="5,5,5,5"
+                   VerticalAlignment="Bottom" Foreground="White" HorizontalAlignment="Center" Visibility="{Binding Path=LobbyVisibility}"/>
+
+        <StackPanel x:Name="Lobby" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="6" Visibility="{Binding Path=LobbyVisibility, Mode=OneWay}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="NavyCheeze_" Margin="15,5,5,5" VerticalAlignment="Center" Foreground="White" Width="150" />
+                <TextBlock Text="READY" Margin="50,5,5,5" VerticalAlignment="Center" Foreground="LightGreen" />
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="NavyCheeze_" Margin="15,5,5,5" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White" Width="150" />
+                <TextBlock Text="NOT READY" Margin="50,5,5,5" VerticalAlignment="Center" Foreground="Red" />
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="n/a" Margin="15,5,5,5" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White" Width="150" />
+                <TextBlock Text="---" Margin="50,5,5,5" VerticalAlignment="Center" Foreground="White" />
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="n/a" Margin="15,5,5,5" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White" Width="150" />
+                <TextBlock Text="---" Margin="50,5,5,5" VerticalAlignment="Center" Foreground="White" />
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="n/a" Margin="15,5,5,5" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White" Width="150" />
+                <TextBlock Text="---" Margin="50,5,5,5" VerticalAlignment="Center" Foreground="White" />
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="n/a" Margin="15,5,5,5" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White" Width="150" />
+                <TextBlock Text="---" Margin="50,5,5,5" VerticalAlignment="Center" Foreground="White" />
+            </StackPanel>
+        </StackPanel>
+
+        <Button Content="READY UP" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="7" Width="120" Height="40" FontSize="10" 
+                HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Path=LobbyVisibility}" 
+                cal:Message.Attach="[Event Click] = [Action SetReady()];" >
+            <Button.Background>
+                <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Button_Main.png" />
+            </Button.Background>
+        </Button>
 
     </Grid>
 </UserControl>

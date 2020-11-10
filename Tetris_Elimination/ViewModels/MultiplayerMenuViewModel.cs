@@ -1,18 +1,23 @@
 ﻿using static Tetris_Elimination.Models.ConstantsModel;
 using Tetris_Elimination.Models;
+using Tetris_Elimination.Events;
 using Caliburn.Micro;
 using System;
 
 namespace Tetris_Elimination.ViewModels
 {
-    public class MultiPlayerMenuViewModel : Conductor<Object>.Collection.AllActive
+    public class MultiPlayerMenuViewModel : Conductor<Object>.Collection.AllActive, IHandle<NewGameEvent>
     {
         private ClientManagerModel clientManager;
+        private EventAggregatorModel myEvents;
         private MainViewModel mainWindow;
         private ServerViewModel server;
 
         public MultiPlayerMenuViewModel(MainViewModel _mainWindow)
         {
+            myEvents = EventAggregatorModel.Instance;
+            myEvents.getAggregator().Subscribe(this);
+
             mainWindow    = _mainWindow;
             clientManager = ClientManagerModel.Instance;
             server        = new ServerViewModel();
@@ -36,12 +41,24 @@ namespace Tetris_Elimination.ViewModels
         {
             string[] ipAndPort = ParseInputIP();
 
-            clientManager.ConnectToServer(ipAndPort[0], ipAndPort[1]);
+           // clientManager.ConnectToServer(ipAndPort[0], ipAndPort[1]);
+
+            myEvents.getAggregator().PublishOnUIThread(new ClientConnectedEvent());
         }
 
         public void LoadMenu()
         {
             mainWindow.SetNewView(Screens.MENU);
+        }
+
+        public void LoadMultiPlayer()
+        {
+            mainWindow.SetNewView(Screens.MULTIPLAYER);
+        }
+
+        public void Handle(NewGameEvent message)
+        {
+            LoadMultiPlayer();
         }
     }
 }

@@ -13,15 +13,17 @@ namespace Tetris_Elimination.ViewModels
         private EventAggregatorModel myEvents;
         private MainViewModel mainWindow;
         private ServerViewModel server;
+        private string _connectEnabled;
 
         public MultiPlayerMenuViewModel(MainViewModel _mainWindow)
         {
             myEvents = EventAggregatorModel.Instance;
             myEvents.getAggregator().Subscribe(this);
 
-            mainWindow    = _mainWindow;
-            clientManager = ClientManager.Instance;
-            server        = new ServerViewModel();
+            mainWindow      = _mainWindow;
+            clientManager   = ClientManager.Instance;
+            server          = new ServerViewModel();
+            _connectEnabled = "True";
 
             mainWindow.SetBackground = "pack://application:,,,/Assets/Images/Background_Settings.png";
             mainWindow.SetShade      = .5;
@@ -33,6 +35,16 @@ namespace Tetris_Elimination.ViewModels
 
         public string InputIP { get; set; }
 
+        public string ConnectEnabled
+        {
+            get { return _connectEnabled; }
+            set
+            {
+                _connectEnabled = value;
+                NotifyOfPropertyChange(() => ConnectEnabled);
+            }
+        }
+
         private string[] ParseInputIP()
         {
             return InputIP.Split(':');
@@ -42,13 +54,18 @@ namespace Tetris_Elimination.ViewModels
         {
             string[] ipAndPort = ParseInputIP();
 
-           clientManager.ConnectToServer(ipAndPort[0], ipAndPort[1]);
+            clientManager.ConnectToServer(ipAndPort[0], ipAndPort[1]);
+            ConnectEnabled = "False";
 
-            myEvents.getAggregator().PublishOnUIThread(new ClientConnectedEvent());
+            myEvents.getAggregator().PublishOnUIThread(new ClientConnectedEvent(ipAndPort));
         }
 
         public void LoadMenu()
         {
+            if (ClientManager.Instance.IsConnected)
+            {
+                ClientManager.Instance.Disconnect();
+            }
             mainWindow.SetNewView(Screens.MENU);
         }
 

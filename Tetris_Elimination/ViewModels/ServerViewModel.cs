@@ -1,17 +1,16 @@
 ﻿using Caliburn.Micro;
+using System.Collections.ObjectModel;
 using Tetris_Elimination.Events;
 using Tetris_Elimination.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Tetris_Elimination.Networking;
+using System.Timers;
 
 namespace Tetris_Elimination.ViewModels
 {
-    public class ServerViewModel : Screen, IHandle<ClientConnectedEvent>
+    public class ServerViewModel : Screen, IHandle<ClientConnectedEvent>, IHandle<ServerInformationEvent>, IHandle<ServerPlayerCountEvent>, IHandle<ServerPlayerReadyEvent>
     {
         private EventAggregatorModel myEvents;
+        private Timer eventTimer;
         private string _serverAddress;
         private string _status;
         private string _numPlayers;
@@ -19,6 +18,7 @@ namespace Tetris_Elimination.ViewModels
         private string _windowVisibility;
         private string _serverVisibility;
         private string _lobbyVisibility;
+        private string _readyEnabled;
 
         public ServerViewModel()
         {
@@ -29,11 +29,32 @@ namespace Tetris_Elimination.ViewModels
             Status        = "OFFLINE";
             StatusColor   = "Red";
             NumPlayers    = "n/a";
+            ReadyEnabled  = "True";
 
             WindowVisibility = ConstantsModel.HIDDEN;
             ServerVisibility = ConstantsModel.HIDDEN;
             LobbyVisibility  = ConstantsModel.HIDDEN;
+
+            eventTimer           = new Timer();
+            eventTimer.Elapsed  += new ElapsedEventHandler(UpdatePlayerList);
+            eventTimer.Interval  = 150;
+            eventTimer.Start();
+
+            Players = new ObservableCollection<PlayerInstance>();
         }
+
+        private void UpdatePlayerList(object sender, ElapsedEventArgs e)
+        {
+            OnUIThread(() =>
+            {
+                Players.Clear();
+                Players = new ObservableCollection<PlayerInstance>(ClientManager.Instance.playersInSession.Values);
+
+                NotifyOfPropertyChange(() => Players);
+            });
+        }
+
+        public ObservableCollection<PlayerInstance> Players { get; private set; }
 
         public string ServerAddress
         {
@@ -105,6 +126,16 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        public string ReadyEnabled
+        {
+            get { return _readyEnabled; }
+            set
+            {
+                _readyEnabled = value;
+                NotifyOfPropertyChange(() => ReadyEnabled);
+            }
+        }
+
         public void JoinLobby(int lobbyNumber)
         {
             ServerVisibility = ConstantsModel.HIDDEN;
@@ -113,13 +144,48 @@ namespace Tetris_Elimination.ViewModels
 
         public void SetReady()
         {
-            myEvents.getAggregator().PublishOnUIThread(new NewGameEvent());
+            ClientManager.Instance.playersInSession[ClientManager.Instance.MyID].IsReady = true;
+            ReadyEnabled = "False";
+        }
+
+        private string[] ParseServerInformation(string msg)
+        {
+            return msg.Split('-');
         }
 
         public void Handle(ClientConnectedEvent message)
         {
+            ServerAddress    = message.Get()[0] + ":" + message.Get()[1];
             WindowVisibility = ConstantsModel.VISIBLE;
-            ServerVisibility = ConstantsModel.VISIBLE;
+        }
+
+        public void Handle(ServerInformationEvent message)
+        {
+            string[] statusAndPlayers = ParseServerInformation(message.Get());
+
+            if (statusAndPlayers[0] == "ONLINE")
+            {
+                StatusColor = "LightGreen";
+                ServerVisibility = ConstantsModel.VISIBLE;
+            }
+            else
+            {
+                StatusColor = "Red";
+                ServerVisibility = ConstantsModel.HIDDEN;
+            }
+
+            Status     = statusAndPlayers[0];
+            NumPlayers = statusAndPlayers[1];
+        }
+
+        public void Handle(ServerPlayerCountEvent message)
+        {
+            NumPlayers = message.GetCount();
+        }
+
+        public void Handle(ServerPlayerReadyEvent message)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

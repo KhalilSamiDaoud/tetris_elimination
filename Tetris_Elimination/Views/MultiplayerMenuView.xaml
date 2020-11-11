@@ -47,7 +47,7 @@
                 </TextBox.Background>
             </TextBox>
             <Button x:Name="AttemptConnect" Width="120" Height="50" VerticalAlignment="Bottom" HorizontalAlignment="Center"
-                    Margin="20,0,0,0">
+                    Margin="20,0,0,0" IsEnabled="{Binding Path=ConnectEnabled}">
                 <Button.Background>
                     <ImageBrush ImageSource="pack://application:,,,/Assets/Images/Button_Main.png" />
                 </Button.Background>

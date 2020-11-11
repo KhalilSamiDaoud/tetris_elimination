@@ -4,6 +4,7 @@ using Tetris_Elimination.Models;
 using Caliburn.Micro;
 using System.Windows;
 using System;
+using Tetris_Elimination.Networking;
 
 namespace Tetris_Elimination.ViewModels
 {
@@ -99,6 +100,7 @@ namespace Tetris_Elimination.ViewModels
 
         public void loadMenu()
         {
+            ClientManager.Instance.Disconnect();
             mainWindow.SetNewView(Screens.MENU);
         }
 

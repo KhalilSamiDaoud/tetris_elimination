@@ -2,8 +2,16 @@
 {
     public class ClientConnectedEvent
     {
-        public ClientConnectedEvent()
+        private string[] _ipAndPort;
+
+        public ClientConnectedEvent(string[] ipAndPort)
         {
+            _ipAndPort = ipAndPort;
+        }
+
+        public string[] Get()
+        {
+            return _ipAndPort;
         }
     }
 }

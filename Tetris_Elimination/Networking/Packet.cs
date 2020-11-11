@@ -7,13 +7,20 @@ namespace Tetris_Elimination.Networking
     /// <summary>Sent from server to client.</summary>
     public enum ServerPackets
     {
-        welcome = 1
+        welcome = 1,
+        playerCountChange,
+        playerReadyChange,
+        playerListToOne,
+        playerListToAll,
+        playerGrids
     }
 
     /// <summary>Sent from client to server.</summary>
     public enum ClientPackets
     {
-        welcomeReceived = 1
+        welcomeReceived = 1,
+        clientReady,
+        clientGrid
     }
 
     public class Packet : IDisposable

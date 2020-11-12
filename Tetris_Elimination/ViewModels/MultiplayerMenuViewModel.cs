@@ -47,7 +47,15 @@ namespace Tetris_Elimination.ViewModels
 
         private string[] ParseInputIP()
         {
-            return InputIP.Split(':');
+            if (!String.IsNullOrEmpty(InputIP))
+            {
+                if (InputIP.Contains(":"))
+                {
+                    return InputIP.Split(':');
+                }
+            }
+
+            return new string[] { "0", "0"};
         }
 
         public void AttemptConnect()

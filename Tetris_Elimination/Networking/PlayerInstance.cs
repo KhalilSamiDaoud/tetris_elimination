@@ -15,7 +15,7 @@
         {
             UID      = clientID;
             UserName = Name;
-            IsReady  = false;
+            IsReady  = isReady;
         }
 
         public bool IsReady

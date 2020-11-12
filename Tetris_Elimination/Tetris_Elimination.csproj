@@ -94,7 +94,6 @@
     <Compile Include="Networking\PacketSend.cs" />
     <Compile Include="Networking\Packet.cs" />
     <Compile Include="Networking\PlayerInstance.cs" />
-    <Compile Include="Networking\ThreadManager.cs" />
     <Compile Include="ViewModels\MultiPlayerBoardViewModel.cs" />
     <Compile Include="ViewModels\MultiPlayerMenuViewModel.cs" />
     <Compile Include="Models\TetreminoModel.cs" />

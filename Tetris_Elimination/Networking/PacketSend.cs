@@ -24,6 +24,17 @@
             }
         }
 
+        public static void ClientGrid(int ClientID, string msg)
+        {
+            using (Packet packet = new Packet((int)ClientPackets.clientGrid))
+            {
+                packet.Write(ClientManager.Instance.MyID);
+                packet.Write(msg);
+
+                SendTCPData(packet);
+            }
+        }
+
         private static void SendTCPData(Packet packet)
         {
             packet.WriteLength();

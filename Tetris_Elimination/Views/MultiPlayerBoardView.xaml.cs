@@ -8,11 +8,12 @@ using Caliburn.Micro;
 using System.Windows;
 using System.Timers;
 using System;
+using Tetris_Elimination.Networking;
 
 namespace Tetris_Elimination.Views
 {
     /// <summary>
-    /// Interaction logic for BoardView.xaml
+    /// Extend boardview!
     /// </summary>
     public partial class MultiPlayerBoardView : UserControl, IHandle<NewGameEvent>
     {
@@ -54,7 +55,7 @@ namespace Tetris_Elimination.Views
             tetreminoTypes = Enum.GetValues(typeof(Tetremino));
             background = BACKGROUND_TILE;
             border = BORDER_TILE;
-            rand = new Random();
+            rand = new Random((int)DateTime.Now.Ticks * ClientManager.Instance.MyID);
             cell = new Label[col, row];
             eventTimer = new Timer();
             encoderTimer = new Timer();
@@ -130,7 +131,7 @@ namespace Tetris_Elimination.Views
         {
             this.Dispatcher.Invoke(() =>
             {
-                if (gameStarted && !gameOver && countDown < 0)
+                if (!gameOver && countDown < 0)
                 {
                     MoveDown();
                     CalculateInterval();
@@ -176,7 +177,7 @@ namespace Tetris_Elimination.Views
                     }
                 }
 
-                myEvents.getAggregator().PublishOnUIThread(new BoardUpdateEvent(1, encodedGrid));
+                PacketSend.ClientGrid(ClientManager.Instance.MyID, encodedGrid);
             });
         }
 
@@ -246,17 +247,11 @@ namespace Tetris_Elimination.Views
             if (gameStarted)
             {
                 gameStarted = false;
-                eventTimer.Stop();
-                encoderTimer.Stop();
-                audioManager.PauseTheme();
                 myEvents.getAggregator().PublishOnUIThread(new GamePausedEvent(gameStarted));
             }
             else
             {
                 gameStarted = true;
-                eventTimer.Start();
-                encoderTimer.Start();
-                audioManager.UnpauseTheme();
                 myEvents.getAggregator().PublishOnUIThread(new GamePausedEvent(gameStarted));
             }
         }

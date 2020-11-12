@@ -95,7 +95,9 @@ namespace Tetris_Elimination.Networking
                     { (int)ServerPackets.playerCountChange, ClientHandle.PlayerCountChange },
                     { (int)ServerPackets.playerReadyChange, ClientHandle.PlayerReadyChange },
                     { (int)ServerPackets.playerListToOne, ClientHandle.PlayerListToOne},
-                    { (int)ServerPackets.playerListToAll, ClientHandle.PlayerListToAll}
+                    { (int)ServerPackets.playerListToAll, ClientHandle.PlayerListToAll},
+                    { (int)ServerPackets.playerGrids, ClientHandle.PlayerGrids},
+                    { (int)ServerPackets.startGame, ClientHandle.StartGame}
                 };
         }
 
@@ -138,14 +140,22 @@ namespace Tetris_Elimination.Networking
 
             public void Connect()
             {
-                socket        = new TcpClient
+                socket = new TcpClient
                 {
                     ReceiveBufferSize = dataBufferSize,
                     SendBufferSize = dataBufferSize
                 };
 
                 receiveBuffer = new byte[dataBufferSize];
-                socket.BeginConnect(instance.IP, instance.Port, ConnectCallBack, socket);
+
+                try
+                {
+                    socket.BeginConnect(instance.IP, instance.Port, ConnectCallBack, socket);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Bad Address: " + ex);
+                }
             }
 
             public void Disconnect()
@@ -175,24 +185,23 @@ namespace Tetris_Elimination.Networking
 
             private void ConnectCallBack(IAsyncResult result)
             {
-
-                if(!socket.Connected)
-                {
-                    return;
-                }
                 try
                 {
                     socket.EndConnect(result);
+
+                    if (!socket.Connected)
+                    {
+                        return;
+                    }
+
+                    byteStream = socket.GetStream();
+                    dataIn = new Packet();
+                    byteStream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallBack, null);
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine("Server is not online or IP is not valid " + ex);
                 }
-
-                byteStream   = socket.GetStream();
-                dataIn = new Packet();
-                byteStream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallBack, null);
-
             }
 
             private void ReceiveCallBack(IAsyncResult result)

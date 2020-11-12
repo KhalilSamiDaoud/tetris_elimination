@@ -12,7 +12,8 @@ namespace Tetris_Elimination.Networking
         playerReadyChange,
         playerListToOne,
         playerListToAll,
-        playerGrids
+        playerGrids,
+        startGame
     }
 
     /// <summary>Sent from client to server.</summary>

@@ -146,6 +146,9 @@ namespace Tetris_Elimination.ViewModels
         {
             ClientManager.Instance.playersInSession[ClientManager.Instance.MyID].IsReady = true;
             ReadyEnabled = "False";
+
+            PacketSend.ClientReady(true);
+            //myEvents.getAggregator().PublishOnUIThread(new NewGameEvent()); //remove me
         }
 
         private string[] ParseServerInformation(string msg)
@@ -185,7 +188,7 @@ namespace Tetris_Elimination.ViewModels
 
         public void Handle(ServerPlayerReadyEvent message)
         {
-            throw new System.NotImplementedException();
+            ClientManager.Instance.playersInSession[message.GetID()].IsReady = message.GetIsReady();
         }
     }
 }

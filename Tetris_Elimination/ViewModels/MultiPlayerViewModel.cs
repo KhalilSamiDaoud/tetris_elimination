@@ -6,7 +6,7 @@ using System.Windows;
 using System;
 using Tetris_Elimination.Networking;
 
-namespace Tetris_Elimination.ViewModels
+namespace Tetris_Elimination.ViewModels //fix namings! and in single player!
 {
     public class MultiPlayerViewModel : Conductor<Object>.Collection.AllActive, IHandle<GameOverEvent>, IHandle<ScoreEvent>, IHandle<GamePausedEvent>, IHandle<TickDownEvent>
     {
@@ -14,10 +14,10 @@ namespace Tetris_Elimination.ViewModels
         private StatisticsViewModel statistics;
         private EventAggregatorModel myEvents;
         private MainViewModel mainWindow;
-        private Visibility _gameOver;
-        private Visibility _paused;
+        private Visibility _lost;
+        private Visibility _menu;
         private Visibility _countDown;
-        private string _gameOverDialogue;
+        private string _lostDialogue;
         private string _countDownDialouge;
         private string gameScore;
         public MultiPlayerViewModel(MainViewModel _mainWindow)
@@ -28,8 +28,8 @@ namespace Tetris_Elimination.ViewModels
             mainWindow = _mainWindow;
             statistics = new StatisticsViewModel();
             gameWindow = new MultiPlayerBoardViewModel();
-            gameOver   = Visibility.Hidden;
-            paused     = Visibility.Hidden;
+            lost       = Visibility.Hidden;
+            menu       = Visibility.Hidden;
             countDown  = Visibility.Visible;
             gameScore  = "0";
 
@@ -42,13 +42,13 @@ namespace Tetris_Elimination.ViewModels
             ActivateItem(gameWindow);
         }
 
-        public string gameOverDialogue
+        public string lostDialogue
         {
-            get { return _gameOverDialogue; }
+            get { return _lostDialogue; }
             set
             {
-                _gameOverDialogue = value;
-                NotifyOfPropertyChange(() => gameOverDialogue);
+                _lostDialogue = value;
+                NotifyOfPropertyChange(() => lostDialogue);
             }
         }
 
@@ -62,23 +62,23 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
-        public Visibility gameOver
+        public Visibility lost
         {
-            get { return _gameOver; }
+            get { return _lost; }
             set
             {
-                _gameOver = value;
-                NotifyOfPropertyChange(() => gameOver);
+                _lost = value;
+                NotifyOfPropertyChange(() => lost);
             }
         }
 
-        public Visibility paused
+        public Visibility menu
         {
-            get { return _paused; }
+            get { return _menu; }
             set
             {
-                _paused = value;
-                NotifyOfPropertyChange(() => paused);
+                _menu = value;
+                NotifyOfPropertyChange(() => menu);
             }
         }
 
@@ -92,9 +92,9 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
-        public void restart()
+        public void queueAgain()
         {
-            paused = Visibility.Hidden;
+            menu = Visibility.Hidden;
             myEvents.getAggregator().PublishOnUIThread(new NewGameEvent());
         }
 
@@ -114,13 +114,13 @@ namespace Tetris_Elimination.ViewModels
                     Properties.Settings.Default.Save();
                 }
 
-                paused = Visibility.Hidden;
-                gameOver = Visibility.Visible;
-                gameOverDialogue = "Your Score: " + gameScore + "      " + "High Score: " + Properties.Settings.Default.highScore;
+                menu = Visibility.Hidden;
+                lost = Visibility.Visible;
+                lostDialogue = "Your Score: " + gameScore + "      " + "High Score: " + Properties.Settings.Default.highScore;
             }
             else
             {
-                gameOver = Visibility.Hidden;
+                lost = Visibility.Hidden;
             }
         }
 
@@ -128,11 +128,11 @@ namespace Tetris_Elimination.ViewModels
         {
             if (!message.Get())
             {
-                paused = Visibility.Visible;
+                menu = Visibility.Visible;
             }
             else
             {
-                paused = Visibility.Hidden;
+                menu = Visibility.Hidden;
             }
         }
 

@@ -14,6 +14,7 @@ namespace Tetris_Elimination.ViewModels
         private MainViewModel mainWindow;
         private ServerViewModel server;
         private string _connectEnabled;
+        private string _playingAs;
 
         public MultiPlayerMenuViewModel(MainViewModel _mainWindow)
         {
@@ -23,7 +24,8 @@ namespace Tetris_Elimination.ViewModels
             mainWindow      = _mainWindow;
             clientManager   = ClientManager.Instance;
             server          = new ServerViewModel();
-            _connectEnabled = "True";
+            ConnectEnabled  = "True";
+            PlayingAs       = Properties.Settings.Default.Name;
 
             mainWindow.SetBackground = "pack://application:,,,/Assets/Images/Background_Settings.png";
             mainWindow.SetShade      = .5;
@@ -34,6 +36,17 @@ namespace Tetris_Elimination.ViewModels
         }
 
         public string InputIP { get; set; }
+
+        public string PlayingAs
+        {
+            get { return _playingAs; }
+            set
+            {
+                _playingAs = "Playing as, " + value;
+                NotifyOfPropertyChange(() => PlayingAs);
+
+            }
+        }
 
         public string ConnectEnabled
         {

@@ -27,7 +27,7 @@ namespace Tetris_Elimination.ViewModels
             ConnectEnabled  = "True";
             PlayingAs       = Properties.Settings.Default.Name;
 
-            mainWindow.SetBackground = "pack://application:,,,/Assets/Images/Background_Settings.png";
+            mainWindow.SetBackground = BACKGROUND_SETTINGS;
             mainWindow.SetShade      = .5;
 
             this.Items.Add(server);

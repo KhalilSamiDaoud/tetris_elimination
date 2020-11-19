@@ -24,9 +24,31 @@
             }
         }
 
-        public static void ClientGrid(int ClientID, string msg)
+        public static void ClientGrid(string msg)
         {
             using (Packet packet = new Packet((int)ClientPackets.clientGrid))
+            {
+                packet.Write(ClientManager.Instance.MyID);
+                packet.Write(msg);
+
+                SendTCPData(packet);
+            }
+        }
+
+        public static void ClientScore(int msg)
+        {
+            using (Packet packet = new Packet((int)ClientPackets.clientScore))
+            {
+                packet.Write(ClientManager.Instance.MyID);
+                packet.Write(msg);
+
+                SendTCPData(packet);
+            }
+        }
+
+        public static void ClientGameOver(bool msg)
+        {
+            using (Packet packet = new Packet((int)ClientPackets.clientGameOver))
             {
                 packet.Write(ClientManager.Instance.MyID);
                 packet.Write(msg);

@@ -23,7 +23,7 @@ namespace Tetris_Elimination.ViewModels
             eventTimer.Start();
 
             Title   = "- A Game -";
-            LogoURL = "pack://application:,,,/Assets/Images/Blue_Bottle.png";
+            LogoURL = LOGO;
         }
 
         private void Intro(object sender, ElapsedEventArgs e)

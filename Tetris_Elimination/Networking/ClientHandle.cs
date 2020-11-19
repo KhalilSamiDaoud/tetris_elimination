@@ -67,6 +67,22 @@ namespace Tetris_Elimination.Networking
             myEvents.getAggregator().PublishOnUIThread(new BoardUpdateEvent(id, msg));
         }
 
+        public static void PlayerScore(Packet packet)
+        {
+            int msg    = packet.ReadInt();
+            int id     = packet.ReadInt();
+
+            myEvents.getAggregator().PublishOnUIThread(new MultiplayerScoreEvent(id, msg));
+        }
+
+        public static void PlayerGameOver(Packet packet)
+        {
+            bool msg   = packet.ReadBool();
+            int id     = packet.ReadInt();
+
+            myEvents.getAggregator().PublishOnUIThread(new MultiplayerGameOverEvent(id, msg));
+        }
+
         public static void StartGame(Packet packet)
         {
             bool isrdy = packet.ReadBool();

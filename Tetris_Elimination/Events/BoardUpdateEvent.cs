@@ -2,7 +2,6 @@
 {
     public class BoardUpdateEvent
     {
-
         private int _boardID;
         private string _encodedGrid;
         public BoardUpdateEvent(int id, string grid)

@@ -13,11 +13,11 @@ namespace Tetris_Elimination.ViewModels
         public MenuViewModel(MainViewModel _mainWindow)
         {
             audioManager  = AudioManagerModel.Instance;
-            mainWindow   = _mainWindow;
+            mainWindow    = _mainWindow;
             Version       = Properties.Settings.Default.Version;
             UserName      = Properties.Settings.Default.Name;
 
-            mainWindow.SetBackground = "pack://application:,,,/Assets/Images/Background.png";
+            mainWindow.SetBackground = BACKGROUND;
             mainWindow.SetShade      = .25;
 
             OnUIThread(audioManager.PlayFadeInTheme);

@@ -177,7 +177,7 @@ namespace Tetris_Elimination.Views
                     }
                 }
 
-                PacketSend.ClientGrid(ClientManager.Instance.MyID, encodedGrid);
+                PacketSend.ClientGrid(encodedGrid);
             });
         }
 
@@ -262,6 +262,8 @@ namespace Tetris_Elimination.Views
             eventTimer.Stop();
             encoderTimer.Stop();
             myEvents.getAggregator().PublishOnUIThread(new GameOverEvent(gameOver));
+
+            PacketSend.ClientGameOver(gameOver);
         }
 
         private TetreminoModel SpawnTetromino()
@@ -581,6 +583,8 @@ namespace Tetris_Elimination.Views
             score = (score + (clearedRows * multiplier));
             clearedRows = 0;
             myEvents.getAggregator().PublishOnUIThread(new ScoreEvent(score));
+
+            PacketSend.ClientScore(score);
         }
 
         private void CalculateLevel()

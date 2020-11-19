@@ -10,6 +10,10 @@ namespace Tetris_Elimination.Models
         public static string VISIBLE = "Visible";
         public static string HIDDEN  = "Hidden";
 
+        public static string BACKGROUND          = "pack://application:,,,/Assets/Images/Background.png";
+        public static string BACKGROUND_SETTINGS = "pack://application:,,,/Assets/Images/Background_Settings.png";
+        public static string LOGO                = "pack://application:,,,/Assets/Images/Blue_Bottle.png";
+
         public static ImageBrush BORDER_TILE     = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Border_Tile.png", UriKind.Absolute)));
         public static ImageBrush BACKGROUND_TILE = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Background_Tile.png", UriKind.Absolute)));
         public static ImageBrush PURPLE_TILE     = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/Assets/Images/Purple_Tile.png", UriKind.Absolute)));

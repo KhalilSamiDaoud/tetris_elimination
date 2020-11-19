@@ -33,7 +33,7 @@ namespace Tetris_Elimination.ViewModels //fix namings! and in single player!
             countDown  = Visibility.Visible;
             gameScore  = "0";
 
-            mainWindow.SetBackground = "pack://application:,,,/Assets/Images/Background.png";
+            mainWindow.SetBackground = BACKGROUND;
             mainWindow.SetShade = .25;
 
             this.Items.Add(statistics);

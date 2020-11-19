@@ -96,7 +96,9 @@ namespace Tetris_Elimination.Networking
                     { (int)ServerPackets.playerReadyChange, ClientHandle.PlayerReadyChange },
                     { (int)ServerPackets.playerListToOne, ClientHandle.PlayerListToOne},
                     { (int)ServerPackets.playerListToAll, ClientHandle.PlayerListToAll},
+                    { (int)ServerPackets.playerGameOver, ClientHandle.PlayerGameOver},
                     { (int)ServerPackets.playerGrids, ClientHandle.PlayerGrids},
+                    { (int)ServerPackets.playerScore, ClientHandle.PlayerScore},
                     { (int)ServerPackets.startGame, ClientHandle.StartGame}
                 };
         }

@@ -78,6 +78,8 @@
     <Compile Include="Events\GamePausedEvent.cs" />
     <Compile Include="Events\HeldPieceEvent.cs" />
     <Compile Include="Events\LevelEvent.cs" />
+    <Compile Include="Events\MultiplayerGameOverEvent.cs" />
+    <Compile Include="Events\MultiplayerScoreEvent.cs" />
     <Compile Include="Events\NewGameEvent.cs" />
     <Compile Include="Events\NextPieceEvent.cs" />
     <Compile Include="Events\ScoreEvent.cs" />

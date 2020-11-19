@@ -28,7 +28,7 @@ namespace Tetris_Elimination.ViewModels
             mainWindow   = _mainWindow;
             audioManager = AudioManagerModel.Instance;
 
-            mainWindow.SetBackground = "pack://application:,,,/Assets/Images/Background_Settings.png";
+            mainWindow.SetBackground = BACKGROUND_SETTINGS;
             mainWindow.SetShade      = .5;
 
             CreateKeyList();

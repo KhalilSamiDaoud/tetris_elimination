@@ -438,19 +438,27 @@ namespace Tetris_Elimination.Views
                         }
                     }
                     break;
-                case Move.ROTATE: //fix this and add auto-adjusting
+                case Move.ROTATE:
 
                     Point[] tempShape = checkingTetremino.GetShape();
                     Point tempPoint;
 
-                    for (int i = 0; i < checkingTetremino.GetShape().Length; i++)
+                    if(checkingTetremino.GetType() == Tetremino.BLUE_I && checkingTetremino.GetPosition().Y <= 1)
                     {
-                        tempPoint = checkingTetremino.RotatePoint(tempShape[i], tempShape[2]);
-                        if (!cell[(int)(tempPoint.X + checkingTetremino.GetPosition().X),
-                                  (int)(tempPoint.Y + checkingTetremino.GetPosition().Y)].Background.Equals(this.background))
+                        DrawTetremino();
+                        return false;
+                    }
+                    else
+                    {
+                        for (int i = 0; i < checkingTetremino.GetShape().Length; i++)
                         {
-                            DrawTetremino();
-                            return false;
+                            tempPoint = checkingTetremino.RotatePoint(tempShape[i], tempShape[2]);
+                            if (!cell[(int)(tempPoint.X + checkingTetremino.GetPosition().X),
+                                      (int)(tempPoint.Y + checkingTetremino.GetPosition().Y)].Background.Equals(this.background))
+                            {
+                                DrawTetremino();
+                                return false;
+                            }
                         }
                     }
                     break;

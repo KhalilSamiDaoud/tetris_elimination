@@ -4,18 +4,23 @@
     {
         public static void WelcomeReceived()
         {
-            using (Packet packet = new Packet((int)ClientPackets.welcomeReceived))
+            if (!ClientManager.Instance.IsConnected)
             {
-                packet.Write(ClientManager.Instance.MyID);
-                packet.Write(Properties.Settings.Default.Name);
+                using (Packet packet = new Packet((int)ClientPackets.welcomeReceived))
+                {
+                    packet.Write(ClientManager.Instance.MyID);
+                    packet.Write(Properties.Settings.Default.Name);
 
-                SendTCPData(packet);
+                    SendTCPData(packet);
+                }
+
+                ClientManager.Instance.IsConnected = true;
             }
         }
 
-        public static void ClientReady(bool msg)
+        public static void ClientStatus(int msg)
         {
-            using (Packet packet = new Packet((int)ClientPackets.clientReady))
+            using (Packet packet = new Packet((int)ClientPackets.clientStatus))
             {
                 packet.Write(ClientManager.Instance.MyID);
                 packet.Write(msg);
@@ -52,6 +57,16 @@
             {
                 packet.Write(ClientManager.Instance.MyID);
                 packet.Write(msg);
+
+                SendTCPData(packet);
+            }
+        }
+
+        public static void ClientReconnect()
+        {
+            using (Packet packet = new Packet((int)ClientPackets.clientReconnect))
+            {
+                packet.Write(ClientManager.Instance.MyID);
 
                 SendTCPData(packet);
             }

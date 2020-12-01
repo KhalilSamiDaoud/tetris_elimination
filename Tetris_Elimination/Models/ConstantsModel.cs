@@ -32,6 +32,7 @@ namespace Tetris_Elimination.Models
             SINGLEPLAYER,
             MULTIPLAYER,
             MULTIPLAYER_MENU,
+            MULTIPLAYER_MENU_RC,
             SETTINGS
         }
 

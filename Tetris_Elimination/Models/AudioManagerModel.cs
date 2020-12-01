@@ -5,7 +5,6 @@ using Caliburn.Micro;
 using System.Timers;
 using System.IO;
 using System;
-using System.Windows.Threading;
 
 namespace Tetris_Elimination.Models
 {

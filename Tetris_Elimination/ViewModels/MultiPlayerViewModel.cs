@@ -8,7 +8,7 @@ using Tetris_Elimination.Networking;
 
 namespace Tetris_Elimination.ViewModels //fix namings! and in single player!
 {
-    public class MultiPlayerViewModel : Conductor<Object>.Collection.AllActive, IHandle<GameOverEvent>, IHandle<ScoreEvent>, IHandle<GamePausedEvent>, IHandle<TickDownEvent>
+    public class MultiPlayerViewModel : Conductor<IScreen>.Collection.AllActive, IHandle<GameOverEvent>, IHandle<ScoreEvent>, IHandle<GamePausedEvent>, IHandle<TickDownEvent>
     {
         private MultiPlayerBoardViewModel gameWindow;
         private StatisticsViewModel statistics;
@@ -94,8 +94,11 @@ namespace Tetris_Elimination.ViewModels //fix namings! and in single player!
 
         public void queueAgain()
         {
-            menu = Visibility.Hidden;
-            myEvents.getAggregator().PublishOnUIThread(new NewGameEvent());
+            ClientManager.Instance.playersInSession[ClientManager.Instance.MyID].ResetState();
+
+            PacketSend.ClientStatus(0);
+
+            mainWindow.SetNewView(Screens.MULTIPLAYER_MENU_RC);
         }
 
         public void loadMenu()

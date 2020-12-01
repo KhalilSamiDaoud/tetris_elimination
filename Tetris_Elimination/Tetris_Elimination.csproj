@@ -251,12 +251,12 @@
     <Resource Include="Assets\Images\Border_Tile.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Sounds\ClearedRow.wav" />
-    <Resource Include="Assets\Sounds\Drop.wav" />
-    <Resource Include="Assets\Sounds\Intro.wav" />
-    <Resource Include="Assets\Sounds\Rotate.wav" />
-    <Resource Include="Assets\Sounds\Timer.wav" />
-    <Resource Include="Assets\Sounds\TimerEnd.wav" />
+    <EmbeddedResource Include="Assets\Sounds\ClearedRow.wav" />
+    <EmbeddedResource Include="Assets\Sounds\Drop.wav" />
+    <EmbeddedResource Include="Assets\Sounds\Intro.wav" />
+    <EmbeddedResource Include="Assets\Sounds\Rotate.wav" />
+    <EmbeddedResource Include="Assets\Sounds\Timer.wav" />
+    <EmbeddedResource Include="Assets\Sounds\TimerEnd.wav" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\Entry_Main.png" />
@@ -270,7 +270,7 @@
   <ItemGroup>
     <Resource Include="Assets\Images\Server_Window.png" />
     <Resource Include="Assets\Images\Stats_Window.png" />
-    <Content Include="Assets\Music\TetrisTheme.mp3" />
+    <EmbeddedResource Include="Assets\Music\TetrisTheme.mp3" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

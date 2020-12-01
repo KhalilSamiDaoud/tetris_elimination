@@ -30,13 +30,16 @@
       <Value Profile="(Default)">NavyCheeze</Value>
     </Setting>
     <Setting Name="Version" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Version: 2.2a</Value>
+      <Value Profile="(Default)">Version: 2.6a</Value>
     </Setting>
     <Setting Name="MusicVol" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0.05</Value>
     </Setting>
     <Setting Name="EffectsVol" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0.1</Value>
+    </Setting>
+    <Setting Name="LastConnected" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0:0</Value>
     </Setting>
   </Settings>
 </SettingsFile>

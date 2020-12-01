@@ -3,13 +3,13 @@
     public class ServerPlayerListEvent
     {
         private int _id;
-        private bool _isReady;
+        private int _status;
         private string _userName;
 
-        public ServerPlayerListEvent(int id, bool isReady, string userName)
+        public ServerPlayerListEvent(int id, int status, string userName)
         {
             _id       = id;
-            _isReady  = isReady;
+            _status   = status;
             _userName = userName;
         }
 
@@ -18,9 +18,9 @@
             return _id;
         }
 
-        public bool GetIsReady()
+        public int GetStatus()
         {
-            return _isReady;
+            return _status;
         }
 
         public string GetUserName()

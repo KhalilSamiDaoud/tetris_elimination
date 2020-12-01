@@ -1,9 +1,8 @@
 ﻿using static Tetris_Elimination.Models.ConstantsModel;
-using System.Windows.Media.Imaging;
-using System.Windows.Media;
 using Caliburn.Micro;
 using System.Timers;
 using System;
+using System.Diagnostics;
 
 namespace Tetris_Elimination.ViewModels
 {
@@ -40,7 +39,10 @@ namespace Tetris_Elimination.ViewModels
                     ActivateItem(new SinglePlayerViewModel(this));
                     break;
                 case Screens.MULTIPLAYER_MENU:
-                    ActivateItem(new MultiPlayerMenuViewModel(this));
+                    ActivateItem(new MultiPlayerMenuViewModel(this, false));
+                    break;
+                case Screens.MULTIPLAYER_MENU_RC:
+                    ActivateItem(new MultiPlayerMenuViewModel(this, true));
                     break;
                 case Screens.MULTIPLAYER:
                     ActivateItem(new MultiPlayerViewModel(this));

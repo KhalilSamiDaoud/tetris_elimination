@@ -20,6 +20,8 @@ namespace Tetris_Elimination.ViewModels
         private string _lobbyVisibility;
         private string _readyEnabled;
 
+        public ObservableCollection<PlayerInstance> Players { get; private set; }
+
         public ServerViewModel()
         {
             myEvents = EventAggregatorModel.Instance;
@@ -47,14 +49,15 @@ namespace Tetris_Elimination.ViewModels
         {
             OnUIThread(() =>
             {
-                Players.Clear();
-                Players = new ObservableCollection<PlayerInstance>(ClientManager.Instance.playersInSession.Values);
+                if (ClientManager.Instance.playersInSession != null)
+                {
+                    Players.Clear();
+                    Players = new ObservableCollection<PlayerInstance>(ClientManager.Instance.playersInSession.Values);
 
-                NotifyOfPropertyChange(() => Players);
+                    NotifyOfPropertyChange(() => Players);
+                }
             });
         }
-
-        public ObservableCollection<PlayerInstance> Players { get; private set; }
 
         public string ServerAddress
         {
@@ -144,11 +147,10 @@ namespace Tetris_Elimination.ViewModels
 
         public void SetReady()
         {
-            ClientManager.Instance.playersInSession[ClientManager.Instance.MyID].IsReady = true;
+            ClientManager.Instance.playersInSession[ClientManager.Instance.MyID].Status = 1;
             ReadyEnabled = "False";
 
-            PacketSend.ClientReady(true);
-            //myEvents.getAggregator().PublishOnUIThread(new NewGameEvent()); //remove me
+            PacketSend.ClientStatus(1);
         }
 
         private string[] ParseServerInformation(string msg)
@@ -188,7 +190,7 @@ namespace Tetris_Elimination.ViewModels
 
         public void Handle(ServerPlayerReadyEvent message)
         {
-            ClientManager.Instance.playersInSession[message.GetID()].IsReady = message.GetIsReady();
+            ClientManager.Instance.playersInSession[message.GetID()].Status = message.GetStatus();
         }
     }
 }

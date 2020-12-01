@@ -3,11 +3,11 @@
     public class ServerPlayerReadyEvent
     {
         private int _id;
-        private bool _isReady;
-        public ServerPlayerReadyEvent(int id, bool isReady)
+        private int _status;
+        public ServerPlayerReadyEvent(int id, int status)
         {
             _id = id;
-            _isReady = isReady;
+            _status = status;
         }
 
         public int GetID()
@@ -15,9 +15,9 @@
             return _id;
         }
 
-        public bool GetIsReady()
+        public int GetStatus()
         {
-            return _isReady;
+            return _status;
         }
     }
 }

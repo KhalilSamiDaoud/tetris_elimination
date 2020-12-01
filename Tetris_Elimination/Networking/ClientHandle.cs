@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using System.Diagnostics;
 using Tetris_Elimination.Events;
 using Tetris_Elimination.Models;
 
@@ -21,7 +22,11 @@ namespace Tetris_Elimination.Networking
             ClientManager.Instance.MyID = id;
             PacketSend.WelcomeReceived();
 
-            ClientManager.Instance.playersInSession.Add(id, new PlayerInstance(id, Properties.Settings.Default.Name, false));
+            if (!ClientManager.Instance.playersInSession.ContainsKey(id))
+            {
+                ClientManager.Instance.playersInSession.Add(id, new PlayerInstance(id, Properties.Settings.Default.Name, 0));
+            }
+
             myEvents.getAggregator().PublishOnUIThread(new ServerInformationEvent(msg));
         }
 
@@ -35,7 +40,7 @@ namespace Tetris_Elimination.Networking
 
         public static void PlayerReadyChange(Packet packet)
         {
-            bool msg = packet.ReadBool();
+            int msg = packet.ReadInt();
             int id   = packet.ReadInt();
 
             myEvents.getAggregator().PublishOnUIThread(new ServerPlayerReadyEvent(id, msg));
@@ -43,20 +48,20 @@ namespace Tetris_Elimination.Networking
 
         public static void PlayerListToAll(Packet packet)
         {
-            bool isrdy = packet.ReadBool();
+            int status = packet.ReadInt();
             string msg = packet.ReadString();
             int id     = packet.ReadInt();
 
-            myEvents.getAggregator().PublishOnUIThread(new ServerPlayerListEvent(id, isrdy, msg));
+            myEvents.getAggregator().PublishOnUIThread(new ServerPlayerListEvent(id, status, msg));
         }
 
         public static void PlayerListToOne(Packet packet)
         {
-            bool isrdy = packet.ReadBool();
+            int status = packet.ReadInt();
             string msg = packet.ReadString();
             int id     = packet.ReadInt();
 
-            myEvents.getAggregator().PublishOnUIThread(new ServerPlayerListEvent(id, isrdy, msg));
+            myEvents.getAggregator().PublishOnUIThread(new ServerPlayerListEvent(id, status, msg));
         }
 
         public static void PlayerGrids(Packet packet)
@@ -86,6 +91,7 @@ namespace Tetris_Elimination.Networking
         public static void StartGame(Packet packet)
         {
             bool isrdy = packet.ReadBool();
+
             myEvents.getAggregator().PublishOnUIThread(new NewGameEvent());
         }
     }

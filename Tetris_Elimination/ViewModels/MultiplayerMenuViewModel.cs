@@ -4,6 +4,7 @@ using Tetris_Elimination.Models;
 using Tetris_Elimination.Events;
 using Caliburn.Micro;
 using System;
+using System.Diagnostics;
 
 namespace Tetris_Elimination.ViewModels
 {
@@ -16,7 +17,7 @@ namespace Tetris_Elimination.ViewModels
         private string _connectEnabled;
         private string _playingAs;
 
-        public MultiPlayerMenuViewModel(MainViewModel _mainWindow)
+        public MultiPlayerMenuViewModel(MainViewModel _mainWindow, bool isReconnect)
         {
             myEvents = EventAggregatorModel.Instance;
             myEvents.getAggregator().Subscribe(this);
@@ -33,6 +34,12 @@ namespace Tetris_Elimination.ViewModels
             this.Items.Add(server);
 
             ActivateItem(server);
+
+            if (isReconnect)
+            {
+                InputIP = Properties.Settings.Default.LastConnected;
+                AttemptReconnect();
+            }
         }
 
         public string InputIP { get; set; }
@@ -81,6 +88,16 @@ namespace Tetris_Elimination.ViewModels
             myEvents.getAggregator().PublishOnUIThread(new ClientConnectedEvent(ipAndPort));
         }
 
+        public void AttemptReconnect()
+        {
+            string[] ipAndPort = ParseInputIP();
+
+            PacketSend.ClientReconnect();
+            ConnectEnabled = "False";
+
+            myEvents.getAggregator().PublishOnUIThread(new ClientConnectedEvent(ipAndPort));
+        }
+
         public void LoadMenu()
         {
             if (ClientManager.Instance.IsConnected)
@@ -97,6 +114,11 @@ namespace Tetris_Elimination.ViewModels
 
         public void Handle(NewGameEvent message)
         {
+            ClientManager.Instance.playersInSession[ClientManager.Instance.MyID].Status = 2;
+            myEvents.getAggregator().Unsubscribe(this);
+
+            PacketSend.ClientStatus(2);
+
             LoadMultiPlayer();
         }
     }

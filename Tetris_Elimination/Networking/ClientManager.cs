@@ -14,8 +14,8 @@ namespace Tetris_Elimination.Networking
         private EventAggregatorModel myEvents;
         public Dictionary<int, PlayerInstance> playersInSession;
 
-        private static ClientManager instance      = null;
-        private static readonly object padlock     = new object();
+        private static ClientManager instance  = null;
+        private static readonly object padlock = new object();
 
         private delegate void PacketHandler(Packet packet);
         private static Dictionary<int, PacketHandler> packetHandlers;
@@ -23,7 +23,7 @@ namespace Tetris_Elimination.Networking
         public string IP        { get; private set; }
         public int Port         { get; private set; }
         public int MyID         { get; set; }
-        public bool IsConnected { get; private set; }
+        public bool IsConnected { get; set; }
 
         private ClientManager()
         {
@@ -31,11 +31,9 @@ namespace Tetris_Elimination.Networking
             myEvents = EventAggregatorModel.Instance;
             myEvents.getAggregator().Subscribe(this);
 
-            IsConnected    = false;
-            Port           = 26950;
-            tcp            = new TCP();
-
-            playersInSession = new Dictionary<int, PlayerInstance>();
+            IsConnected = false;
+            Port        = 26950;
+            tcp         = new TCP();
         }
 
         static void OnProcessExit(object sender, EventArgs e)
@@ -63,13 +61,15 @@ namespace Tetris_Elimination.Networking
             InitializeClientData();
 
             int tempPort;
+
             Int32.TryParse(port, out tempPort);
 
-            IP          = ip;
-            Port        = tempPort;
-            IsConnected = true;
+            IP = ip;
+            Port = tempPort;
 
             tcp.Connect();
+
+            Properties.Settings.Default.LastConnected = IP + ":" + Port;
         }
 
         public void Disconnect()
@@ -81,14 +81,14 @@ namespace Tetris_Elimination.Networking
                 tcp.socket.Close();
             }
 
-            Debug.WriteLine("disconnected...");
             playersInSession.Clear();
             myEvents.getAggregator().PublishOnUIThread(new ServerInformationEvent("OFFLINE-n/a"));
-            
         }
 
         private void InitializeClientData()
         {
+            playersInSession = new Dictionary<int, PlayerInstance>();
+
             packetHandlers = new Dictionary<int, PacketHandler>()
                 {
                     { (int)ServerPackets.welcome, ClientHandle.Welcome },
@@ -106,9 +106,7 @@ namespace Tetris_Elimination.Networking
         public void Handle(ServerPlayerListEvent message)
         {
             if (!playersInSession.ContainsKey(message.GetID())) {
-                playersInSession.Add(message.GetID(), new PlayerInstance(message.GetID(), message.GetUserName(), message.GetIsReady()));
-
-                Debug.WriteLine("player " + message.GetUserName() + " is in session");
+                playersInSession.Add(message.GetID(), new PlayerInstance(message.GetID(), message.GetUserName(), message.GetStatus()));
             }
         }
 
@@ -121,8 +119,6 @@ namespace Tetris_Elimination.Networking
             if (playersInSession.ContainsKey(message.GetID()))
             {
                 playersInSession.Remove(message.GetID());
-
-                Debug.WriteLine("player " + message.GetID() + " left the session");
             }
         }
 

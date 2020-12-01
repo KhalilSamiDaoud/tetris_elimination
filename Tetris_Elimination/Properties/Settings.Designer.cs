@@ -133,7 +133,7 @@ namespace Tetris_Elimination.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Version: 2.2a")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Version: 2.6a")]
         public string Version {
             get {
                 return ((string)(this["Version"]));
@@ -164,6 +164,18 @@ namespace Tetris_Elimination.Properties {
             }
             set {
                 this["EffectsVol"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0:0")]
+        public string LastConnected {
+            get {
+                return ((string)(this["LastConnected"]));
+            }
+            set {
+                this["LastConnected"] = value;
             }
         }
     }

@@ -105,7 +105,7 @@
                     <DataTemplate>
                         <WrapPanel>
                             <TextBlock Text="{Binding UserName}" Margin="15,5,5,5" VerticalAlignment="Center" Foreground="White" Width="145" />
-                            <TextBlock Text="{Binding IsReadyString}" Margin="50,5,5,5" VerticalAlignment="Center" Foreground="{Binding IsReadyColor}" />
+                            <TextBlock Text="{Binding StatusString}" Margin="50,5,5,5" VerticalAlignment="Center" Foreground="{Binding StatusColor}" />
                         </WrapPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>

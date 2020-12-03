@@ -11,6 +11,7 @@ namespace Tetris_Elimination.ViewModels
         private MainViewModel mainWindow;
         private string _version;
         private string _userName;
+
         public MenuViewModel(MainViewModel _mainWindow)
         {
             audioManager  = AudioManagerModel.Instance;

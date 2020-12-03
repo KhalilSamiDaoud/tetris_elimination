@@ -3,7 +3,6 @@ using Tetris_Elimination.Events;
 using Tetris_Elimination.Models;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using Caliburn.Micro;
 using System.Windows;
 using System.Timers;
@@ -382,12 +381,12 @@ namespace Tetris_Elimination.Views
 
         private Boolean MoveIsLegal(Move direction, TetreminoModel checkingTetremino)
         {
-            if(direction == Move.SPAWN)
+            if (direction == Move.SPAWN)
             {
                 for (int i = 0; i < checkingTetremino.GetShape().Length; i++)
                 {
-                    if (!cell[(int)(checkingTetremino.GetShape()[i].X + checkingTetremino.GetPosition().X),
-                              (int)(checkingTetremino.GetShape()[i].Y + checkingTetremino.GetPosition().Y)].Background.Equals(BACKGROUND_TILE))
+                    if (cell[(int)(checkingTetremino.GetShape()[i].X + checkingTetremino.GetPosition().X),
+                              (int)(checkingTetremino.GetShape()[i].Y + checkingTetremino.GetPosition().Y)].Background != BACKGROUND_TILE)
                     {
                         if (currentTetremino == null)
                         {
@@ -403,71 +402,71 @@ namespace Tetris_Elimination.Views
             {
                 ClearTetremino();
 
-                            switch (direction)
-            {
-                case Move.DOWN:
-                    for (int i = 0; i < checkingTetremino.GetShape().Length; i++)
-                    {
-                        if (!cell[(int)(checkingTetremino.GetShape()[i].X + checkingTetremino.GetPosition().X),
-                                  (int)(checkingTetremino.GetShape()[i].Y + checkingTetremino.GetPosition().Y + 1)].Background.Equals(BACKGROUND_TILE))
-                        {
-                            DrawTetremino();
-                            return false;
-                        }
-                    }
-                    break;
-                case Move.RIGHT:
-                    for (int i = 0; i < checkingTetremino.GetShape().Length; i++)
-                    {
-                        if (!cell[(int)(checkingTetremino.GetShape()[i].X + checkingTetremino.GetPosition().X + 1),
-                                  (int)(checkingTetremino.GetShape()[i].Y + checkingTetremino.GetPosition().Y)].Background.Equals(BACKGROUND_TILE))
-                        {
-                            DrawTetremino();
-                            return false;
-                        }
-                    }
-                    break;
-                case Move.LEFT:
-                    for (int i = 0; i < checkingTetremino.GetShape().Length; i++)
-                    {
-                        if (!cell[(int)(checkingTetremino.GetShape()[i].X + checkingTetremino.GetPosition().X - 1),
-                                  (int)(checkingTetremino.GetShape()[i].Y + checkingTetremino.GetPosition().Y)].Background.Equals(BACKGROUND_TILE))
-                        {
-                            DrawTetremino();
-                            return false;
-                        }
-                    }
-                    break;
-                case Move.ROTATE:
-
-                    Point[] tempShape = checkingTetremino.GetShape();
-                    Point tempPoint;
-
-                    if(checkingTetremino.GetType() == Tetremino.BLUE_I && checkingTetremino.GetPosition().Y <= 1)
-                    {
-                        DrawTetremino();
-                        return false;
-                    }
-                    else
-                    {
+                switch (direction)
+                {
+                    case Move.DOWN:
                         for (int i = 0; i < checkingTetremino.GetShape().Length; i++)
                         {
-                            tempPoint = checkingTetremino.RotatePoint(tempShape[i], tempShape[2]);
-                            if (!cell[(int)(tempPoint.X + checkingTetremino.GetPosition().X),
-                                      (int)(tempPoint.Y + checkingTetremino.GetPosition().Y)].Background.Equals(BACKGROUND_TILE))
+                            if (cell[(int)(checkingTetremino.GetShape()[i].X + checkingTetremino.GetPosition().X),
+                                      (int)(checkingTetremino.GetShape()[i].Y + checkingTetremino.GetPosition().Y + 1)].Background != BACKGROUND_TILE)
                             {
                                 DrawTetremino();
                                 return false;
                             }
                         }
-                    }
-                    break;
-                default:
-                    DrawTetremino();
-                    return false;
-            }
-            DrawTetremino();
-            return true;
+                        break;
+                    case Move.RIGHT:
+                        for (int i = 0; i < checkingTetremino.GetShape().Length; i++)
+                        {
+                            if (cell[(int)(checkingTetremino.GetShape()[i].X + checkingTetremino.GetPosition().X + 1),
+                                      (int)(checkingTetremino.GetShape()[i].Y + checkingTetremino.GetPosition().Y)].Background != BACKGROUND_TILE)
+                            {
+                                DrawTetremino();
+                                return false;
+                            }
+                        }
+                        break;
+                    case Move.LEFT:
+                        for (int i = 0; i < checkingTetremino.GetShape().Length; i++)
+                        {
+                            if (cell[(int)(checkingTetremino.GetShape()[i].X + checkingTetremino.GetPosition().X - 1),
+                                      (int)(checkingTetremino.GetShape()[i].Y + checkingTetremino.GetPosition().Y)].Background != BACKGROUND_TILE)
+                            {
+                                DrawTetremino();
+                                return false;
+                            }
+                        }
+                        break;
+                    case Move.ROTATE:
+
+                        Point[] tempShape = checkingTetremino.GetShape();
+                        Point tempPoint;
+
+                        if (checkingTetremino.GetType() == Tetremino.BLUE_I && checkingTetremino.GetPosition().Y <= 1)
+                        {
+                            DrawTetremino();
+                            return false;
+                        }
+                        else
+                        {
+                            for (int i = 0; i < checkingTetremino.GetShape().Length; i++)
+                            {
+                                tempPoint = checkingTetremino.RotatePoint(tempShape[i], tempShape[2]);
+                                if (cell[(int)(tempPoint.X + checkingTetremino.GetPosition().X),
+                                          (int)(tempPoint.Y + checkingTetremino.GetPosition().Y)].Background != BACKGROUND_TILE)
+                                {
+                                    DrawTetremino();
+                                    return false;
+                                }
+                            }
+                        }
+                        break;
+                    default:
+                        DrawTetremino();
+                        return false;
+                }
+                DrawTetremino();
+                return true;
             }
         }
 
@@ -489,19 +488,23 @@ namespace Tetris_Elimination.Views
             }
         }
 
-        private void CheckRows() //row 12 & 15 does not clear?
+        private void CheckRows()
         {
             int count = 0;
+            bool fullRow = true;
 
-            for (int i=1; i < row; i++)
+            for (int i = 1; i < row; i++)
             {
-                for (int j=1; j < (col-1); j++)
+                count = 0;
+                fullRow = true;
+                for (int j = 1; j < (col-1); j++)
                 {
-                    if (cell[j,i].Background == BACKGROUND_TILE) {
-                        count = 0;
+                    if (Array.IndexOf(TILE_ARRAY, cell[j, i].Background) == 1 || (Array.IndexOf(TILE_ARRAY, cell[j, i].Background) == 0))
+                    {
+                        fullRow = false;
                         break;
                     }
-                    else if (count == 10)
+                    else if (count == 9 && fullRow)
                     {
                         count = 0;
                         clearedRows++;
@@ -516,20 +519,23 @@ namespace Tetris_Elimination.Views
 
         private void ClearRow(int rowToBeCleared)
         {
-            for (int j=1; j < (col-1); j++)
+            for (int j = 1; j < (col); j++)
             {
-                cell[j, (rowToBeCleared-1)].Background = BACKGROUND_TILE;
+                if(cell[j, (rowToBeCleared)].Background != BORDER_TILE)
+                {
+                    cell[j, (rowToBeCleared)].Background = BACKGROUND_TILE;
+                }
             }
-            ShiftRows(rowToBeCleared-1);
+            ShiftRows(rowToBeCleared);
         }
 
         private void ShiftRows(int rowToStartAt)
         {
-            for (int i=rowToStartAt; i > 1; i--)
+            for (int i = rowToStartAt; i > 1; i--)
             {
                 for (int j = 1; j < (col - 1); j++)
                 {
-                    cell[j, i].Background = cell[j, (i-1)].Background;
+                    cell[j, i].Background = cell[j, (i - 1)].Background;
                 }
             }
         }

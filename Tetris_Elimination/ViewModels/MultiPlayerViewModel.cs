@@ -8,7 +8,7 @@ using Tetris_Elimination.Networking;
 
 namespace Tetris_Elimination.ViewModels //fix namings! and in single player!
 {
-    public class MultiPlayerViewModel : Conductor<IScreen>.Collection.AllActive, IHandle<GameOverEvent>, IHandle<ScoreEvent>, IHandle<GamePausedEvent>, IHandle<TickDownEvent>
+    public class MultiPlayerViewModel : Conductor<IScreen>.Collection.AllActive, IHandle<GameOverEvent>, IHandle<ScoreEvent>, IHandle<GamePausedEvent>, IHandle<TickDownEvent>, IHandle<ServerDisconnectEvent>
     {
         private MultiPlayerBoardViewModel gameWindow;
         private StatisticsViewModel statistics;
@@ -160,6 +160,11 @@ namespace Tetris_Elimination.ViewModels //fix namings! and in single player!
             {
                 countDown = Visibility.Hidden;
             }
+        }
+
+        public void Handle(ServerDisconnectEvent message)
+        {
+            mainWindow.SetNewView(Screens.MENU);
         }
     }
 }

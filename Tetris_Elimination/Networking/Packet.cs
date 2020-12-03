@@ -15,7 +15,8 @@ namespace Tetris_Elimination.Networking
         playerGrids,
         playerScore,
         playerGameOver,
-        startGame
+        startGame,
+        serverDisconnect
     }
 
     /// <summary>Sent from client to server.</summary>

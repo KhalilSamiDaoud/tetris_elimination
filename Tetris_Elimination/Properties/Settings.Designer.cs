@@ -169,7 +169,7 @@ namespace Tetris_Elimination.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0:0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string LastConnected {
             get {
                 return ((string)(this["LastConnected"]));

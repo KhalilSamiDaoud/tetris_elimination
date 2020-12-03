@@ -4,11 +4,10 @@ using Tetris_Elimination.Models;
 using Tetris_Elimination.Events;
 using Caliburn.Micro;
 using System;
-using System.Diagnostics;
 
 namespace Tetris_Elimination.ViewModels
 {
-    public class MultiPlayerMenuViewModel : Conductor<Object>.Collection.AllActive, IHandle<NewGameEvent>
+    public class MultiPlayerMenuViewModel : Conductor<Object>.Collection.AllActive, IHandle<MultiplayerNewGameEvent>
     {
         private ClientManager clientManager;
         private EventAggregatorModel myEvents;
@@ -16,6 +15,7 @@ namespace Tetris_Elimination.ViewModels
         private ServerViewModel server;
         private string _connectEnabled;
         private string _playingAs;
+        private string _inputIP;
 
         public MultiPlayerMenuViewModel(MainViewModel _mainWindow, bool isReconnect)
         {
@@ -27,6 +27,7 @@ namespace Tetris_Elimination.ViewModels
             server          = new ServerViewModel();
             ConnectEnabled  = "True";
             PlayingAs       = Properties.Settings.Default.Name;
+            InputIP         = Properties.Settings.Default.LastConnected;
 
             mainWindow.SetBackground = BACKGROUND_SETTINGS;
             mainWindow.SetShade      = .5;
@@ -42,7 +43,15 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
-        public string InputIP { get; set; }
+        public string InputIP 
+        {
+            get { return _inputIP; }
+            set 
+            {
+                _inputIP = value;
+                NotifyOfPropertyChange(() => InputIP);
+            } 
+        }
 
         public string PlayingAs
         {
@@ -104,6 +113,9 @@ namespace Tetris_Elimination.ViewModels
             {
                 ClientManager.Instance.Disconnect();
             }
+
+            myEvents.getAggregator().Unsubscribe(this);
+
             mainWindow.SetNewView(Screens.MENU);
         }
 
@@ -112,7 +124,7 @@ namespace Tetris_Elimination.ViewModels
             mainWindow.SetNewView(Screens.MULTIPLAYER);
         }
 
-        public void Handle(NewGameEvent message)
+        public void Handle(MultiplayerNewGameEvent message)
         {
             ClientManager.Instance.playersInSession[ClientManager.Instance.MyID].Status = 2;
             myEvents.getAggregator().Unsubscribe(this);

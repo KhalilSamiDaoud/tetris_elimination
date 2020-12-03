@@ -8,7 +8,7 @@ using Tetris_Elimination.Events;
 
 namespace Tetris_Elimination.Networking
 {
-    public sealed class ClientManager : Screen, IHandle<ServerPlayerListEvent>, IHandle<ServerPlayerCountEvent>
+    public sealed class ClientManager : Screen, IHandle<ServerPlayerListEvent>, IHandle<ServerPlayerCountEvent>, IHandle<ServerDisconnectEvent>
     {
         public TCP tcp;
         private EventAggregatorModel myEvents;
@@ -70,6 +70,7 @@ namespace Tetris_Elimination.Networking
             tcp.Connect();
 
             Properties.Settings.Default.LastConnected = IP + ":" + Port;
+            Properties.Settings.Default.Save();
         }
 
         public void Disconnect()
@@ -82,6 +83,7 @@ namespace Tetris_Elimination.Networking
             }
 
             playersInSession.Clear();
+            myEvents.getAggregator().PublishOnUIThread(new DisconnectEvent());
             myEvents.getAggregator().PublishOnUIThread(new ServerInformationEvent("OFFLINE-n/a"));
         }
 
@@ -94,12 +96,13 @@ namespace Tetris_Elimination.Networking
                     { (int)ServerPackets.welcome, ClientHandle.Welcome },
                     { (int)ServerPackets.playerCountChange, ClientHandle.PlayerCountChange },
                     { (int)ServerPackets.playerReadyChange, ClientHandle.PlayerReadyChange },
-                    { (int)ServerPackets.playerListToOne, ClientHandle.PlayerListToOne},
-                    { (int)ServerPackets.playerListToAll, ClientHandle.PlayerListToAll},
-                    { (int)ServerPackets.playerGameOver, ClientHandle.PlayerGameOver},
-                    { (int)ServerPackets.playerGrids, ClientHandle.PlayerGrids},
-                    { (int)ServerPackets.playerScore, ClientHandle.PlayerScore},
-                    { (int)ServerPackets.startGame, ClientHandle.StartGame}
+                    { (int)ServerPackets.serverDisconnect, ClientHandle.ServerDisconnect },
+                    { (int)ServerPackets.playerListToOne, ClientHandle.PlayerListToOne },
+                    { (int)ServerPackets.playerListToAll, ClientHandle.PlayerListToAll },
+                    { (int)ServerPackets.playerGameOver, ClientHandle.PlayerGameOver },
+                    { (int)ServerPackets.playerGrids, ClientHandle.PlayerGrids },
+                    { (int)ServerPackets.playerScore, ClientHandle.PlayerScore },
+                    { (int)ServerPackets.startGame, ClientHandle.StartGame }
                 };
         }
 
@@ -120,6 +123,11 @@ namespace Tetris_Elimination.Networking
             {
                 playersInSession.Remove(message.GetID());
             }
+        }
+
+        public void Handle(ServerDisconnectEvent message)
+        {
+            Disconnect();
         }
 
         public class TCP

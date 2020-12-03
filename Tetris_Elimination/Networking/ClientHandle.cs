@@ -1,5 +1,4 @@
 ﻿using Caliburn.Micro;
-using System.Diagnostics;
 using Tetris_Elimination.Events;
 using Tetris_Elimination.Models;
 
@@ -92,7 +91,14 @@ namespace Tetris_Elimination.Networking
         {
             bool isrdy = packet.ReadBool();
 
-            myEvents.getAggregator().PublishOnUIThread(new NewGameEvent());
+            myEvents.getAggregator().PublishOnUIThread(new MultiplayerNewGameEvent());
+        }
+
+        public static void ServerDisconnect(Packet packet)
+        {
+            bool isded = packet.ReadBool();
+
+            myEvents.getAggregator().PublishOnUIThread(new ServerDisconnectEvent());
         }
     }
 }

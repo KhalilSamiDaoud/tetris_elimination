@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.Core.3.2.0\lib\net45\Caliburn.Micro.dll</HintPath>
@@ -75,14 +78,17 @@
     </Compile>
     <Compile Include="Events\BoardUpdateEvent.cs" />
     <Compile Include="Events\ClientConnectedEvent.cs" />
+    <Compile Include="Events\DisconnectEvent.cs" />
     <Compile Include="Events\GamePausedEvent.cs" />
     <Compile Include="Events\HeldPieceEvent.cs" />
     <Compile Include="Events\LevelEvent.cs" />
     <Compile Include="Events\MultiplayerGameOverEvent.cs" />
+    <Compile Include="Events\MultiplayerNewGameEvent.cs" />
     <Compile Include="Events\MultiplayerScoreEvent.cs" />
     <Compile Include="Events\NewGameEvent.cs" />
     <Compile Include="Events\NextPieceEvent.cs" />
     <Compile Include="Events\ScoreEvent.cs" />
+    <Compile Include="Events\ServerDisconnectEvent.cs" />
     <Compile Include="Events\ServerInformationEvent.cs" />
     <Compile Include="Events\ServerPlayerCountEvent.cs" />
     <Compile Include="Events\ServerPlayerListEvent.cs" />
@@ -228,7 +234,9 @@
   <ItemGroup>
     <Resource Include="Assets\icon.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="icon.ico" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\Button_Main.png" />
   </ItemGroup>

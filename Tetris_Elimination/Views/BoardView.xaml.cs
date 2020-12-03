@@ -499,7 +499,7 @@ namespace Tetris_Elimination.Views
                 fullRow = true;
                 for (int j = 1; j < (col-1); j++)
                 {
-                    if (Array.IndexOf(TILE_ARRAY, cell[j, i].Background) == 1 || (Array.IndexOf(TILE_ARRAY, cell[j, i].Background) == 0))
+                    if (cell[j, i].Background == BACKGROUND_TILE || cell[j, i].Background == BORDER_TILE)
                     {
                         fullRow = false;
                         break;

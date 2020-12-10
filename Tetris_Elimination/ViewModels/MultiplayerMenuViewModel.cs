@@ -94,7 +94,7 @@ namespace Tetris_Elimination.ViewModels
             clientManager.ConnectToServer(ipAndPort[0], ipAndPort[1]);
             ConnectEnabled = "False";
 
-            myEvents.getAggregator().PublishOnUIThread(new ClientConnectedEvent(ipAndPort));
+            myEvents.getAggregator().PublishOnUIThread(new ClientConnectedEvent(ipAndPort, false));
         }
 
         public void AttemptReconnect()
@@ -104,7 +104,7 @@ namespace Tetris_Elimination.ViewModels
             PacketSend.ClientReconnect();
             ConnectEnabled = "False";
 
-            myEvents.getAggregator().PublishOnUIThread(new ClientConnectedEvent(ipAndPort));
+            myEvents.getAggregator().PublishOnUIThread(new ClientConnectedEvent(ipAndPort, true));
         }
 
         public void LoadMenu()

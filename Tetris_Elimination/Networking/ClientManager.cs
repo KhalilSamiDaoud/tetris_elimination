@@ -8,11 +8,12 @@ using Tetris_Elimination.Events;
 
 namespace Tetris_Elimination.Networking
 {
-    public sealed class ClientManager : Screen, IHandle<ServerPlayerListEvent>, IHandle<ServerPlayerCountEvent>, IHandle<ServerDisconnectEvent>
+    public sealed class ClientManager : Screen, IHandle<ServerPlayerListEvent>, IHandle<ServerLobbyListEvent>, IHandle<ServerPlayerCountEvent>, IHandle<ServerDisconnectEvent>
     {
         public TCP tcp;
         private EventAggregatorModel myEvents;
         public Dictionary<int, PlayerInstance> playersInSession;
+        public Dictionary<int, LobbyInstance> LobbiesInSession;
 
         private static ClientManager instance  = null;
         private static readonly object padlock = new object();
@@ -64,7 +65,7 @@ namespace Tetris_Elimination.Networking
 
             Int32.TryParse(port, out tempPort);
 
-            IP = ip;
+            IP   = ip;
             Port = tempPort;
 
             tcp.Connect();
@@ -90,6 +91,7 @@ namespace Tetris_Elimination.Networking
         private void InitializeClientData()
         {
             playersInSession = new Dictionary<int, PlayerInstance>();
+            LobbiesInSession = new Dictionary<int, LobbyInstance>();
 
             packetHandlers = new Dictionary<int, PacketHandler>()
                 {
@@ -97,19 +99,41 @@ namespace Tetris_Elimination.Networking
                     { (int)ServerPackets.playerCountChange, ClientHandle.PlayerCountChange },
                     { (int)ServerPackets.playerReadyChange, ClientHandle.PlayerReadyChange },
                     { (int)ServerPackets.serverDisconnect, ClientHandle.ServerDisconnect },
-                    { (int)ServerPackets.playerListToOne, ClientHandle.PlayerListToOne },
-                    { (int)ServerPackets.playerListToAll, ClientHandle.PlayerListToAll },
                     { (int)ServerPackets.playerGameOver, ClientHandle.PlayerGameOver },
                     { (int)ServerPackets.playerGrids, ClientHandle.PlayerGrids },
                     { (int)ServerPackets.playerScore, ClientHandle.PlayerScore },
+                    { (int)ServerPackets.playerList, ClientHandle.PlayerList },
+                    { (int)ServerPackets.lobbyList, ClientHandle.LobbyList },
                     { (int)ServerPackets.startGame, ClientHandle.StartGame }
                 };
         }
+
+
 
         public void Handle(ServerPlayerListEvent message)
         {
             if (!playersInSession.ContainsKey(message.GetID())) {
                 playersInSession.Add(message.GetID(), new PlayerInstance(message.GetID(), message.GetUserName(), message.GetStatus()));
+
+                Debug.WriteLine("players added to list");
+            }
+        }
+
+        public void Handle(ServerLobbyListEvent message)
+        {
+            var lobbies = LobbiesInSession;
+
+            if (!lobbies.ContainsKey(message.GetID())) {
+                 lobbies.Add(message.GetID(), new LobbyInstance(message.GetID(), message.GetName(), message.GetFull(), message.GetCount(), message.GetMax()));
+            }
+            if (message.GetCount() == 0)
+            {
+                lobbies.Remove(message.GetID());
+            }
+            else
+            {
+                lobbies[message.GetID()].IsFull      = message.GetFull();
+                lobbies[message.GetID()].PlayerCount = message.GetCount();
             }
         }
 
@@ -121,6 +145,7 @@ namespace Tetris_Elimination.Networking
             }
             if (playersInSession.ContainsKey(message.GetID()))
             {
+                Debug.WriteLine("players removed from list");
                 playersInSession.Remove(message.GetID());
             }
         }

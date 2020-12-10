@@ -521,7 +521,7 @@ namespace Tetris_Elimination.Views
         {
             for (int j = 1; j < (col); j++)
             {
-                if(cell[j, (rowToBeCleared)].Background != BORDER_TILE)
+                if (cell[j, (rowToBeCleared)].Background != BORDER_TILE)
                 {
                     cell[j, (rowToBeCleared)].Background = BACKGROUND_TILE;
                 }

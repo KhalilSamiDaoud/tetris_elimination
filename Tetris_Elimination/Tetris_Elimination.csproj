@@ -90,6 +90,7 @@
     <Compile Include="Events\ScoreEvent.cs" />
     <Compile Include="Events\ServerDisconnectEvent.cs" />
     <Compile Include="Events\ServerInformationEvent.cs" />
+    <Compile Include="Events\ServerLobbyListEvent.cs" />
     <Compile Include="Events\ServerPlayerCountEvent.cs" />
     <Compile Include="Events\ServerPlayerListEvent.cs" />
     <Compile Include="Events\ServerPlayerReadyEvent.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Networking\ClientManager.cs" />
     <Compile Include="Models\EventAggregatorModel.cs" />
     <Compile Include="Events\GameOverEvent.cs" />
+    <Compile Include="Networking\LobbyInstance.cs" />
     <Compile Include="Networking\PacketSend.cs" />
     <Compile Include="Networking\Packet.cs" />
     <Compile Include="Networking\PlayerInstance.cs" />

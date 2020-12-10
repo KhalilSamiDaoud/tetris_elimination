@@ -501,7 +501,7 @@ namespace Tetris_Elimination.Views
             {
                 count = 0;
                 fullRow = true;
-                for (int j = 1; j < (col - 1); j++)
+                for (int j = 1; j < (col-1); j++)
                 {
                     if (cell[j, i].Background == BACKGROUND_TILE || cell[j, i].Background == BORDER_TILE)
                     {

@@ -45,7 +45,7 @@ namespace Tetris_Elimination.Networking
             myEvents.getAggregator().PublishOnUIThread(new ServerPlayerReadyEvent(id, msg));
         }
 
-        public static void PlayerListToAll(Packet packet)
+        public static void PlayerList(Packet packet)
         {
             int status = packet.ReadInt();
             string msg = packet.ReadString();
@@ -54,13 +54,15 @@ namespace Tetris_Elimination.Networking
             myEvents.getAggregator().PublishOnUIThread(new ServerPlayerListEvent(id, status, msg));
         }
 
-        public static void PlayerListToOne(Packet packet)
+        public static void LobbyList(Packet packet)
         {
-            int status = packet.ReadInt();
-            string msg = packet.ReadString();
-            int id     = packet.ReadInt();
+            int id      = packet.ReadInt();
+            string name = packet.ReadString();
+            int count   = packet.ReadInt();
+            bool full   = packet.ReadBool();
+            int max     = packet.ReadInt();
 
-            myEvents.getAggregator().PublishOnUIThread(new ServerPlayerListEvent(id, status, msg));
+            myEvents.getAggregator().PublishOnUIThread(new ServerLobbyListEvent(id, name, count, full, max));
         }
 
         public static void PlayerGrids(Packet packet)

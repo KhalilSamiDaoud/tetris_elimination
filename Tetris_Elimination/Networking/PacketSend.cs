@@ -72,6 +72,27 @@
             }
         }
 
+        public static void ClientLobbyCreate()
+        {
+            using (Packet packet = new Packet((int)ClientPackets.clientLobbyCreate))
+            {
+                packet.Write(ClientManager.Instance.MyID);
+
+                SendTCPData(packet);
+            }
+        }
+
+        public static void ClientLobbyJoin(int lobbyID)
+        {
+            using (Packet packet = new Packet((int)ClientPackets.clientLobbyJoin))
+            {
+                packet.Write(ClientManager.Instance.MyID);
+                packet.Write(lobbyID);
+
+                SendTCPData(packet);
+            }
+        }
+
         private static void SendTCPData(Packet packet)
         {
             packet.WriteLength();

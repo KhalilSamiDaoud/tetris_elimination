@@ -4,11 +4,11 @@
     {
         private int _status;
 
-        public int UID              { get; set; }
-        public string UserName      { get; set; }
-        public bool GameOver        { get; set; }
-        public string StatusString  { get; set; }
-        public string StatusColor   { get; set; }
+        public int UID              { get; private set; }
+        public string UserName      { get; private set; }
+        public bool GameOver        { get; private set; }
+        public string StatusString  { get; private set; }
+        public string StatusColor   { get; private set; }
 
 
         public PlayerInstance(int clientID, string Name, int status)

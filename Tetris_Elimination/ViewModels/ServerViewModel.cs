@@ -4,11 +4,24 @@ using Tetris_Elimination.Events;
 using Tetris_Elimination.Models;
 using Tetris_Elimination.Networking;
 using System.Timers;
+using System.Windows;
 
 namespace Tetris_Elimination.ViewModels
 {
     public class ServerViewModel : Screen, IHandle<ClientConnectedEvent>, IHandle<ServerInformationEvent>, IHandle<ServerPlayerCountEvent>, IHandle<ServerPlayerReadyEvent>
     {
+        public class ButtonState
+        {
+            public Visibility btnVisible { get; set; }
+            public bool btnEnabled       { get; set; }
+
+            public ButtonState()
+            {
+                btnVisible = Visibility.Hidden;
+                btnEnabled = false;
+            }
+        }
+
         private EventAggregatorModel myEvents;
         private Timer eventTimer;
         private string _serverAddress;
@@ -19,8 +32,13 @@ namespace Tetris_Elimination.ViewModels
         private string _serverVisibility;
         private string _lobbyVisibility;
         private string _readyEnabled;
+        private string _createEnabled;
 
-        public ObservableCollection<PlayerInstance> Players { get; private set; }
+        public ObservableCollection<PlayerInstance> Players   { get; private set; }
+
+        public ObservableCollection<LobbyInstance> Lobbies    { get; private set; }
+
+        public ObservableCollection<ButtonState> ButtonStates { get; private set; }
 
         public ServerViewModel()
         {
@@ -32,31 +50,126 @@ namespace Tetris_Elimination.ViewModels
             StatusColor   = "Red";
             NumPlayers    = "n/a";
             ReadyEnabled  = "True";
+            CreateEnabled = "True";
 
             WindowVisibility = ConstantsModel.HIDDEN;
             ServerVisibility = ConstantsModel.HIDDEN;
             LobbyVisibility  = ConstantsModel.HIDDEN;
 
             eventTimer           = new Timer();
-            eventTimer.Elapsed  += new ElapsedEventHandler(UpdatePlayerList);
+            eventTimer.Elapsed  += new ElapsedEventHandler(UpdateLists);
             eventTimer.Interval  = 150;
             eventTimer.Start();
 
-            Players = new ObservableCollection<PlayerInstance>();
+            InitializeLists();
         }
 
-        private void UpdatePlayerList(object sender, ElapsedEventArgs e)
+        private void UpdateLists(object sender, ElapsedEventArgs e)
         {
             OnUIThread(() =>
             {
                 if (ClientManager.Instance.playersInSession != null)
                 {
-                    Players.Clear();
-                    Players = new ObservableCollection<PlayerInstance>(ClientManager.Instance.playersInSession.Values);
-
-                    NotifyOfPropertyChange(() => Players);
+                    UpdatePlayers();
+                    UpdateLobbies();
+                    UpdateButtons();
                 }
             });
+        }
+
+        private void UpdatePlayers()
+        {
+            Players.Clear();
+            Players = new ObservableCollection<PlayerInstance>(ClientManager.Instance.playersInSession.Values);
+
+            NotifyOfPropertyChange(() => Players);
+        }
+
+        private void UpdateLobbies()
+        {
+            Lobbies.Clear();
+            Lobbies = new ObservableCollection<LobbyInstance>(ClientManager.Instance.LobbiesInSession.Values);
+
+            if (Lobbies.Count == 4)
+            {
+                CreateEnabled = "false";
+            }
+            else
+            {
+                CreateEnabled = "true";
+            }
+
+            NotifyOfPropertyChange(() => Lobbies);
+        }
+
+        public void UpdateButtons()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if (i < Lobbies.Count)
+                {
+                    ButtonStates[i].btnVisible = Visibility.Visible;
+                    if (Lobbies[i].IsFull)
+                    {
+                        ButtonStates[i].btnEnabled = false;
+                    }
+                    else
+                    {
+                        ButtonStates[i].btnEnabled = true;
+                    }
+                }
+                else
+                {
+                    ButtonStates[i].btnVisible = Visibility.Hidden;
+                    ButtonStates[i].btnEnabled = false;
+                }
+
+                NotifyOfPropertyChange(() => ButtonStates);
+            }
+        }
+
+        private void InitializeLists()
+        {
+            Players      = new ObservableCollection<PlayerInstance>();
+            Lobbies      = new ObservableCollection<LobbyInstance>();
+            ButtonStates = new ObservableCollection<ButtonState>();
+
+            for (int i=0; i<4; i++)
+            {
+                ButtonStates.Add(new ButtonState());
+            }
+        }
+
+        public void CreateLobby()
+        {
+            if (Lobbies.Count < 4)
+            {
+                PacketSend.ClientLobbyCreate();
+
+                ServerVisibility = ConstantsModel.HIDDEN;
+                LobbyVisibility = ConstantsModel.VISIBLE;
+            }
+        }
+
+        public void JoinLobby(int lobbyindex)
+        {
+            ServerVisibility = ConstantsModel.HIDDEN;
+            LobbyVisibility = ConstantsModel.VISIBLE;
+
+            PacketSend.ClientLobbyJoin(Lobbies[lobbyindex].UID);
+        }
+
+        public void SetReady()
+        {
+            ClientManager.Instance.playersInSession[ClientManager.Instance.MyID].Status = 1;
+            ReadyEnabled = "False";
+
+            PacketSend.ClientStatus(1);
+        }
+
+        private string[] ParseServerInformation(string msg)
+        {
+            return msg.Split('-');
         }
 
         public string ServerAddress
@@ -139,29 +252,25 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
-        public void JoinLobby(int lobbyNumber)
+        public string CreateEnabled
         {
-            ServerVisibility = ConstantsModel.HIDDEN;
-            LobbyVisibility  = ConstantsModel.VISIBLE;
-        }
-
-        public void SetReady()
-        {
-            ClientManager.Instance.playersInSession[ClientManager.Instance.MyID].Status = 1;
-            ReadyEnabled = "False";
-
-            PacketSend.ClientStatus(1);
-        }
-
-        private string[] ParseServerInformation(string msg)
-        {
-            return msg.Split('-');
+            get { return _createEnabled; }
+            set
+            {
+                _createEnabled = value;
+                NotifyOfPropertyChange(() => CreateEnabled);
+            }
         }
 
         public void Handle(ClientConnectedEvent message)
         {
-            ServerAddress    = message.Get()[0] + ":" + message.Get()[1];
+            ServerAddress    = message.GetIP()[0] + ":" + message.GetIP()[1];
             WindowVisibility = ConstantsModel.VISIBLE;
+
+            if(message.GetReconnect())
+            {
+                LobbyVisibility  = ConstantsModel.VISIBLE;
+            }
         }
 
         public void Handle(ServerInformationEvent message)
@@ -171,7 +280,10 @@ namespace Tetris_Elimination.ViewModels
             if (statusAndPlayers[0] == "ONLINE")
             {
                 StatusColor = "LightGreen";
-                ServerVisibility = ConstantsModel.VISIBLE;
+                if (LobbyVisibility != ConstantsModel.VISIBLE)
+                {
+                    ServerVisibility = ConstantsModel.VISIBLE;
+                }
             }
             else
             {

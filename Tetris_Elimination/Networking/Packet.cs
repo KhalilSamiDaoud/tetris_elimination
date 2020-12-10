@@ -4,22 +4,20 @@ using System.Text;
 
 namespace Tetris_Elimination.Networking
 {
-    /// <summary>Sent from server to client.</summary>
     public enum ServerPackets
     {
         welcome = 1,
         playerCountChange,
         playerReadyChange,
-        playerListToOne,
-        playerListToAll,
+        playerList,
+        lobbyList,
         playerGrids,
         playerScore,
         playerGameOver,
         startGame,
-        serverDisconnect
+        serverDisconnect,
     }
 
-    /// <summary>Sent from client to server.</summary>
     public enum ClientPackets
     {
         welcomeReceived = 1,
@@ -27,6 +25,8 @@ namespace Tetris_Elimination.Networking
         clientGrid,
         clientScore,
         clientGameOver,
+        clientLobbyCreate,
+        clientLobbyJoin,
         clientReconnect
     }
 

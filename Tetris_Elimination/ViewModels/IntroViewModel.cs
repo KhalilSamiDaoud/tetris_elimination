@@ -22,7 +22,7 @@ namespace Tetris_Elimination.ViewModels
             eventTimer.Interval = 2000;
             eventTimer.Start();
 
-            Title   = "- A Game -";
+            Title   = "~ By Khalil Daoud ~";
             LogoURL = LOGO;
         }
 

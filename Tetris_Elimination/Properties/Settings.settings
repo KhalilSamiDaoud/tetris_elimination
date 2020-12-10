@@ -30,7 +30,7 @@
       <Value Profile="(Default)">NavyCheeze</Value>
     </Setting>
     <Setting Name="Version" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Version: 2.8a</Value>
+      <Value Profile="(Default)">Version: 3.0a</Value>
     </Setting>
     <Setting Name="MusicVol" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0.05</Value>

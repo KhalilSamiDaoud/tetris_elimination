@@ -1,6 +1,5 @@
 ﻿namespace Tetris_Elimination.Events
 {
-    public class DisconnectEvent
-    {
-    }
+    /// <summary>The DisconnectEvent class is used to raise an event (Does not need to contain information).</summary>
+    public class DisconnectEvent{}
 }

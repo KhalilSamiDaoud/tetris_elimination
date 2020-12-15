@@ -1,9 +1,5 @@
 ﻿namespace Tetris_Elimination.Events
 {
-    public class NewGameEvent
-    {
-        public NewGameEvent()
-        {
-        }
-    }
+    /// <summary>The NewGameEvent class is used to raise events (No information is needed).</summary>
+    public class NewGameEvent{}
 }

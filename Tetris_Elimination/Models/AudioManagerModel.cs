@@ -8,6 +8,8 @@ using System;
 
 namespace Tetris_Elimination.Models
 {
+    /// <summary>The AudioManagerModel is used my ViewModels that access audio functionality. This is a singleton implementation. 
+    /// The audioplayers are eagerly instantiated, and played when needed.</summary>
     public sealed class AudioManagerModel : Screen
     {
         private MediaPlayer audioLoop;
@@ -26,6 +28,8 @@ namespace Tetris_Elimination.Models
         private static AudioManagerModel instance = null;
         private static readonly object padlock    = new object();
 
+        /// <summary>Prevents a default instance of the <see cref="AudioManagerModel" /> class from being created. Instantiates all private memebers 
+        /// and also creates the file path objects needed. This class also sets default user volume levels.</summary>
         private AudioManagerModel()
         {
             rotatePlayer    = new MediaPlayer();
@@ -43,6 +47,8 @@ namespace Tetris_Elimination.Models
             SetVolume(Properties.Settings.Default.EffectsVol, Properties.Settings.Default.MusicVol);
         }
 
+        /// <summary>Gets the AudioManagerModel instance.</summary>
+        /// <value>The instance.</value>
         public static AudioManagerModel Instance
         {
             get
@@ -58,12 +64,18 @@ namespace Tetris_Elimination.Models
             }
         }
 
+        /// <summary>Loops the Tetris Theme repreatedly.</summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
         private void LoopAgain(object sender, EventArgs e)
         {
             audioLoop.Position = TimeSpan.Zero;
             audioLoop.Play();
         }
 
+        /// <summary>Fades the audio in until the users audio level is reached.</summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
         private void FadeIn(object sender, EventArgs e)
         {
             OnUIThread(() =>
@@ -84,6 +96,9 @@ namespace Tetris_Elimination.Models
             });
         }
 
+        /// <summary>Sets the volume level.</summary>
+        /// <param name="effects">The effects volume.</param>
+        /// <param name="music">The music volume.</param>
         public void SetVolume(double effects, double music)
         {
             userEffectsVol   = effects;
@@ -91,6 +106,8 @@ namespace Tetris_Elimination.Models
             audioLoop.Volume = userMusicVol;
         }
 
+        /// <summary>Plays the selected sound at the users volume level.</summary>
+        /// <param name="sound">The audio clip.</param>
         public void PlaySound(Sound sound)
         {
             switch(sound)
@@ -130,6 +147,7 @@ namespace Tetris_Elimination.Models
             }
         }
 
+        /// <summary>Plays the Tetris theme at the users volume level, and initalizes the audio-loop action listener.</summary>
         public void PlayTheme()
         {
             audioLoop.Open(new Uri(musicFilePath + "TetrisTheme.mp3"));
@@ -138,6 +156,7 @@ namespace Tetris_Elimination.Models
             audioLoop.Play();
         }
 
+        /// <summary>Plays the Tetris theme with a fade in effect at the users volume level, and initalizes the audio-loop action listener.</summary>
         public void PlayFadeInTheme()
         {
             audioLoop.Open(new Uri(musicFilePath + "TetrisTheme.mp3"));
@@ -151,11 +170,13 @@ namespace Tetris_Elimination.Models
             eventTimer.Start();
         }
 
+        /// <summary>Pauses the Tetris theme.</summary>
         public void PauseTheme()
         {
             audioLoop.Pause();
         }
 
+        /// <summary>Unpauses the Tetris theme.</summary>
         public void UnpauseTheme()
         {
             audioLoop.Play();

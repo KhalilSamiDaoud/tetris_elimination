@@ -5,38 +5,53 @@ using System;
 
 namespace Tetris_Elimination.Models
 {
+    /// <summary>The TetreminoModel is a data type used by ViewModels. It contains the pieces position, color, type, and shape.</summary>
     public class TetreminoModel
     {
         private ImageBrush image;
         private Tetremino type;
         private Point position;
         private Point[] shape;
+
+        /// <summary>Initializes a new instance of the <see cref="TetreminoModel" /> class.</summary>
+        /// <param name="piece">The piece.</param>
         public TetreminoModel(Tetremino piece)
         {
             image = new ImageBrush();
 
             Spawn(piece);
         }
+
+        /// <summary>Gets the brush.</summary>
+        /// <returns>The Image Object.</returns>
         public ImageBrush GetBrush()
         {
             return image;
         }
 
+        /// <summary>Gets the position.</summary>
+        /// <returns>The position of the piece as a Point.</returns>
         public Point GetPosition()
         {
             return position;
         }
 
+        /// <summary>Gets the shape.</summary>
+        /// <returns>The shape of the piece as a Point array.</returns>
         public Point[] GetShape()
         {
             return shape;
         }
 
+        /// <summary>Gets the type.</summary>
+        /// <returns>The type of the piece as a Tetremino Enum</returns>
         public new Tetremino GetType()
         {
             return type;
         }
 
+        /// <summary>Spawns the specified piece.</summary>
+        /// <param name="_piece">The piece to be created.</param>
         private void Spawn(Tetremino _piece)
         {
 
@@ -78,6 +93,8 @@ namespace Tetris_Elimination.Models
             }
         }
 
+        /// <summary>Change the pieces position based on the direction.</summary>
+        /// <param name="direction">The direction to move, or to rotate.</param>
         public void MovePoint(Move direction)
         {
             switch (direction)
@@ -100,7 +117,12 @@ namespace Tetris_Elimination.Models
             }
         }
 
-        //credit to Fraser at StackOverflow for this algorithm!
+
+        /// <summary>Rotates the piece around a point.</summary>
+        /// <param name="pointToRotate">The point to rotate.</param>
+        /// <param name="centerPoint">The center point.</param>
+        /// <returns>A new Point object.</returns>
+        /// <remarks>credit to Fraser at StackOverflow for this algorithm!</remarks>
         public Point RotatePoint(Point pointToRotate, Point centerPoint)
         {
             double angleInRadians = 90 * (Math.PI / 180);
@@ -117,6 +139,9 @@ namespace Tetris_Elimination.Models
             };
         }
 
+        /// <summary>Initializes the specified piece with a Point array.</summary>
+        /// <param name="_piece">The piece to initialize.</param>
+        /// <returns></returns>
         private Point[] Initialize(Tetremino _piece)
         {
             Point[] temp = new Point[4];

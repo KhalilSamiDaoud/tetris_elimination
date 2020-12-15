@@ -2,6 +2,7 @@
 {
     public class PacketSend
     {
+
         public static void WelcomeReceived()
         {
             if (!ClientManager.Instance.IsConnected)

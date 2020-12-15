@@ -1,0 +1,436 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="all events&#xD;&#xA;">
+    <Position X="25.488" Y="4.75" Height="0.299" Width="0.822" />
+  </Comment>
+  <Class Name="Tetris_Elimination.App" Collapsed="true">
+    <Position X="29" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Bootstrapper" Collapsed="true">
+    <Position X="26.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Bootstrapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Events.BoardUpdateEvent" Collapsed="true">
+    <Position X="21" Y="7.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAgAAAAAAAAQAAAAAAAAAABAA=</HashCode>
+      <FileName>Events\BoardUpdateEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Events.ClientConnectedEvent" Collapsed="true">
+    <Position X="21" Y="1.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAIAAAQAAAQAA=</HashCode>
+      <FileName>Events\ClientConnectedEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Events.DisconnectEvent" Collapsed="true">
+    <Position X="23.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Events\DisconnectEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Events.GameOverEvent" Collapsed="true">
+    <Position X="21" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACBAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Events\GameOverEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Events.GamePausedEvent" Collapsed="true">
+    <Position X="23.25" Y="2.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>Events\GamePausedEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Events.HeldPieceEvent" Collapsed="true">
+    <Position X="23.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Events\HeldPieceEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Events.LevelEvent" Collapsed="true">
+    <Position X="23.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Events\LevelEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Events.MultiplayerGameOverEvent" Collapsed="true">
+    <Position X="23.25" Y="1.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAACAAAAAAgAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Events\MultiplayerGameOverEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Events.MultiplayerNewGameEvent" Collapsed="true">
+    <Position X="23.25" Y="3.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Events\MultiplayerNewGameEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Events.MultiplayerScoreEvent" Collapsed="true">
+    <Position X="21" Y="3.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAgAAAAAAgAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Events\MultiplayerScoreEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Events.NewGameEvent" Collapsed="true">
+    <Position X="23.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Events\NewGameEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Events.NextPieceEvent" Collapsed="true">
+    <Position X="21" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAFAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Events\NextPieceEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Events.ScoreEvent" Collapsed="true">
+    <Position X="21" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgBAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Events\ScoreEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Events.ServerDisconnectEvent" Collapsed="true">
+    <Position X="21" Y="2.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Events\ServerDisconnectEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Events.ServerInformationEvent" Collapsed="true">
+    <Position X="23.25" Y="6.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>Events\ServerInformationEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Events.ServerLobbyListEvent" Collapsed="true">
+    <Position X="23.25" Y="2" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>ABQAIAAAAAAAAAAAAABAgAIAAAAAAAAAAADAAAAABgA=</HashCode>
+      <FileName>Events\ServerLobbyListEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Events.ServerPlayerCountEvent" Collapsed="true">
+    <Position X="23.25" Y="4.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAIAAAAAAAABAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Events\ServerPlayerCountEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Events.ServerPlayerListEvent" Collapsed="true">
+    <Position X="21" Y="4.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAQBAgAAEAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Events\ServerPlayerListEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Events.ServerPlayerReadyEvent" Collapsed="true">
+    <Position X="21" Y="2" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAABAgAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Events\ServerPlayerReadyEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Events.TickDownEvent" Collapsed="true">
+    <Position X="21" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Events\TickDownEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Models.AudioManagerModel" Collapsed="true">
+    <Position X="28.5" Y="8.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>xAAAAAAAAACAAgQAAQAEAAwQQAFAFACBxAQAAAIAAAA=</HashCode>
+      <FileName>Models\AudioManagerModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Models.ConstantsModel" Collapsed="true">
+    <Position X="26.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACIABAAAAAAwACACAAAAAAAAAAGAAAASAAIEAEAAQAA=</HashCode>
+      <FileName>Models\ConstantsModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Models.EventAggregatorModel" Collapsed="true">
+    <Position X="26.5" Y="4.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAgAAAAAAAAAAQABAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Models\EventAggregatorModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Models.TetreminoModel" Collapsed="true">
+    <Position X="37.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAQAAAAEAIQIAEAABAAEABAAgAAAABAA=</HashCode>
+      <FileName>Models\TetreminoModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Models.UserKeyBindModel" Collapsed="true">
+    <Position X="34" Y="4.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAABAAAAAAAAAAAIAAAAACAAAQ=</HashCode>
+      <FileName>Models\UserKeyBindModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Networking.ClientHandle" Collapsed="true">
+    <Position X="32.5" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgCAgAAIAAAgAEAAAACAgAAAAAAEABAAAAAAAAIA=</HashCode>
+      <FileName>Networking\ClientHandle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Networking.ClientManager" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQSAAAAgAAAAgBAEAAAAAEBKABgAAIAQAAAAAQAAAA=</HashCode>
+      <FileName>Networking\ClientManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Tetris_Elimination.Networking.LobbyInstance" Collapsed="true">
+    <Position X="34" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAABAAAAAAAAABAAAIAAAICAAAGAA=</HashCode>
+      <FileName>Networking\LobbyInstance.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Networking.Packet" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31.5" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIACAwAACAAFAAAAAAYAABAAIAAAUAAIABAgAFAAQA=</HashCode>
+      <FileName>Networking\Packet.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Tetris_Elimination.Networking.PacketSend" Collapsed="true">
+    <Position X="30.5" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAgAIACAAABAAAAEAAAAABAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Networking\PacketSend.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Networking.PlayerInstance" Collapsed="true">
+    <Position X="28.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEgAgAAEAAAAABAAAAAAAAAAAAAAAAAAAQAAAABAEAA=</HashCode>
+      <FileName>Networking\PlayerInstance.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Properties.Resources" Collapsed="true">
+    <Position X="26.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.Properties.Settings" Collapsed="true">
+    <Position X="28.5" Y="7.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>IAAgAAIBAAAQAAAAAAAAIAQAMAgBAAAACACAAAACAAg=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.ViewModels.BoardViewModel" Collapsed="true">
+    <Position X="34" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\BoardViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.ViewModels.IntroViewModel" Collapsed="true">
+    <Position X="27" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AMAACAAAAIAAAEAAAAAAAAAAAAACAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\IntroViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.ViewModels.MainViewModel" Collapsed="true">
+    <Position X="29" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAgAAAgAABAAAAAhAAgAAAAAAA=</HashCode>
+      <FileName>ViewModels\MainViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.ViewModels.MenuViewModel" Collapsed="true">
+    <Position X="31.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IIAAAAAAAAAAIIAAAABAAAAABAAAAAABAQIAAAAAAAA=</HashCode>
+      <FileName>ViewModels\MenuViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.ViewModels.MultiPlayerBoardViewModel" Collapsed="true">
+    <Position X="37.5" Y="7.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\MultiPlayerBoardViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.ViewModels.MultiPlayerMenuViewModel" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="34.5" Y="7" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAEAAAAAAAEIBAQAAAFAAAAAMgASABAAAAAAI=</HashCode>
+      <FileName>ViewModels\MultiPlayerMenuViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Tetris_Elimination.ViewModels.MultiPlayerViewModel" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31.25" Y="7" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAgBKAEAAEBAgABCAAAAIAQAAAAKAAEgA=</HashCode>
+      <FileName>ViewModels\MultiPlayerViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Tetris_Elimination.ViewModels.ServerViewModel" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="37.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEgAAEAECYoAwBBEEGBIgAAQBAJggAoAggAAAgACgAA=</HashCode>
+      <FileName>ViewModels\ServerViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Tetris_Elimination.ViewModels.SettingsViewModel" Collapsed="true">
+    <Position X="31.25" Y="3.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AIAAoCIAAAEAAZAggAAIAAABBIBAAAgAJQYEEAAoACA=</HashCode>
+      <FileName>ViewModels\SettingsViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tetris_Elimination.ViewModels.SinglePlayerViewModel" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31.25" Y="1.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAARAAAAAQADKAEAAAhAAABCAAAgIAQAAAAIAAIIA=</HashCode>
+      <FileName>ViewModels\SinglePlayerViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Tetris_Elimination.ViewModels.StatisticsViewModel" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="34" Y="2.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAIAACABAAIAIAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\StatisticsViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Tetris_Elimination.Views.BoardView" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="34" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EJAEAIqBBIAAAfEAEQAICQCiFAUAAQIIwADAAUkUAIA=</HashCode>
+      <FileName>Views\BoardView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Tetris_Elimination.Views.IntroView" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="27" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\IntroView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Tetris_Elimination.Views.MainView" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="29" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\MainView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Tetris_Elimination.Views.MenuView" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\MenuView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Tetris_Elimination.Views.MultiPlayerBoardView" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="37.5" Y="8.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>EJAEBIqBBIAAAfAAEQAICQCiFAUAAQIIwADAAUkUAKA=</HashCode>
+      <FileName>Views\MultiPlayerBoardView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Tetris_Elimination.Views.MultiPlayerMenuView" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="34.5" Y="7.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\MultiPlayerMenuView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Tetris_Elimination.Views.MultiPlayerView" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAIAAAIAAEACAAQBGAAAIAAIAAAAACAAAKIA=</HashCode>
+      <FileName>Views\MultiPlayerView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Tetris_Elimination.Views.ServerView" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="37.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\ServerView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Tetris_Elimination.Views.SettingsView" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\SettingsView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Tetris_Elimination.Views.SinglePlayerView" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\SinglePlayerView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Tetris_Elimination.Views.StatisticsView" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="34" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAQAGAAAgAANAAAAAAAAACBA=</HashCode>
+      <FileName>Views\StatisticsView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Enum Name="Tetris_Elimination.Networking.ServerPackets" Collapsed="true">
+    <Position X="32.5" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAGAgCAAAAAgAAAEAAAIAAAAACAACIA=</HashCode>
+      <FileName>Networking\Packet.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Tetris_Elimination.Networking.ClientPackets" Collapsed="true">
+    <Position X="30.5" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAEBAIAAAAAAAAAAAAAAAAAAAAAAABACAAkAAAAA=</HashCode>
+      <FileName>Networking\Packet.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

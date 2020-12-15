@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Tetris_Elimination.Networking
 {
+    /// <summary>Defines the types of packets that the server can send.</summary>
     public enum ServerPackets
     {
         welcome = 1,
@@ -18,6 +19,7 @@ namespace Tetris_Elimination.Networking
         serverDisconnect,
     }
 
+    /// <summary>Defines the types of packets that the client can send.</summary>
     public enum ClientPackets
     {
         welcomeReceived = 1,
@@ -30,6 +32,9 @@ namespace Tetris_Elimination.Networking
         clientReconnect
     }
 
+    /// <summary>The Packet class is reponsible for encoding and decoding data types into a byte stream for packet sending.</summary>
+    /// <remarks>Class Provided by Tom Weiland for educational purposes.</remarks>
+    /// <seealso cref="System.IDisposable" />
     public class Packet : IDisposable
     {
         private List<byte> buffer;
@@ -346,6 +351,9 @@ namespace Tetris_Elimination.Networking
 
         private bool disposed = false;
 
+        /// <summary>Releases unmanaged and - optionally - managed resources.</summary>
+        /// <param name="_disposing">
+        /// <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool _disposing)
         {
             if (!disposed)
@@ -361,6 +369,7 @@ namespace Tetris_Elimination.Networking
             }
         }
 
+        /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
         public void Dispose()
         {
             Dispose(true);

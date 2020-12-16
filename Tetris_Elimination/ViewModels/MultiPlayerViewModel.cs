@@ -1,13 +1,20 @@
 ﻿using static Tetris_Elimination.Models.ConstantsModel;
+using Tetris_Elimination.Networking;
 using Tetris_Elimination.Events;
 using Tetris_Elimination.Models;
 using Caliburn.Micro;
 using System.Windows;
 using System;
-using Tetris_Elimination.Networking;
 
 namespace Tetris_Elimination.ViewModels //fix namings! and in single player!
 {
+    /// <summary>The MultiPlayerViewModel is used to display the MultiPlayerViewModel and Statistics ViewModel.</summary>
+    /// <seealso cref="Caliburn.Micro.Conductor{Caliburn.Micro.IScreen}.Collection.AllActive" />
+    /// <seealso cref="Caliburn.Micro.IHandle{Tetris_Elimination.Events.GameOverEvent}" />
+    /// <seealso cref="Caliburn.Micro.IHandle{Tetris_Elimination.Events.ScoreEvent}" />
+    /// <seealso cref="Caliburn.Micro.IHandle{Tetris_Elimination.Events.GamePausedEvent}" />
+    /// <seealso cref="Caliburn.Micro.IHandle{Tetris_Elimination.Events.TickDownEvent}" />
+    /// <seealso cref="Caliburn.Micro.IHandle{Tetris_Elimination.Events.ServerDisconnectEvent}" />
     public class MultiPlayerViewModel : Conductor<IScreen>.Collection.AllActive, IHandle<GameOverEvent>, IHandle<ScoreEvent>, IHandle<GamePausedEvent>, IHandle<TickDownEvent>, IHandle<ServerDisconnectEvent>
     {
         private MultiPlayerBoardViewModel gameWindow;
@@ -20,6 +27,9 @@ namespace Tetris_Elimination.ViewModels //fix namings! and in single player!
         private string _lostDialogue;
         private string _countDownDialouge;
         private string gameScore;
+
+        /// <summary>Initializes a new instance of the <see cref="MultiPlayerViewModel" /> class.</summary>
+        /// <param name="_mainWindow">The main window.</param>
         public MultiPlayerViewModel(MainViewModel _mainWindow)
         {
             myEvents = EventAggregatorModel.Instance;
@@ -42,6 +52,8 @@ namespace Tetris_Elimination.ViewModels //fix namings! and in single player!
             ActivateItem(gameWindow);
         }
 
+        /// <summary>Gets or sets the lost dialogue.</summary>
+        /// <value>The lost dialogue.</value>
         public string lostDialogue
         {
             get { return _lostDialogue; }
@@ -52,6 +64,8 @@ namespace Tetris_Elimination.ViewModels //fix namings! and in single player!
             }
         }
 
+        /// <summary>Gets or sets the count down dialouge number.</summary>
+        /// <value>The count down dialouge.</value>
         public string countDownDialouge
         {
             get { return _countDownDialouge; }
@@ -62,6 +76,8 @@ namespace Tetris_Elimination.ViewModels //fix namings! and in single player!
             }
         }
 
+        /// <summary>Gets or sets the lost visibility.</summary>
+        /// <value>The lost.</value>
         public Visibility lost
         {
             get { return _lost; }
@@ -72,6 +88,8 @@ namespace Tetris_Elimination.ViewModels //fix namings! and in single player!
             }
         }
 
+        /// <summary>Gets or sets the menu visibility.</summary>
+        /// <value>The menu.</value>
         public Visibility menu
         {
             get { return _menu; }
@@ -82,6 +100,8 @@ namespace Tetris_Elimination.ViewModels //fix namings! and in single player!
             }
         }
 
+        /// <summary>Gets or sets the count down visibility.</summary>
+        /// <value>The count down.</value>
         public Visibility countDown
         {
             get { return _countDown; }
@@ -92,6 +112,7 @@ namespace Tetris_Elimination.ViewModels //fix namings! and in single player!
             }
         }
 
+        /// <summary>Queues the user again by reconnecting them to the lobby.</summary>
         public void queueAgain()
         {
             ClientManager.Instance.playersInSession[ClientManager.Instance.MyID].ResetState();
@@ -101,12 +122,15 @@ namespace Tetris_Elimination.ViewModels //fix namings! and in single player!
             mainWindow.SetNewView(Screens.MULTIPLAYER_MENU_RC);
         }
 
+        /// <summary>Loads the menu screen.</summary>
         public void loadMenu()
         {
             ClientManager.Instance.Disconnect();
             mainWindow.SetNewView(Screens.MENU);
         }
 
+        /// <summary>Handles the GameOverEvent event.</summary>
+        /// <param name="message">The message.</param>
         public void Handle(GameOverEvent message)
         {
             if (message.Get())
@@ -127,6 +151,8 @@ namespace Tetris_Elimination.ViewModels //fix namings! and in single player!
             }
         }
 
+        /// <summary>Handles the GamePausedEvent event.</summary>
+        /// <param name="message">The message.</param>
         public void Handle(GamePausedEvent message)
         {
             if (!message.Get())
@@ -139,11 +165,15 @@ namespace Tetris_Elimination.ViewModels //fix namings! and in single player!
             }
         }
 
+        /// <summary>Handles the ScoreEvent event.</summary>
+        /// <param name="message">The message.</param>
         public void Handle(ScoreEvent message)
         {
             gameScore = message.Get().ToString();
         }
 
+        /// <summary>Handles the TickDownEvent event.</summary>
+        /// <param name="message">The message.</param>
         public void Handle(TickDownEvent message)
         {
             countDown = Visibility.Visible;
@@ -162,6 +192,8 @@ namespace Tetris_Elimination.ViewModels //fix namings! and in single player!
             }
         }
 
+        /// <summary>Handles the ServerDisconnectEvent event.</summary>
+        /// <param name="message">The message.</param>
         public void Handle(ServerDisconnectEvent message)
         {
             mainWindow.SetNewView(Screens.MENU);

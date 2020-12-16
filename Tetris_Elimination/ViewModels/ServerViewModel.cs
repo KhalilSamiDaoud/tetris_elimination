@@ -1,20 +1,28 @@
-﻿using Caliburn.Micro;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using Tetris_Elimination.Networking;
 using Tetris_Elimination.Events;
 using Tetris_Elimination.Models;
-using Tetris_Elimination.Networking;
-using System.Timers;
+using Caliburn.Micro;
 using System.Windows;
+using System.Timers;
 
 namespace Tetris_Elimination.ViewModels
 {
+    /// <summary>The ServerViewodel is used to display all server information, as well as other players and lobbies on the server.</summary>
     public class ServerViewModel : Screen, IHandle<ClientConnectedEvent>, IHandle<ServerInformationEvent>, IHandle<ServerPlayerCountEvent>, IHandle<ServerPlayerReadyEvent>
     {
+        /// <summary>The ButtonState class is used to hold button visibility information.</summary>
         public class ButtonState
         {
+            /// <summary>Gets or sets the BTN visible.</summary>
+            /// <value>The BTN visible.</value>
             public Visibility btnVisible { get; set; }
+            /// <summary>Gets or sets a value indicating whether [BTN enabled].</summary>
+            /// <value>
+            ///   <c>true</c> if [BTN enabled]; otherwise, <c>false</c>.</value>
             public bool btnEnabled       { get; set; }
 
+            /// <summary>Initializes a new instance of the <see cref="ButtonState" /> class.</summary>
             public ButtonState()
             {
                 btnVisible = Visibility.Hidden;
@@ -24,22 +32,29 @@ namespace Tetris_Elimination.ViewModels
 
         private EventAggregatorModel myEvents;
         private Timer eventTimer;
-        private string _serverAddress;
-        private string _status;
-        private string _numPlayers;
-        private string _statusColor;
         private string _windowVisibility;
         private string _serverVisibility;
         private string _lobbyVisibility;
-        private string _readyEnabled;
+        private string _serverAddress;
         private string _createEnabled;
+        private string _readyEnabled;
+        private string _statusColor;
+        private string _numPlayers;
+        private string _status;
 
+        /// <summary>Gets the players.</summary>
+        /// <value>The players.</value>
         public ObservableCollection<PlayerInstance> Players   { get; private set; }
 
+        /// <summary>Gets the lobbies.</summary>
+        /// <value>The lobbies.</value>
         public ObservableCollection<LobbyInstance> Lobbies    { get; private set; }
 
+        /// <summary>Gets the button states.</summary>
+        /// <value>The button states.</value>
         public ObservableCollection<ButtonState> ButtonStates { get; private set; }
 
+        /// <summary>Initializes a new instance of the <see cref="ServerViewModel" /> class.</summary>
         public ServerViewModel()
         {
             myEvents = EventAggregatorModel.Instance;
@@ -64,6 +79,9 @@ namespace Tetris_Elimination.ViewModels
             InitializeLists();
         }
 
+        /// <summary>Updates the lists every 150ms.</summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="ElapsedEventArgs" /> instance containing the event data.</param>
         private void UpdateLists(object sender, ElapsedEventArgs e)
         {
             OnUIThread(() =>
@@ -77,6 +95,7 @@ namespace Tetris_Elimination.ViewModels
             });
         }
 
+        /// <summary>Updates the players list.</summary>
         private void UpdatePlayers()
         {
             Players.Clear();
@@ -85,6 +104,7 @@ namespace Tetris_Elimination.ViewModels
             NotifyOfPropertyChange(() => Players);
         }
 
+        /// <summary>Updates the lobbies list.</summary>
         private void UpdateLobbies()
         {
             Lobbies.Clear();
@@ -102,6 +122,7 @@ namespace Tetris_Elimination.ViewModels
             NotifyOfPropertyChange(() => Lobbies);
         }
 
+        /// <summary>Updates the buttons list.</summary>
         public void UpdateButtons()
         {
             for (int i = 0; i < 4; i++)
@@ -128,6 +149,7 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Initializes the list memebers in the class.</summary>
         private void InitializeLists()
         {
             Players      = new ObservableCollection<PlayerInstance>();
@@ -140,6 +162,7 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Creates a lobby and sends a lobby create request to the server.</summary>
         public void CreateLobby()
         {
             if (Lobbies.Count < 4)
@@ -151,6 +174,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Joins the lobby and sends a lobby join request to the server</summary>
+        /// <param name="lobbyindex">The lobby index.</param>
         public void JoinLobby(int lobbyindex)
         {
             ServerVisibility = ConstantsModel.HIDDEN;
@@ -159,6 +184,7 @@ namespace Tetris_Elimination.ViewModels
             PacketSend.ClientLobbyJoin(Lobbies[lobbyindex].UID);
         }
 
+        /// <summary>Sets the ready.</summary>
         public void SetReady()
         {
             ClientManager.Instance.playersInSession[ClientManager.Instance.MyID].Status = 1;
@@ -167,11 +193,16 @@ namespace Tetris_Elimination.ViewModels
             PacketSend.ClientStatus(1);
         }
 
+        /// <summary>Parses the server information.</summary>
+        /// <param name="msg">The MSG.</param>
+        /// <returns>The input string parsed</returns>
         private string[] ParseServerInformation(string msg)
         {
             return msg.Split('-');
         }
 
+        /// <summary>Gets or sets the server address.</summary>
+        /// <value>The server address.</value>
         public string ServerAddress
         {
             get { return _serverAddress; }
@@ -182,6 +213,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Gets or sets the status.</summary>
+        /// <value>The status.</value>
         public string Status
         {
             get { return _status; }
@@ -192,6 +225,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Gets or sets the color of the status.</summary>
+        /// <value>The color of the status.</value>
         public string StatusColor
         {
             get { return _statusColor; }
@@ -202,6 +237,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Gets or sets the number players.</summary>
+        /// <value>The number players.</value>
         public string NumPlayers
         {
             get { return _numPlayers; }
@@ -212,6 +249,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Gets or sets the window visibility.</summary>
+        /// <value>The window visibility.</value>
         public string WindowVisibility
         {
             get { return _windowVisibility; }
@@ -222,6 +261,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Gets or sets the server visibility.</summary>
+        /// <value>The server visibility.</value>
         public string ServerVisibility
         {
             get { return _serverVisibility; }
@@ -232,6 +273,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Gets or sets the lobby visibility.</summary>
+        /// <value>The lobby visibility.</value>
         public string LobbyVisibility
         {
             get { return _lobbyVisibility; }
@@ -242,6 +285,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Gets or sets the ready enabled value.</summary>
+        /// <value>The ready enabled.</value>
         public string ReadyEnabled
         {
             get { return _readyEnabled; }
@@ -252,6 +297,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Gets or sets the create enabled value.</summary>
+        /// <value>The create enabled.</value>
         public string CreateEnabled
         {
             get { return _createEnabled; }
@@ -262,6 +309,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Handles the ClientConnectedEvent event.</summary>
+        /// <param name="message">The message.</param>
         public void Handle(ClientConnectedEvent message)
         {
             ServerAddress    = message.GetIP()[0] + ":" + message.GetIP()[1];
@@ -273,6 +322,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Handles the ServerInformationEvent event.</summary>
+        /// <param name="message">The message.</param>
         public void Handle(ServerInformationEvent message)
         {
             string[] statusAndPlayers = ParseServerInformation(message.Get());
@@ -295,11 +346,15 @@ namespace Tetris_Elimination.ViewModels
             NumPlayers = statusAndPlayers[1];
         }
 
+        /// <summary>Handles the ServerPlayerCountEvent event.</summary>
+        /// <param name="message">The message.</param>
         public void Handle(ServerPlayerCountEvent message)
         {
             NumPlayers = message.GetCount();
         }
 
+        /// <summary>Handles the ServerPlayerReadyEvent event.</summary>
+        /// <param name="message">The message.</param>
         public void Handle(ServerPlayerReadyEvent message)
         {
             ClientManager.Instance.playersInSession[message.GetID()].Status = message.GetStatus();

@@ -7,6 +7,9 @@ using System;
 
 namespace Tetris_Elimination.ViewModels
 {
+    /// <summary>The MultiPlayerMenuViewModel class is used by the user to connect to a server, and displays the server browser window.</summary>
+    /// <seealso cref="Caliburn.Micro.Conductor{System.Object}.Collection.AllActive" />
+    /// <seealso cref="Caliburn.Micro.IHandle{Tetris_Elimination.Events.MultiplayerNewGameEvent}" />
     public class MultiPlayerMenuViewModel : Conductor<Object>.Collection.AllActive, IHandle<MultiplayerNewGameEvent>
     {
         private ClientManager clientManager;
@@ -17,6 +20,9 @@ namespace Tetris_Elimination.ViewModels
         private string _playingAs;
         private string _inputIP;
 
+        /// <summary>Initializes a new instance of the <see cref="MultiPlayerMenuViewModel" /> class.</summary>
+        /// <param name="_mainWindow">The main window.</param>
+        /// <param name="isReconnect">if set to <c>true</c> [is reconnect].</param>
         public MultiPlayerMenuViewModel(MainViewModel _mainWindow, bool isReconnect)
         {
             myEvents = EventAggregatorModel.Instance;
@@ -43,6 +49,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Gets or sets the input ip.</summary>
+        /// <value>The input ip.</value>
         public string InputIP 
         {
             get { return _inputIP; }
@@ -53,6 +61,8 @@ namespace Tetris_Elimination.ViewModels
             } 
         }
 
+        /// <summary>Gets or sets the playing as string.</summary>
+        /// <value>The 'playing as' string.</value>
         public string PlayingAs
         {
             get { return _playingAs; }
@@ -64,6 +74,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Gets or sets the connect enabled string.</summary>
+        /// <value>The connect enabled.</value>
         public string ConnectEnabled
         {
             get { return _connectEnabled; }
@@ -74,6 +86,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Parses the input ip.</summary>
+        /// <returns>The input IP as IP and Port</returns>
         private string[] ParseInputIP()
         {
             if (!String.IsNullOrEmpty(InputIP))
@@ -87,6 +101,7 @@ namespace Tetris_Elimination.ViewModels
             return new string[] { "0", "0"};
         }
 
+        /// <summary>Attempts to connect to the provided address.</summary>
         public void AttemptConnect()
         {
             string[] ipAndPort = ParseInputIP();
@@ -97,6 +112,7 @@ namespace Tetris_Elimination.ViewModels
             myEvents.getAggregator().PublishOnUIThread(new ClientConnectedEvent(ipAndPort, false));
         }
 
+        /// <summary>Attempts to reconnect to the previous address.</summary>
         public void AttemptReconnect()
         {
             string[] ipAndPort = ParseInputIP();
@@ -107,6 +123,7 @@ namespace Tetris_Elimination.ViewModels
             myEvents.getAggregator().PublishOnUIThread(new ClientConnectedEvent(ipAndPort, true));
         }
 
+        /// <summary>Loads the menu screen.</summary>
         public void LoadMenu()
         {
             if (ClientManager.Instance.IsConnected)
@@ -119,11 +136,14 @@ namespace Tetris_Elimination.ViewModels
             mainWindow.SetNewView(Screens.MENU);
         }
 
+        /// <summary>Loads the multiplayer screen.</summary>
         public void LoadMultiPlayer()
         {
             mainWindow.SetNewView(Screens.MULTIPLAYER);
         }
 
+        /// <summary>Handles the MultiplayerNewGameEvent event.</summary>
+        /// <param name="message">The message.</param>
         public void Handle(MultiplayerNewGameEvent message)
         {
             ClientManager.Instance.playersInSession[ClientManager.Instance.MyID].Status = 2;

@@ -7,6 +7,12 @@ using System;
 
 namespace Tetris_Elimination.ViewModels
 {
+    /// <summary>The SinglePlayerViewModel is used to display the MultiPlayerViewModel and Statistics ViewModel.</summary>
+    /// <seealso cref="Caliburn.Micro.Conductor{System.Object}.Collection.AllActive" />
+    /// <seealso cref="Caliburn.Micro.IHandle{Tetris_Elimination.Events.GameOverEvent}" />
+    /// <seealso cref="Caliburn.Micro.IHandle{Tetris_Elimination.Events.ScoreEvent}" />
+    /// <seealso cref="Caliburn.Micro.IHandle{Tetris_Elimination.Events.GamePausedEvent}" />
+    /// <seealso cref="Caliburn.Micro.IHandle{Tetris_Elimination.Events.TickDownEvent}" />
     public class SinglePlayerViewModel : Conductor<Object>.Collection.AllActive, IHandle<GameOverEvent>, IHandle<ScoreEvent>, IHandle<GamePausedEvent>, IHandle<TickDownEvent>
     {
         private StatisticsViewModel statistics;
@@ -19,6 +25,9 @@ namespace Tetris_Elimination.ViewModels
         private string _gameOverDialogue;
         private string _countDownDialouge;
         private string gameScore;
+
+        /// <summary>Initializes a new instance of the <see cref="SinglePlayerViewModel" /> class.</summary>
+        /// <param name="_mainWindow">The main window.</param>
         public SinglePlayerViewModel(MainViewModel _mainWindow)
         {
             myEvents   = EventAggregatorModel.Instance;
@@ -38,6 +47,8 @@ namespace Tetris_Elimination.ViewModels
             ActivateItem(gameWindow);
         }
 
+        /// <summary>Gets or sets the game over dialogue.</summary>
+        /// <value>The game over dialogue.</value>
         public string gameOverDialogue
         {
             get { return _gameOverDialogue; }
@@ -48,6 +59,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Gets or sets the count down dialouge.</summary>
+        /// <value>The count down dialouge.</value>
         public string countDownDialouge
         {
             get { return _countDownDialouge; }
@@ -58,6 +71,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Gets or sets the game over.</summary>
+        /// <value>The game over.</value>
         public Visibility gameOver
         {
             get { return _gameOver; }
@@ -68,6 +83,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Gets or sets the paused.</summary>
+        /// <value>The paused.</value>
         public Visibility paused
         {
             get { return _paused; }
@@ -78,6 +95,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Gets or sets the count down.</summary>
+        /// <value>The count down.</value>
         public Visibility countDown
         {
             get { return _countDown; }
@@ -88,17 +107,21 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Restarts the game.</summary>
         public void restart()
         {
             paused = Visibility.Hidden;
             myEvents.getAggregator().PublishOnUIThread(new NewGameEvent());
         }
 
+        /// <summary>Loads the menu screen.</summary>
         public void loadMenu()
         {
             mainWindow.SetNewView(Screens.MENU);
         }
 
+        /// <summary>Handles the GameOverEvent event.</summary>
+        /// <param name="message">The message.</param>
         public void Handle(GameOverEvent message)
         {
             if(message.Get())
@@ -119,6 +142,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Handles the GamePausedEvent event.</summary>
+        /// <param name="message">The message.</param>
         public void Handle(GamePausedEvent message)
         {
             if (!message.Get())
@@ -131,11 +156,15 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Handles the ScoreEvent event.</summary>
+        /// <param name="message">The message.</param>
         public void Handle(ScoreEvent message)
         {
             gameScore = message.Get().ToString();
         }
 
+        /// <summary>Handles the TickDownEvent event.</summary>
+        /// <param name="message">The message.</param>
         public void Handle(TickDownEvent message)
         {
             countDown = Visibility.Visible;

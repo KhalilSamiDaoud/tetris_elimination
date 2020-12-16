@@ -6,6 +6,7 @@ using System;
 
 namespace Tetris_Elimination.ViewModels
 {
+    /// <summary>The IntroViewModel class defines all functions and member variables for the IntroView.</summary>
     public class IntroViewModel : Screen
     {
         private AudioManagerModel audioManager;
@@ -13,6 +14,7 @@ namespace Tetris_Elimination.ViewModels
         private String _logoURL;
         private String _title;
 
+        /// <summary>Initializes a new instance of the <see cref="IntroViewModel" /> class.</summary>
         public IntroViewModel()
         {
             audioManager = AudioManagerModel.Instance;
@@ -26,6 +28,9 @@ namespace Tetris_Elimination.ViewModels
             LogoURL = LOGO;
         }
 
+        /// <summary>Plays intro sound on the UI thread.</summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="ElapsedEventArgs" /> instance containing the event data.</param>
         private void Intro(object sender, ElapsedEventArgs e)
         {
             this.OnUIThread(() =>
@@ -36,6 +41,8 @@ namespace Tetris_Elimination.ViewModels
             });
         }
 
+        /// <summary>Gets or sets the title.</summary>
+        /// <value>The title.</value>
         public String Title
         {
             get { return _title; }
@@ -46,6 +53,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Gets or sets the logo URL.</summary>
+        /// <value>The logo URL.</value>
         public String LogoURL
         {
             get { return _logoURL; }

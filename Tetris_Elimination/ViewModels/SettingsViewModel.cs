@@ -7,6 +7,8 @@ using System;
 
 namespace Tetris_Elimination.ViewModels
 {
+    /// <summary>The SettingsViewModel is used to load and save new user settings inclidiong name, volume, and key-binds.</summary>
+    /// <seealso cref="Caliburn.Micro.Screen" />
     class SettingsViewModel : Screen
     {
         private List<UserKeyBindModel> userKeys;
@@ -23,6 +25,8 @@ namespace Tetris_Elimination.ViewModels
         private String _holdKey;
         private String _pauseKey;
 
+        /// <summary>Initializes a new instance of the <see cref="SettingsViewModel" /> class.</summary>
+        /// <param name="_mainWindow">The main window.</param>
         public SettingsViewModel(MainViewModel _mainWindow)
         {
             mainWindow   = _mainWindow;
@@ -35,6 +39,7 @@ namespace Tetris_Elimination.ViewModels
             LoadSettings();
         }
 
+        /// <summary>Creates the key list.</summary>
         private void CreateKeyList()
         {
             userKeys = new List<UserKeyBindModel>();
@@ -48,6 +53,9 @@ namespace Tetris_Elimination.ViewModels
             userKeys.Add(new UserKeyBindModel((Key)Properties.Settings.Default.Pause));
         }
 
+        /// <summary>Checks the input.</summary>
+        /// <param name="e">The e.</param>
+        /// <param name="keyBind">The key bind.</param>
         public void CheckInput(ActionExecutionContext e, KeyBind keyBind)
         {
             var keyArgs = e.EventArgs as KeyEventArgs;
@@ -89,6 +97,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Texts the box clear.</summary>
+        /// <param name="keyBind">The key bind.</param>
         public void TextBoxClear(KeyBind keyBind)
         {
             switch (keyBind)
@@ -119,6 +129,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Checks the not empty.</summary>
+        /// <param name="keyBind">The key bind.</param>
         public void CheckNotEmpty(KeyBind keyBind)
         {
             switch (keyBind)
@@ -156,6 +168,9 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Translates the key string.</summary>
+        /// <param name="keyString">The key string.</param>
+        /// <returns>The Key string.</returns>
         private string TranslateKeyString(string keyString)
         {
             if (keyString == Key.None.ToString())
@@ -168,6 +183,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Gets or sets the name of the user.</summary>
+        /// <value>The name of the user.</value>
         public string UserName
         {
             get { return _userName; }
@@ -178,6 +195,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Gets or sets the effects volume.</summary>
+        /// <value>The effects volume.</value>
         public double EffectsVolume
         {
             get { return _effectsVolume; }
@@ -189,6 +208,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Gets or sets the music volume.</summary>
+        /// <value>The music volume.</value>
         public double MusicVolume
         {
             get { return _musicVolume; }
@@ -200,6 +221,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Gets or sets the rotate key.</summary>
+        /// <value>The rotate key.</value>
         public string RotateKey
         {
             get { return _rotateKey; }
@@ -210,6 +233,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Gets or sets down key.</summary>
+        /// <value>Down key.</value>
         public string DownKey
         {
             get{ return _downKey; }
@@ -220,6 +245,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Gets or sets the left key.</summary>
+        /// <value>The left key.</value>
         public string LeftKey
         {
             get { return _leftKey; }
@@ -230,6 +257,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Gets or sets the right key.</summary>
+        /// <value>The right key.</value>
         public string RightKey
         {
             get { return _rightKey; }
@@ -240,6 +269,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Gets or sets the drop key.</summary>
+        /// <value>The drop key.</value>
         public string DropKey
         {
             get { return _dropKey; }
@@ -250,6 +281,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Gets or sets the hold key.</summary>
+        /// <value>The hold key.</value>
         public string HoldKey
         {
             get { return _holdKey; }
@@ -260,6 +293,8 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Gets or sets the pause key.</summary>
+        /// <value>The pause key.</value>
         public string PauseKey
         {
             get { return _pauseKey; }
@@ -270,6 +305,7 @@ namespace Tetris_Elimination.ViewModels
             }
         }
 
+        /// <summary>Loads the settings.</summary>
         private void LoadSettings()
         {
             UserName       = Properties.Settings.Default.Name;
@@ -284,6 +320,7 @@ namespace Tetris_Elimination.ViewModels
             PauseKey       = userKeys[6].GetString();
         }
 
+        /// <summary>Saves the settings.</summary>
         private void SaveSettings()
         {
             Properties.Settings.Default.Name        = UserName;
@@ -299,6 +336,7 @@ namespace Tetris_Elimination.ViewModels
             Properties.Settings.Default.Save();
         }
 
+        /// <summary>Saves and exits.</summary>
         public void SaveAndExit()
         {
             SaveSettings();
